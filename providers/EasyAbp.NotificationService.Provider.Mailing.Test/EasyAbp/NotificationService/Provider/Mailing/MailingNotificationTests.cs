@@ -1,0 +1,101 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using EasyAbp.NotificationService.Notifications;
+using Microsoft.Extensions.DependencyInjection;
+using Shouldly;
+using Volo.Abp.BackgroundJobs;
+using Volo.Abp.EventBus.Distributed;
+using Xunit;
+
+namespace EasyAbp.NotificationService.Provider.Mailing
+{
+    public class MailingNotificationTests : NotificationServiceTestBase<NotificationServiceProviderMailingTestModule>
+    {
+        private const string Subject = "test";
+        private const string Body = "test123";
+        
+        protected INotificationRepository NotificationRepository { get; set; }
+        protected IAsyncBackgroundJob<EmailNotificationSendingJobArgs> EmailNotificationSendingJob { get; set; }
+        
+        public MailingNotificationTests()
+        {
+            NotificationRepository = ServiceProvider.GetRequiredService<INotificationRepository>();
+            EmailNotificationSendingJob =
+                ServiceProvider.GetRequiredService<IAsyncBackgroundJob<EmailNotificationSendingJobArgs>>();
+        }
+        
+        [Fact]
+        public async Task Should_Create_Notifications()
+        {
+            var userIds = new List<Guid>
+            {
+                NotificationServiceProviderMailingTestConsts.FakeUser1Id,
+                NotificationServiceProviderMailingTestConsts.FakeUser2Id
+            };
+
+            await CreateEmailNotificationAsync(userIds, Subject, Body);
+            
+            var notifications = await NotificationRepository.GetListAsync();
+            
+            notifications.Count.ShouldBe(2);
+
+            foreach (var notification in userIds.Select(userId => notifications.Find(x => x.UserId == userId)))
+            {
+                notification.ShouldNotBeNull();
+            }
+        }
+
+        private async Task CreateEmailNotificationAsync(List<Guid> userIds, string subject, string body)
+        {
+            var handler = ServiceProvider.GetRequiredService<IDistributedEventHandler<CreateEmailNotificationEto>>();
+            
+            var eto = new CreateEmailNotificationEto(userIds, subject, body);
+
+            await handler.HandleEventAsync(eto);
+        }
+
+        [Fact]
+        public async Task Should_Set_Notification_Result_To_Success()
+        {
+            var userIds = new List<Guid>
+            {
+                NotificationServiceProviderMailingTestConsts.FakeUser1Id
+            };
+
+            await CreateEmailNotificationAsync(userIds, Subject, Body);
+            
+            var notification = (await NotificationRepository.GetListAsync()).First();
+
+            await EmailNotificationSendingJob.ExecuteAsync(new EmailNotificationSendingJobArgs(notification.Id));
+            
+            notification = await NotificationRepository.GetAsync(notification.Id);
+
+            notification.Success.ShouldBe(true);
+            notification.CompletionTime.ShouldNotBeNull();
+            notification.FailureReason.ShouldBeNull();
+        }
+        
+        [Fact]
+        public async Task Should_Set_Notification_Result_To_Failure_If_User_Not_Found()
+        {
+            var userIds = new List<Guid>
+            {
+                Guid.NewGuid()
+            };
+
+            await CreateEmailNotificationAsync(userIds, Subject, Body);
+            
+            var notification = (await NotificationRepository.GetListAsync()).First();
+
+            await EmailNotificationSendingJob.ExecuteAsync(new EmailNotificationSendingJobArgs(notification.Id));
+
+            notification = await NotificationRepository.GetAsync(notification.Id);
+            
+            notification.Success.ShouldBe(false);
+            notification.CompletionTime.ShouldNotBeNull();
+            notification.FailureReason.ShouldBe(NotificationConsts.FailureReasons.UserNotFound);
+        }
+    }
+}

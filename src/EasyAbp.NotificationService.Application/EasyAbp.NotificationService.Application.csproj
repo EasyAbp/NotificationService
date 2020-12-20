@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.Emailing" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.Users.Abstractions" Version="3.2.1" />
+    <ProjectReference Include="..\EasyAbp.NotificationService.Application.Contracts\EasyAbp.NotificationService.Application.Contracts.csproj" />
+    <ProjectReference Include="..\EasyAbp.NotificationService.Domain\EasyAbp.NotificationService.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

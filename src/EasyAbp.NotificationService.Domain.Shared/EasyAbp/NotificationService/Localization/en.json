@@ -1,0 +1,23 @@
+{
+  "culture": "en",
+  "texts": {
+    "Permission:Notification": "Notification",
+    "Permission:Create": "Create",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete",
+    "Menu:NotificationService": "Notification service",
+    "Menu:Notification": "Notification",
+    "Notification": "Notification",
+    "NotificationUserId": "User ID",
+    "NotificationNotificationInfoId": "Notification info ID",
+    "NotificationNotificationMethod": "Notification method",
+    "NotificationSuccess": "Success",
+    "NotificationCompletionTime": "Completion time",
+    "NotificationFailureReason": "Failure reason",
+    "NotificationRetryNotificationId": "Retry notification ID",
+    "CreateNotification": "New",
+    "EditNotification": "Edit",
+    "NotificationDeletionConfirmationMessage": "Are you sure to delete the notification {0}?",
+    "SuccessfullyDeleted": "Successfully deleted"
+  }
+}

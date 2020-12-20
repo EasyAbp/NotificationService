@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>EasyAbp.NotificationService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="3.2.1" />
+    <ProjectReference Include="..\EasyAbp.NotificationService.Application.Contracts\EasyAbp.NotificationService.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

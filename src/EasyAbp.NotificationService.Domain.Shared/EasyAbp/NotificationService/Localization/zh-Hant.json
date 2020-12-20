@@ -1,0 +1,23 @@
+{
+  "culture": "zh-Hant",
+  "texts": {
+    "Permission:Notification": "通知",
+    "Permission:Create": "新建",
+    "Permission:Update": "編輯",
+    "Permission:Delete": "刪除",
+    "Menu:NotificationService": "通知服務",
+    "Menu:Notification": "通知",
+    "Notification": "通知",
+    "NotificationUserId": "使用者 ID",
+    "NotificationNotificationInfoId": "通知信息 ID",
+    "NotificationNotificationMethod": "通知方式",
+    "NotificationSuccess": "是否成功",
+    "NotificationCompletionTime": "完成時間",
+    "NotificationFailureReason": "失敗原因",
+    "NotificationRetryNotificationId": "重試的通知 ID",
+    "CreateNotification": "新建",
+    "EditNotification": "編輯",
+    "NotificationDeletionConfirmationMessage": "確認刪除通知 {0}?",
+    "SuccessfullyDeleted": "刪除成功"
+  }
+}
