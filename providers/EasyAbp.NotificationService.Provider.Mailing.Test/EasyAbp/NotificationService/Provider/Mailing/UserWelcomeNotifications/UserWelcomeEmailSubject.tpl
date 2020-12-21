@@ -1,1 +1,1 @@
-﻿Welcome, {{model.userName}}
+﻿Welcome, {{model.user_name}}
