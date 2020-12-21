@@ -22,4 +22,11 @@
         <ProjectReference Include="..\..\test\EasyAbp.NotificationService.Domain.Tests\EasyAbp.NotificationService.Domain.Tests.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="EasyAbp\NotificationService\Provider\Mailing\UserWelcomeNotifications\UserWelcomeEmailBody.tpl" />
+      <EmbeddedResource Include="EasyAbp\NotificationService\Provider\Mailing\UserWelcomeNotifications\UserWelcomeEmailBody.tpl" />
+      <None Remove="EasyAbp\NotificationService\Provider\Mailing\UserWelcomeNotifications\UserWelcomeEmailSubject.tpl" />
+      <EmbeddedResource Include="EasyAbp\NotificationService\Provider\Mailing\UserWelcomeNotifications\UserWelcomeEmailSubject.tpl" />
+    </ItemGroup>
+
 </Project>

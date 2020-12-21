@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
@@ -15,12 +13,10 @@ namespace EasyAbp.NotificationService.Notifications
         {
             _distributedEventBus = distributedEventBus;
         }
-        
-        public virtual async Task PublishAsync<TCreateNotificationEto>(
-            NotificationDefinition<TCreateNotificationEto> notificationDefinition, IEnumerable<Guid> userIds)
-            where TCreateNotificationEto : CreateNotificationEto
+
+        public virtual async Task PublishAsync(CreateNotificationEto createNotificationEto)
         {
-            await _distributedEventBus.PublishAsync(notificationDefinition.CreateAsync(userIds));
+            await _distributedEventBus.PublishAsync(createNotificationEto);
         }
     }
 }

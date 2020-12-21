@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EasyAbp.NotificationService.Provider.Mailing.UserWelcomeNotifications;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Volo.Abp.Users;
@@ -8,11 +9,11 @@ using Xunit;
 
 namespace EasyAbp.NotificationService.Provider.Mailing
 {
-    public class NotificationPublisherTests : NotificationServiceTestBase<NotificationServiceProviderMailingTestModule>
+    public class NotificationFactoryTests : NotificationServiceTestBase<NotificationServiceProviderMailingTestModule>
     {
         protected IExternalUserLookupServiceProvider ExternalUserLookupServiceProvider { get; set; }
         
-        public NotificationPublisherTests()
+        public NotificationFactoryTests()
         {
             ExternalUserLookupServiceProvider = ServiceProvider.GetRequiredService<IExternalUserLookupServiceProvider>();
         }
@@ -20,16 +21,19 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         [Fact]
         public async Task Should_Create_User_Welcome_Notification()
         {
+            var userWelcomeNotificationFactory = ServiceProvider.GetRequiredService<UserWelcomeNotificationFactory>();
+            
             var userData =
                 await ExternalUserLookupServiceProvider.FindByIdAsync(NotificationServiceProviderMailingTestConsts
                     .FakeUser1Id);
 
             const string giftCardCode = "123456";    // a random gift card code
 
-            var notificationDefinition = new UserWelcomeNotification(userData.UserName, giftCardCode);
+            var eto = await userWelcomeNotificationFactory.CreateAsync(
+                new UserWelcomeNotificationDataModel(userData.UserName, giftCardCode),
+                new List<Guid> {userData.Id}
+            );
 
-            var eto = await notificationDefinition.CreateAsync(new List<Guid> {userData.Id});
-            
             eto.Subject.ShouldBe($"Welcome, {userData.UserName}");
             eto.Body.ShouldBe($"Here a gift card code for you: {giftCardCode}");
         }

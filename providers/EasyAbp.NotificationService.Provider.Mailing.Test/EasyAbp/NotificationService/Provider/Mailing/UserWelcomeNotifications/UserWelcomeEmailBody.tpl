@@ -1,0 +1,1 @@
+﻿Here a gift card code for you: {{model.giftCardCode}}

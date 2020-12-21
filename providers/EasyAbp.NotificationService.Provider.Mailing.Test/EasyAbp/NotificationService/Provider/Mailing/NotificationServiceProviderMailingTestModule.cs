@@ -4,6 +4,7 @@ using Volo.Abp.Authorization;
 using Volo.Abp.Autofac;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Modularity;
+using Volo.Abp.VirtualFileSystem;
 
 namespace EasyAbp.NotificationService.Provider.Mailing
 {
@@ -21,6 +22,11 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         {
             context.Services.TryAddSingleton<IBackgroundJobManager, NullBackgroundJobManager>();
             context.Services.TryAddTransient<IAsyncBackgroundJob<EmailNotificationSendingJobArgs>, EmailNotificationSendingJob>();
+            
+            Configure<AbpVirtualFileSystemOptions>(options =>
+            {
+                options.FileSets.AddEmbedded<NotificationServiceProviderMailingTestModule>();
+            });
         }
     }
 }
