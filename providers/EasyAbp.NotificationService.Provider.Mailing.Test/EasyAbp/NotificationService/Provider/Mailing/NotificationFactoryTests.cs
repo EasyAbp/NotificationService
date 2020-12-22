@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.NotificationService.Provider.Mailing.UserWelcomeNotifications;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,8 +28,8 @@ namespace EasyAbp.NotificationService.Provider.Mailing
             const string giftCardCode = "123456";    // a random gift card code
 
             var eto = await userWelcomeNotificationFactory.CreateAsync(
-                new UserWelcomeNotificationDataModel(userData.UserName, giftCardCode),
-                new List<Guid> {userData.Id}
+                model: new UserWelcomeNotificationDataModel(userData.UserName, giftCardCode),
+                userId: userData.Id
             );
 
             eto.Subject.ShouldBe($"Welcome, {userData.UserName}");
