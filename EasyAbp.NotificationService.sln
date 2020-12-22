@@ -51,13 +51,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.NotificationService
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "providers", "providers", "{621818C1-51D2-4358-AAA5-B7A8535209E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Mailing.Abstractions", "providers\EasyAbp.NotificationService.Provider.Mailing.Abstractions\EasyAbp.NotificationService.Provider.Mailing.Abstractions.csproj", "{68B926BD-A94F-4870-ABF9-33A92885DEC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Mailing.Abstractions", "providers\Mailing\EasyAbp.NotificationService.Provider.Mailing.Abstractions\EasyAbp.NotificationService.Provider.Mailing.Abstractions.csproj", "{68B926BD-A94F-4870-ABF9-33A92885DEC5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mailing", "Mailing", "{9D8E98F4-F0E0-4083-8F7E-BE2D4491C5A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Mailing", "providers\EasyAbp.NotificationService.Provider.Mailing\EasyAbp.NotificationService.Provider.Mailing.csproj", "{4E847BAA-96AD-434F-AA1B-C7A5D0408ABF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Mailing", "providers\Mailing\EasyAbp.NotificationService.Provider.Mailing\EasyAbp.NotificationService.Provider.Mailing.csproj", "{4E847BAA-96AD-434F-AA1B-C7A5D0408ABF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Mailing.Test", "providers\EasyAbp.NotificationService.Provider.Mailing.Test\EasyAbp.NotificationService.Provider.Mailing.Test.csproj", "{6BA77682-ABD9-4C9B-9008-5DDD92FA2C82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Mailing.Test", "providers\Mailing\EasyAbp.NotificationService.Provider.Mailing.Test\EasyAbp.NotificationService.Provider.Mailing.Test.csproj", "{6BA77682-ABD9-4C9B-9008-5DDD92FA2C82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,6 +157,10 @@ Global
 		{6BA77682-ABD9-4C9B-9008-5DDD92FA2C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BA77682-ABD9-4C9B-9008-5DDD92FA2C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BA77682-ABD9-4C9B-9008-5DDD92FA2C82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99B2B7AF-4ADD-4D7E-BFC8-9B07FC6755AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99B2B7AF-4ADD-4D7E-BFC8-9B07FC6755AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99B2B7AF-4ADD-4D7E-BFC8-9B07FC6755AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99B2B7AF-4ADD-4D7E-BFC8-9B07FC6755AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +190,8 @@ Global
 		{68B926BD-A94F-4870-ABF9-33A92885DEC5} = {9D8E98F4-F0E0-4083-8F7E-BE2D4491C5A3}
 		{4E847BAA-96AD-434F-AA1B-C7A5D0408ABF} = {9D8E98F4-F0E0-4083-8F7E-BE2D4491C5A3}
 		{6BA77682-ABD9-4C9B-9008-5DDD92FA2C82} = {9D8E98F4-F0E0-4083-8F7E-BE2D4491C5A3}
+		{351B2EE5-E08F-479F-B769-BED051792DE5} = {621818C1-51D2-4358-AAA5-B7A8535209E2}
+		{99B2B7AF-4ADD-4D7E-BFC8-9B07FC6755AE} = {351B2EE5-E08F-479F-B769-BED051792DE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4324B3B4-B60B-4E3C-91D8-59576B4E26DD}

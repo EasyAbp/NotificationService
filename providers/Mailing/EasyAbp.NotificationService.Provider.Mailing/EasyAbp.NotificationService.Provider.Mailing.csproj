@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\common.props" />
+    <Import Project="..\..\..\common.props" />
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -11,7 +11,7 @@
         <PackageReference Include="Volo.Abp.Emailing" Version="3.2.1" />
         <PackageReference Include="Volo.Abp.Users.Abstractions" Version="3.2.1" />
         <ProjectReference Include="..\EasyAbp.NotificationService.Provider.Mailing.Abstractions\EasyAbp.NotificationService.Provider.Mailing.Abstractions.csproj" />
-        <ProjectReference Include="..\..\src\EasyAbp.NotificationService.Domain\EasyAbp.NotificationService.Domain.csproj" />
+        <ProjectReference Include="..\..\..\src\EasyAbp.NotificationService.Domain\EasyAbp.NotificationService.Domain.csproj" />
     </ItemGroup>
 
 </Project>

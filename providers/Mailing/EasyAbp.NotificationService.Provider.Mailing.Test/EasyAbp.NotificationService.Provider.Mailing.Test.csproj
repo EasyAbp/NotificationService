@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\common.props" />
+    <Import Project="..\..\..\common.props" />
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -19,7 +19,7 @@
         <PackageReference Include="Volo.Abp.TestBase" Version="3.2.1" />
         <PackageReference Include="Volo.Abp.BackgroundJobs" Version="3.2.1" />
         <ProjectReference Include="..\EasyAbp.NotificationService.Provider.Mailing\EasyAbp.NotificationService.Provider.Mailing.csproj" />
-        <ProjectReference Include="..\..\test\EasyAbp.NotificationService.Domain.Tests\EasyAbp.NotificationService.Domain.Tests.csproj" />
+        <ProjectReference Include="..\..\..\test\EasyAbp.NotificationService.Domain.Tests\EasyAbp.NotificationService.Domain.Tests.csproj" />
     </ItemGroup>
 
     <ItemGroup>
