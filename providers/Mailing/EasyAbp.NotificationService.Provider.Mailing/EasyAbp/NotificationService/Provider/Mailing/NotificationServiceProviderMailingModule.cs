@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using Volo.Abp.Emailing;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Modularity;
@@ -20,11 +19,6 @@ namespace EasyAbp.NotificationService.Provider.Mailing
             context.Services
                 .TryAddTransient<IDistributedEventHandler<CreateEmailNotificationEto>,
                     CreateEmailNotificationEventHandler>();
-        }
-        
-        public override void PostConfigureServices(ServiceConfigurationContext context)
-        {
-            context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
         }
     }
 }

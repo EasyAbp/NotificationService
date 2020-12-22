@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
 using JetBrains.Annotations;
@@ -7,27 +8,26 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Emailing;
 using Volo.Abp.Timing;
 using Volo.Abp.Uow;
-using Volo.Abp.Users;
 
 namespace EasyAbp.NotificationService.Provider.Mailing
 {
     public class EmailNotificationSendingJob : IAsyncBackgroundJob<EmailNotificationSendingJobArgs>, ITransientDependency
     {
-        private readonly IExternalUserLookupServiceProvider _userLookupServiceProvider;
         private readonly INotificationInfoRepository _notificationInfoRepository;
+        private readonly IUserEmailAddressProvider _userEmailAddressProvider;
         private readonly INotificationRepository _notificationRepository;
         private readonly IEmailSender _emailSender;
         private readonly IClock _clock;
 
         public EmailNotificationSendingJob(
-            IExternalUserLookupServiceProvider userLookupServiceProvider,
             INotificationInfoRepository notificationInfoRepository,
+            IUserEmailAddressProvider userEmailAddressProvider,
             INotificationRepository notificationRepository,
             IEmailSender emailSender,
             IClock clock)
         {
-            _userLookupServiceProvider = userLookupServiceProvider;
             _notificationInfoRepository = notificationInfoRepository;
+            _userEmailAddressProvider = userEmailAddressProvider;
             _notificationRepository = notificationRepository;
             _emailSender = emailSender;
             _clock = clock;
@@ -37,10 +37,10 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         public virtual async Task ExecuteAsync(EmailNotificationSendingJobArgs args)
         {
             var notification = await _notificationRepository.GetAsync(args.NotificationId);
-            
-            var userData = await _userLookupServiceProvider.FindByIdAsync(notification.UserId);
 
-            if (userData == null)
+            var userEmailAddress = await _userEmailAddressProvider.GetAsync(notification.UserId);
+
+            if (userEmailAddress.IsNullOrWhiteSpace())
             {
                 await SaveNotificationResultAsync(notification, false, NotificationConsts.FailureReasons.UserNotFound);
                 return;
@@ -48,7 +48,7 @@ namespace EasyAbp.NotificationService.Provider.Mailing
             
             var notificationInfo = await _notificationInfoRepository.GetAsync(notification.NotificationInfoId);
 
-            await _emailSender.SendAsync(userData.Email,
+            await _emailSender.SendAsync(userEmailAddress,
                 notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoSubjectPropertyName),
                 notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoBodyPropertyName));
             
