@@ -2,10 +2,10 @@
 {
     public static class NotificationServiceDbProperties
     {
-        public static string DbTablePrefix { get; set; } = "NotificationService";
+        public static string DbTablePrefix { get; set; } = "EasyAbpNotificationService";
 
         public static string DbSchema { get; set; } = null;
 
-        public const string ConnectionStringName = "NotificationService";
+        public const string ConnectionStringName = "EasyAbpNotificationService";
     }
 }
