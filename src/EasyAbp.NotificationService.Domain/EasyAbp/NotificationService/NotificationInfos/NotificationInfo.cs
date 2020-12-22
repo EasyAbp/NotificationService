@@ -36,12 +36,12 @@ namespace EasyAbp.NotificationService.NotificationInfos
             }
         }
         
-        public string GetDataValue([NotNull] string name)
+        public object GetDataValue([NotNull] string name)
         {
-            return this.GetProperty<string>(name);
+            return this.GetProperty(name);
         }
 
-        public void SetDataValue([NotNull] string name, [CanBeNull] string value)
+        public void SetDataValue([NotNull] string name, [CanBeNull] object value)
         {
             this.SetProperty(name, value);
         }

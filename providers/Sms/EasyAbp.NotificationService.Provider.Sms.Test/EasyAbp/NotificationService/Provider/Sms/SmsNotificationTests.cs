@@ -4,28 +4,33 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
+using EasyAbp.NotificationService.Provider.Mailing;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Json;
 using Xunit;
 
-namespace EasyAbp.NotificationService.Provider.Mailing
+namespace EasyAbp.NotificationService.Provider.Sms
 {
-    public class MailingNotificationTests : NotificationServiceTestBase<NotificationServiceProviderMailingTestModule>
+    public class SmsNotificationTests : NotificationServiceTestBase<NotificationServiceProviderMailingTestModule>
     {
-        private const string Subject = "test";
-        private const string Body = "test123";
+        private const string Text = "test";
+        private const string ExtraPropertyKey = "MyProperty";
+        private const string ExtraPropertyValue = "123456";
         
+        protected IJsonSerializer JsonSerializer { get; set; }
         protected INotificationRepository NotificationRepository { get; set; }
         protected INotificationInfoRepository NotificationInfoRepository { get; set; }
-        protected IAsyncBackgroundJob<EmailNotificationSendingJobArgs> EmailNotificationSendingJob { get; set; }
+        protected IAsyncBackgroundJob<SmsNotificationSendingJobArgs> SmsNotificationSendingJob { get; set; }
         
-        public MailingNotificationTests()
+        public SmsNotificationTests()
         {
+            JsonSerializer = ServiceProvider.GetRequiredService<IJsonSerializer>();
             NotificationRepository = ServiceProvider.GetRequiredService<INotificationRepository>();
             NotificationInfoRepository = ServiceProvider.GetRequiredService<INotificationInfoRepository>();
-            EmailNotificationSendingJob = ServiceProvider.GetRequiredService<IAsyncBackgroundJob<EmailNotificationSendingJobArgs>>();
+            SmsNotificationSendingJob = ServiceProvider.GetRequiredService<IAsyncBackgroundJob<SmsNotificationSendingJobArgs>>();
         }
         
         [Fact]
@@ -37,7 +42,10 @@ namespace EasyAbp.NotificationService.Provider.Mailing
                 NotificationServiceProviderMailingTestConsts.FakeUser2Id
             };
 
-            await CreateEmailNotificationAsync(userIds, Subject, Body);
+            await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
+            {
+                {ExtraPropertyKey, ExtraPropertyValue}
+            });
             
             var notifications = await NotificationRepository.GetListAsync();
             
@@ -50,21 +58,23 @@ namespace EasyAbp.NotificationService.Provider.Mailing
             
             var notificationInfo = await NotificationInfoRepository.GetAsync(notifications.First().NotificationInfoId);
 
-            var subject = notificationInfo
-                .GetDataValue(NotificationProviderMailingConsts.NotificationInfoSubjectPropertyName).ToString();
-
-            var body = notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoBodyPropertyName)
+            var text = notificationInfo.GetDataValue(NotificationProviderSmsConsts.NotificationInfoTextPropertyName)
                 .ToString();
             
-            subject.ShouldBe(Subject);
-            body.ShouldBe(Body);
+            var properties = JsonSerializer.Deserialize<IDictionary<string, object>>(notificationInfo
+                .GetDataValue(NotificationProviderSmsConsts.NotificationInfoPropertiesPropertyName).ToString());
+            
+            text.ShouldBe(Text);
+            properties.Count.ShouldBe(1);
+            properties.First().Key.ShouldBe(ExtraPropertyKey);
+            properties.First().Value.ShouldBe(ExtraPropertyValue);
         }
 
-        private async Task CreateEmailNotificationAsync(List<Guid> userIds, string subject, string body)
+        private async Task CreateSmsNotificationAsync(List<Guid> userIds, string text, IDictionary<string, object> properties)
         {
-            var handler = ServiceProvider.GetRequiredService<IDistributedEventHandler<CreateEmailNotificationEto>>();
+            var handler = ServiceProvider.GetRequiredService<IDistributedEventHandler<CreateSmsNotificationEto>>();
             
-            var eto = new CreateEmailNotificationEto(userIds, subject, body);
+            var eto = new CreateSmsNotificationEto(userIds, text, properties);
 
             await handler.HandleEventAsync(eto);
         }
@@ -77,11 +87,14 @@ namespace EasyAbp.NotificationService.Provider.Mailing
                 NotificationServiceProviderMailingTestConsts.FakeUser1Id
             };
 
-            await CreateEmailNotificationAsync(userIds, Subject, Body);
+            await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
+            {
+                {ExtraPropertyKey, ExtraPropertyValue}
+            });
             
             var notification = (await NotificationRepository.GetListAsync()).First();
 
-            await EmailNotificationSendingJob.ExecuteAsync(new EmailNotificationSendingJobArgs(notification.Id));
+            await SmsNotificationSendingJob.ExecuteAsync(new SmsNotificationSendingJobArgs(notification.Id));
             
             notification = await NotificationRepository.GetAsync(notification.Id);
 
@@ -98,11 +111,14 @@ namespace EasyAbp.NotificationService.Provider.Mailing
                 Guid.NewGuid()
             };
 
-            await CreateEmailNotificationAsync(userIds, Subject, Body);
+            await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
+            {
+                {ExtraPropertyKey, ExtraPropertyValue}
+            });
             
             var notification = (await NotificationRepository.GetListAsync()).First();
 
-            await EmailNotificationSendingJob.ExecuteAsync(new EmailNotificationSendingJobArgs(notification.Id));
+            await SmsNotificationSendingJob.ExecuteAsync(new SmsNotificationSendingJobArgs(notification.Id));
 
             notification = await NotificationRepository.GetAsync(notification.Id);
             

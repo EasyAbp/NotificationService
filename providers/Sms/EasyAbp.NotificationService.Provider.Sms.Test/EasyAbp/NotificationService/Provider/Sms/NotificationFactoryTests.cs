@@ -1,11 +1,12 @@
 using System.Threading.Tasks;
-using EasyAbp.NotificationService.Provider.Mailing.UserWelcomeNotifications;
+using EasyAbp.NotificationService.Provider.Mailing;
+using EasyAbp.NotificationService.Provider.Sms.UserWelcomeNotifications;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Volo.Abp.Users;
 using Xunit;
 
-namespace EasyAbp.NotificationService.Provider.Mailing
+namespace EasyAbp.NotificationService.Provider.Sms
 {
     public class NotificationFactoryTests : NotificationServiceTestBase<NotificationServiceProviderMailingTestModule>
     {
@@ -32,8 +33,8 @@ namespace EasyAbp.NotificationService.Provider.Mailing
                 userId: userData.Id
             );
 
-            eto.Subject.ShouldBe($"Welcome, {userData.UserName}");
-            eto.Body.ShouldBe($"Here is a gift card code for you: {giftCardCode}");
+            eto.Text.ShouldBe($"Hello, {userData.UserName}, here is a gift card code for you: {giftCardCode}");
+            eto.Properties.Count.ShouldBe(0);
         }
     }
 }

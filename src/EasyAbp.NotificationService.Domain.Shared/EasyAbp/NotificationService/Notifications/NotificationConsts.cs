@@ -4,7 +4,7 @@
     {
         public static class FailureReasons
         {
-            public const string UserNotFound = "UserNotFound";
+            public const string ReceiverInfoNotFound = "ReceiverInfoNotFound";
         }
     }
 }

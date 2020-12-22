@@ -42,15 +42,15 @@ namespace EasyAbp.NotificationService.Provider.Mailing
 
             if (userEmailAddress.IsNullOrWhiteSpace())
             {
-                await SaveNotificationResultAsync(notification, false, NotificationConsts.FailureReasons.UserNotFound);
+                await SaveNotificationResultAsync(notification, false, NotificationConsts.FailureReasons.ReceiverInfoNotFound);
                 return;
             }
             
             var notificationInfo = await _notificationInfoRepository.GetAsync(notification.NotificationInfoId);
 
             await _emailSender.SendAsync(userEmailAddress,
-                notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoSubjectPropertyName),
-                notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoBodyPropertyName));
+                notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoSubjectPropertyName).ToString(),
+                notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoBodyPropertyName).ToString());
             
             await SaveNotificationResultAsync(notification, true);
         }
