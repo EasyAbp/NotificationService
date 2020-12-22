@@ -32,13 +32,6 @@
                 <abp-card-title>@L["Notification"]</abp-card-title>
             </abp-column>
             <abp-column size-md="_6" class="text-right">
-			    @if (await Authorization.IsGrantedAsync(NotificationServicePermissions.Notification.Create))
-                {
-                <abp-button id="NewNotificationButton"
-                            text="@L["CreateNotification"].Value"
-                            icon="plus"
-                            button-type="Primary" />
-                }
             </abp-column>
         </abp-row>
     </abp-card-header>
