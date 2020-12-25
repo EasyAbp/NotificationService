@@ -12,7 +12,7 @@ We have launched an online demo for this module: [https://notification.samples.e
 
 ## Installation
 
-1. Install the following NuGet packages. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/How-To.md#add-nuget-packages))
+1. Install the following NuGet packages. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-nuget-packages))
 
     * EasyAbp.NotificationService.Application
     * EasyAbp.NotificationService.Application.Contracts
@@ -26,11 +26,11 @@ We have launched an online demo for this module: [https://notification.samples.e
     * (Optional) EasyAbp.NotificationService.Provider.Mailing
     * (Optional) EasyAbp.NotificationService.Provider.Sms
 
-1. Add `DependsOn(typeof(NotificationServiceXxxModule))` attribute to configure the module dependencies. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/How-To.md#add-module-dependencies))
+1. Add `DependsOn(typeof(NotificationServiceXxxModule))` attribute to configure the module dependencies. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-module-dependencies))
 
 1. Add `builder.ConfigureNotificationService();` to the `OnModelCreating()` method in **MyProjectMigrationsDbContext.cs**.
 
-1. Add EF Core migrations and update your database. See: [ABP document](https://docs.abp.io/en/abp/latest/Tutorials/Part-1?UI=MVC#add-new-migration-update-the-database).
+1. Add EF Core migrations and update your database. See: [ABP document](https://docs.abp.io/en/abp/latest/Tutorials/Part-1?UI=MVC&DB=EF#add-database-migration).
 
 ## Usage
 
@@ -81,7 +81,7 @@ You can override the [IdentityUserEmailAddressProvider](https://github.com/EasyA
 
 ### How to Use a Dynamic Notification Content Template
 
-You can use the [ABP Text Templating](https://docs.abp.io/en/abp/latest/Text-Templating) feature, see the [demo](https://github.com/EasyAbp/NotificationService/blob/master/providers/Mailing/EasyAbp.NotificationService.Provider.Mailing.Test/EasyAbp/NotificationService/Provider/Mailing/UserWelcomeNotifications/UserWelcomeNotificationFactory.cs)
+You can use the [ABP Text Templating](https://docs.abp.io/en/abp/latest/Text-Templating) feature, see the [demo](https://github.com/EasyAbp/NotificationService/blob/master/providers/Mailing/EasyAbp.NotificationService.Provider.Mailing.Test/EasyAbp/NotificationService/Provider/Mailing/UserWelcomeNotifications/UserWelcomeNotificationFactory.cs).
 
 ## Road map
 

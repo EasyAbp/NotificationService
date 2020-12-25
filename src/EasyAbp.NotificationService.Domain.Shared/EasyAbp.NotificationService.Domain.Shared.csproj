@@ -9,12 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.EventBus" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Validation" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.EventBus" Version="4.0.2" />
+    <PackageReference Include="Volo.Abp.Validation" Version="4.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.*" />
   </ItemGroup>
 
   <ItemGroup>
