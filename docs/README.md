@@ -68,8 +68,7 @@ You can create a notification using a notification factory or manually.
 Publish the notification.
 
 ```csharp
-var eventBus = ServiceProvider.GetRequiredService<IDistributedEventBus>();
-await eventBus.PublishAsync(new CreateEmailNotificationEto(userIds, subject, body));
+await distributedEventBus.PublishAsync(new CreateEmailNotificationEto(userIds, subject, body));
 ```
 
 ![Notifications](/docs/images/Notifications.png)
