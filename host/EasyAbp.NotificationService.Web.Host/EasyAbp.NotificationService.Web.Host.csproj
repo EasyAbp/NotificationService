@@ -14,20 +14,20 @@
     <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="5.0.*" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.Client" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Authentication.OpenIdConnect" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.Identity.Web" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Web" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi.Client" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi.Client" Version="4.0.2" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="4.0.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.Client" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Authentication.OpenIdConnect" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.Web" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Web" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi.Client" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi.Client" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="$(AbpVersion)" />
   </ItemGroup>
 
   <ItemGroup>

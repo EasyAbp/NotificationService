@@ -1,5 +1,6 @@
 # NotificationService
 
+[![ABP version](https://img.shields.io/badge/dynamic/xml?style=flat-square&color=yellow&label=abp&query=%2F%2FProject%2FPropertyGroup%2FAbpVersion&url=https%3A%2F%2Fraw.githubusercontent.com%2FEasyAbp%2FNotificationService%2Fmaster%2FDirectory.Build.props)](https://abp.io)
 [![NuGet](https://img.shields.io/nuget/v/EasyAbp.NotificationService.Domain.Shared.svg?style=flat-square)](https://www.nuget.org/packages/EasyAbp.NotificationService.Domain.Shared)
 [![NuGet Download](https://img.shields.io/nuget/dt/EasyAbp.NotificationService.Domain.Shared.svg?style=flat-square)](https://www.nuget.org/packages/EasyAbp.NotificationService.Domain.Shared)
 [![GitHub stars](https://img.shields.io/github/stars/EasyAbp/NotificationService?style=social)](https://www.github.com/EasyAbp/NotificationService)

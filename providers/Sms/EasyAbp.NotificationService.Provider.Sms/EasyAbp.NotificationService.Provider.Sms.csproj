@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.Sms" Version="4.0.2" />
-        <PackageReference Include="Volo.Abp.Users.Abstractions" Version="4.0.2" />
+        <PackageReference Include="Volo.Abp.Sms" Version="$(AbpVersion)" />
+        <PackageReference Include="Volo.Abp.Users.Abstractions" Version="$(AbpVersion)" />
         <ProjectReference Include="..\EasyAbp.NotificationService.Provider.Sms.Abstractions\EasyAbp.NotificationService.Provider.Sms.Abstractions.csproj" />
         <ProjectReference Include="..\..\..\src\EasyAbp.NotificationService.Domain\EasyAbp.NotificationService.Domain.csproj" />
     </ItemGroup>
