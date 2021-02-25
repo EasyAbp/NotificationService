@@ -10,6 +10,7 @@ using Shouldly;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Json;
+using Volo.Abp.MultiTenancy;
 using Xunit;
 
 namespace EasyAbp.NotificationService.Provider.Sms
@@ -20,6 +21,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
         private const string ExtraPropertyKey = "MyProperty";
         private const string ExtraPropertyValue = "123456";
         
+        protected ICurrentTenant CurrentTenant { get; set; }
         protected IJsonSerializer JsonSerializer { get; set; }
         protected INotificationRepository NotificationRepository { get; set; }
         protected INotificationInfoRepository NotificationInfoRepository { get; set; }
@@ -27,6 +29,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
         
         public SmsNotificationTests()
         {
+            CurrentTenant = ServiceProvider.GetRequiredService<ICurrentTenant>();
             JsonSerializer = ServiceProvider.GetRequiredService<IJsonSerializer>();
             NotificationRepository = ServiceProvider.GetRequiredService<INotificationRepository>();
             NotificationInfoRepository = ServiceProvider.GetRequiredService<INotificationInfoRepository>();
@@ -74,7 +77,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
         {
             var handler = ServiceProvider.GetRequiredService<IDistributedEventHandler<CreateSmsNotificationEto>>();
             
-            var eto = new CreateSmsNotificationEto(userIds, text, properties);
+            var eto = new CreateSmsNotificationEto(CurrentTenant.Id, userIds, text, properties);
 
             await handler.HandleEventAsync(eto);
         }

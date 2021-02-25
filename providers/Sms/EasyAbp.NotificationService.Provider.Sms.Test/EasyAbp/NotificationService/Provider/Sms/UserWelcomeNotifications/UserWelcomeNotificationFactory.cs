@@ -12,7 +12,7 @@ namespace EasyAbp.NotificationService.Provider.Sms.UserWelcomeNotifications
         {
             var text = $"Hello, {model.UserName}, here is a gift card code for you: {model.GiftCardCode}";
 
-            return new CreateSmsNotificationEto(userIds, text, new Dictionary<string, object>());
+            return new CreateSmsNotificationEto(CurrentTenant.Id, userIds, text, new Dictionary<string, object>());
         }
     }
 }

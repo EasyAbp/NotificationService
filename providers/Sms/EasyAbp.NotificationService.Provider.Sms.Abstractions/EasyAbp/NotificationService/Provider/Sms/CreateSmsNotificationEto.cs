@@ -15,18 +15,20 @@ namespace EasyAbp.NotificationService.Provider.Sms
         public IDictionary<string, object> Properties { get; protected set; }
 
         public CreateSmsNotificationEto(
+            Guid? tenantId,
             IEnumerable<Guid> userIds,
             [NotNull] string text,
-            [NotNull] IDictionary<string, object> properties) : base(userIds)
+            [NotNull] IDictionary<string, object> properties) : base(tenantId, userIds)
         {
             Text = text;
             Properties = properties;
         }
         
         public CreateSmsNotificationEto(
+            Guid? tenantId,
             Guid userId,
             [NotNull] string text,
-            [NotNull] IDictionary<string, object> properties) : base(userId)
+            [NotNull] IDictionary<string, object> properties) : base(tenantId, userId)
         {
             Text = text;
             Properties = properties;

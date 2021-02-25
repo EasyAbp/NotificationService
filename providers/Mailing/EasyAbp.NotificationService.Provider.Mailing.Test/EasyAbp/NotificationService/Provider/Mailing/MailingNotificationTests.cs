@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.MultiTenancy;
 using Xunit;
 
 namespace EasyAbp.NotificationService.Provider.Mailing
@@ -17,12 +18,14 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         private const string Subject = "test";
         private const string Body = "test123";
         
+        protected ICurrentTenant CurrentTenant { get; set; }
         protected INotificationRepository NotificationRepository { get; set; }
         protected INotificationInfoRepository NotificationInfoRepository { get; set; }
         protected IAsyncBackgroundJob<EmailNotificationSendingJobArgs> EmailNotificationSendingJob { get; set; }
         
         public MailingNotificationTests()
         {
+            CurrentTenant = ServiceProvider.GetRequiredService<ICurrentTenant>();
             NotificationRepository = ServiceProvider.GetRequiredService<INotificationRepository>();
             NotificationInfoRepository = ServiceProvider.GetRequiredService<INotificationInfoRepository>();
             EmailNotificationSendingJob = ServiceProvider.GetRequiredService<IAsyncBackgroundJob<EmailNotificationSendingJobArgs>>();
@@ -64,7 +67,7 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         {
             var handler = ServiceProvider.GetRequiredService<IDistributedEventHandler<CreateEmailNotificationEto>>();
             
-            var eto = new CreateEmailNotificationEto(userIds, subject, body);
+            var eto = new CreateEmailNotificationEto(CurrentTenant.Id, userIds, subject, body);
 
             await handler.HandleEventAsync(eto);
         }

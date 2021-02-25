@@ -15,18 +15,20 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         public string Body { get; set; }
 
         public CreateEmailNotificationEto(
+            Guid? tenantId,
             IEnumerable<Guid> userIds,
             [NotNull] string subject,
-            [CanBeNull] string body) : base(userIds)
+            [CanBeNull] string body) : base(tenantId, userIds)
         {
             Subject = subject;
             Body = body;
         }
         
         public CreateEmailNotificationEto(
+            Guid? tenantId,
             Guid userId,
             [NotNull] string subject,
-            [CanBeNull] string body) : base(userId)
+            [CanBeNull] string body) : base(tenantId, userId)
         {
             Subject = subject;
             Body = body;

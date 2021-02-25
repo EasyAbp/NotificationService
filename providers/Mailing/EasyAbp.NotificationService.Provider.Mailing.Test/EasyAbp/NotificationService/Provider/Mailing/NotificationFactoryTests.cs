@@ -32,6 +32,7 @@ namespace EasyAbp.NotificationService.Provider.Mailing
                 userId: userData.Id
             );
 
+            eto.TenantId.ShouldBeNull();
             eto.Subject.ShouldBe($"Welcome, {userData.UserName}");
             eto.Body.ShouldBe($"Here is a gift card code for you: {giftCardCode}");
         }
