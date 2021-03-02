@@ -75,7 +75,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
 
         private async Task CreateSmsNotificationAsync(List<Guid> userIds, string text, IDictionary<string, object> properties)
         {
-            var handler = ServiceProvider.GetRequiredService<IDistributedEventHandler<CreateSmsNotificationEto>>();
+            var handler = ServiceProvider.GetRequiredService<CreateSmsNotificationEventHandler>();
             
             var eto = new CreateSmsNotificationEto(CurrentTenant.Id, userIds, text, properties);
 

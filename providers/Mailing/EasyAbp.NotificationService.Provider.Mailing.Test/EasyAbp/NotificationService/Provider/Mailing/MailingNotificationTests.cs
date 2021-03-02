@@ -65,7 +65,7 @@ namespace EasyAbp.NotificationService.Provider.Mailing
 
         private async Task CreateEmailNotificationAsync(List<Guid> userIds, string subject, string body)
         {
-            var handler = ServiceProvider.GetRequiredService<IDistributedEventHandler<CreateEmailNotificationEto>>();
+            var handler = ServiceProvider.GetRequiredService<CreateEmailNotificationEventHandler>();
             
             var eto = new CreateEmailNotificationEto(CurrentTenant.Id, userIds, subject, body);
 
