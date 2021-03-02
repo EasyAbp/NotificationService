@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
 using Volo.Abp.BackgroundJobs;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Guids;
 using Volo.Abp.MultiTenancy;
@@ -11,7 +12,7 @@ using Volo.Abp.Uow;
 
 namespace EasyAbp.NotificationService.Provider.Mailing
 {
-    public class CreateEmailNotificationEventHandler : IDistributedEventHandler<CreateEmailNotificationEto>
+    public class CreateEmailNotificationEventHandler : IDistributedEventHandler<CreateEmailNotificationEto>, ITransientDependency
     {
         private readonly ICurrentTenant _currentTenant;
         private readonly IGuidGenerator _guidGenerator;

@@ -14,11 +14,5 @@ namespace EasyAbp.NotificationService.Provider.Mailing
     )]
     public class NotificationServiceProviderMailingModule : AbpModule
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
-        {
-            context.Services
-                .TryAddTransient<IDistributedEventHandler<CreateEmailNotificationEto>,
-                    CreateEmailNotificationEventHandler>();
-        }
     }
 }

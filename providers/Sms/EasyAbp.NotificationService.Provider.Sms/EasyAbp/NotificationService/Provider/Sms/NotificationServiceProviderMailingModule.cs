@@ -14,11 +14,5 @@ namespace EasyAbp.NotificationService.Provider.Sms
     )]
     public class NotificationServiceProviderSmsModule : AbpModule
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
-        {
-            context.Services
-                .TryAddTransient<IDistributedEventHandler<CreateSmsNotificationEto>,
-                    CreateSmsNotificationEventHandler>();
-        }
     }
 }
