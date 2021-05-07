@@ -10,9 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="5.0.*" />
     <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)" />
@@ -28,6 +27,7 @@
     <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.TenantManagement.HttpApi.Client" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="$(AbpVersion)" />
   </ItemGroup>
 
   <ItemGroup>

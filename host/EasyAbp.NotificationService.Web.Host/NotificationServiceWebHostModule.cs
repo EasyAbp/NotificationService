@@ -40,6 +40,7 @@ using Volo.Abp.MultiTenancy;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.PermissionManagement.Web;
 using Volo.Abp.Security.Claims;
+using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.Web;
 using Volo.Abp.UI.Navigation.Urls;
@@ -65,7 +66,8 @@ namespace EasyAbp.NotificationService
         typeof(AbpTenantManagementWebModule),
         typeof(AbpTenantManagementHttpApiClientModule),
         typeof(AbpPermissionManagementHttpApiClientModule),
-        typeof(AbpAspNetCoreSerilogModule)
+        typeof(AbpAspNetCoreSerilogModule),
+        typeof(AbpSwashbuckleModule)
         )]
     public class NotificationServiceWebHostModule : AbpModule
     {
@@ -223,7 +225,7 @@ namespace EasyAbp.NotificationService
             }
 
             app.UseHttpsRedirection();
-            app.UseVirtualFiles();
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
 

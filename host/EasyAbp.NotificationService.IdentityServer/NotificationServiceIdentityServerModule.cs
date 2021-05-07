@@ -40,6 +40,7 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
+using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.Threading;
@@ -73,9 +74,10 @@ namespace EasyAbp.NotificationService
         typeof(AbpTenantManagementApplicationModule),
         typeof(AbpTenantManagementHttpApiModule),
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
-        typeof(NotificationServiceApplicationContractsModule),
-        typeof(AbpAspNetCoreSerilogModule)
-        )]
+        typeof(AbpAspNetCoreSerilogModule),
+        typeof(AbpSwashbuckleModule),
+        typeof(NotificationServiceApplicationContractsModule)
+    )]
     public class NotificationServiceIdentityServerModule : AbpModule
     {
         private const string DefaultCorsPolicyName = "Default";
@@ -184,7 +186,7 @@ namespace EasyAbp.NotificationService
 
             app.UseHttpsRedirection();
             app.UseCorrelationId();
-            app.UseVirtualFiles();
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseCors(DefaultCorsPolicyName);
             app.UseAuthentication();
