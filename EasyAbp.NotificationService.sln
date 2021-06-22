@@ -51,21 +51,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.NotificationService
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "providers", "providers", "{621818C1-51D2-4358-AAA5-B7A8535209E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Mailing.Abstractions", "providers\Mailing\EasyAbp.NotificationService.Provider.Mailing.Abstractions\EasyAbp.NotificationService.Provider.Mailing.Abstractions.csproj", "{68B926BD-A94F-4870-ABF9-33A92885DEC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.NotificationService.Provider.Mailing.Abstractions", "providers\Mailing\EasyAbp.NotificationService.Provider.Mailing.Abstractions\EasyAbp.NotificationService.Provider.Mailing.Abstractions.csproj", "{68B926BD-A94F-4870-ABF9-33A92885DEC5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mailing", "Mailing", "{9D8E98F4-F0E0-4083-8F7E-BE2D4491C5A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Mailing", "providers\Mailing\EasyAbp.NotificationService.Provider.Mailing\EasyAbp.NotificationService.Provider.Mailing.csproj", "{4E847BAA-96AD-434F-AA1B-C7A5D0408ABF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.NotificationService.Provider.Mailing", "providers\Mailing\EasyAbp.NotificationService.Provider.Mailing\EasyAbp.NotificationService.Provider.Mailing.csproj", "{4E847BAA-96AD-434F-AA1B-C7A5D0408ABF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Mailing.Test", "providers\Mailing\EasyAbp.NotificationService.Provider.Mailing.Test\EasyAbp.NotificationService.Provider.Mailing.Test.csproj", "{6BA77682-ABD9-4C9B-9008-5DDD92FA2C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.NotificationService.Provider.Mailing.Test", "providers\Mailing\EasyAbp.NotificationService.Provider.Mailing.Test\EasyAbp.NotificationService.Provider.Mailing.Test.csproj", "{6BA77682-ABD9-4C9B-9008-5DDD92FA2C82}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sms", "Sms", "{351B2EE5-E08F-479F-B769-BED051792DE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Sms", "providers\Sms\EasyAbp.NotificationService.Provider.Sms\EasyAbp.NotificationService.Provider.Sms.csproj", "{99B2B7AF-4ADD-4D7E-BFC8-9B07FC6755AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.NotificationService.Provider.Sms", "providers\Sms\EasyAbp.NotificationService.Provider.Sms\EasyAbp.NotificationService.Provider.Sms.csproj", "{99B2B7AF-4ADD-4D7E-BFC8-9B07FC6755AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Sms.Abstractions", "providers\Sms\EasyAbp.NotificationService.Provider.Sms.Abstractions\EasyAbp.NotificationService.Provider.Sms.Abstractions.csproj", "{54C0F0D7-B9DF-4309-AB7D-445C764B4119}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.NotificationService.Provider.Sms.Abstractions", "providers\Sms\EasyAbp.NotificationService.Provider.Sms.Abstractions\EasyAbp.NotificationService.Provider.Sms.Abstractions.csproj", "{54C0F0D7-B9DF-4309-AB7D-445C764B4119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.Sms.Test", "providers\Sms\EasyAbp.NotificationService.Provider.Sms.Test\EasyAbp.NotificationService.Provider.Sms.Test.csproj", "{6EF296FE-1E52-4FAE-85FC-348D6DC1205C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.NotificationService.Provider.Sms.Test", "providers\Sms\EasyAbp.NotificationService.Provider.Sms.Test\EasyAbp.NotificationService.Provider.Sms.Test.csproj", "{6EF296FE-1E52-4FAE-85FC-348D6DC1205C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PrivateMessaging", "PrivateMessaging", "{54A046F1-1CA8-47F1-A2F1-E18812D721A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.PrivateMessaging", "providers\PrivateMessaing\EasyAbp.NotificationService.Provider.PrivateMessaging\EasyAbp.NotificationService.Provider.PrivateMessaging.csproj", "{E343D8C5-EEA2-466D-A70F-FC425D758AC8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.NotificationService.Provider.PrivateMessaging.Abstrations", "providers\PrivateMessaing\EasyAbp.NotificationService.Provider.PrivateMessaging.Abstrations\EasyAbp.NotificationService.Provider.PrivateMessaging.Abstrations.csproj", "{00EEE07E-57FA-4D33-A387-9BF1BF767C24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +183,14 @@ Global
 		{6EF296FE-1E52-4FAE-85FC-348D6DC1205C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EF296FE-1E52-4FAE-85FC-348D6DC1205C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EF296FE-1E52-4FAE-85FC-348D6DC1205C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E343D8C5-EEA2-466D-A70F-FC425D758AC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E343D8C5-EEA2-466D-A70F-FC425D758AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E343D8C5-EEA2-466D-A70F-FC425D758AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E343D8C5-EEA2-466D-A70F-FC425D758AC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00EEE07E-57FA-4D33-A387-9BF1BF767C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00EEE07E-57FA-4D33-A387-9BF1BF767C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00EEE07E-57FA-4D33-A387-9BF1BF767C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00EEE07E-57FA-4D33-A387-9BF1BF767C24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -202,14 +216,17 @@ Global
 		{690203F4-3CD5-4569-88D9-EE831EEA5F5F} = {E400416D-2895-4512-9D17-90681EEC7E0A}
 		{F6AC8D4A-EDD7-4514-8E8A-5BCB019864DB} = {E400416D-2895-4512-9D17-90681EEC7E0A}
 		{3D872C41-E226-45C8-89C1-9D3DBD7C73F2} = {E400416D-2895-4512-9D17-90681EEC7E0A}
-		{9D8E98F4-F0E0-4083-8F7E-BE2D4491C5A3} = {621818C1-51D2-4358-AAA5-B7A8535209E2}
 		{68B926BD-A94F-4870-ABF9-33A92885DEC5} = {9D8E98F4-F0E0-4083-8F7E-BE2D4491C5A3}
+		{9D8E98F4-F0E0-4083-8F7E-BE2D4491C5A3} = {621818C1-51D2-4358-AAA5-B7A8535209E2}
 		{4E847BAA-96AD-434F-AA1B-C7A5D0408ABF} = {9D8E98F4-F0E0-4083-8F7E-BE2D4491C5A3}
 		{6BA77682-ABD9-4C9B-9008-5DDD92FA2C82} = {9D8E98F4-F0E0-4083-8F7E-BE2D4491C5A3}
 		{351B2EE5-E08F-479F-B769-BED051792DE5} = {621818C1-51D2-4358-AAA5-B7A8535209E2}
 		{99B2B7AF-4ADD-4D7E-BFC8-9B07FC6755AE} = {351B2EE5-E08F-479F-B769-BED051792DE5}
 		{54C0F0D7-B9DF-4309-AB7D-445C764B4119} = {351B2EE5-E08F-479F-B769-BED051792DE5}
 		{6EF296FE-1E52-4FAE-85FC-348D6DC1205C} = {351B2EE5-E08F-479F-B769-BED051792DE5}
+		{54A046F1-1CA8-47F1-A2F1-E18812D721A9} = {621818C1-51D2-4358-AAA5-B7A8535209E2}
+		{E343D8C5-EEA2-466D-A70F-FC425D758AC8} = {54A046F1-1CA8-47F1-A2F1-E18812D721A9}
+		{00EEE07E-57FA-4D33-A387-9BF1BF767C24} = {54A046F1-1CA8-47F1-A2F1-E18812D721A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4324B3B4-B60B-4E3C-91D8-59576B4E26DD}
