@@ -2,10 +2,10 @@
 using EasyAbp.NotificationService.Notifications;
 using EasyAbp.PrivateMessaging.PrivateMessages;
 using JetBrains.Annotations;
-using System;
 using System.Threading.Tasks;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Timing;
 using Volo.Abp.Uow;
 
@@ -18,13 +18,15 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
         private readonly INotificationRepository _notificationRepository;
         private readonly IPrivateMessageAppService _privateMessageAppService;
         private readonly IClock _clock;
+        private readonly IDistributedEventBus _distributedEventBus;
 
         public PrivateMessageNotificationSendingJob(
             INotificationInfoRepository notificationInfoRepository,
             IUserUserNameProvider userUserNameProvider,
+            IDistributedEventBus distributedEventBus,
             INotificationRepository notificationRepository,
             IPrivateMessageAppService privateMessageAppService,
-        IClock clock)
+            IClock clock)
         {
             _notificationInfoRepository = notificationInfoRepository;
             _userUserNameProvider = userUserNameProvider;
@@ -38,22 +40,13 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
         {
             var notification = await _notificationRepository.GetAsync(args.NotificationId);
 
-            var userName = await _userUserNameProvider.GetAsync(notification.UserId);
-
-            if (userName.IsNullOrWhiteSpace())
-            {
-                await SaveNotificationResultAsync(notification, false, NotificationConsts.FailureReasons.ReceiverInfoNotFound);
-                return;
-            }
-
             var notificationInfo = await _notificationInfoRepository.GetAsync(notification.NotificationInfoId);
 
-            await _privateMessageAppService.CreateAsync(new EasyAbp.PrivateMessaging.PrivateMessages.Dtos.CreateUpdatePrivateMessageDto
-            {
-                Title = notificationInfo.GetDataValue(NotificationProviderPrivateMessagingConsts.NotificationInfoTitlePropertyName).ToString(),
-                Content = notificationInfo.GetDataValue(NotificationProviderPrivateMessagingConsts.NotificationInfoContentPropertyName).ToString(),
-                ToUserName = userName
-            });
+            var title = notificationInfo.GetDataValue(NotificationProviderPrivateMessagingConsts.NotificationInfoTitlePropertyName).ToString();
+
+            var content = notificationInfo.GetDataValue(NotificationProviderPrivateMessagingConsts.NotificationInfoContentPropertyName).ToString();
+
+            await _distributedEventBus.PublishAsync(new SendPrivateMessageEto(notification.TenantId, null, notification.UserId, title, content));
 
             await SaveNotificationResultAsync(notification, true);
         }
