@@ -9,18 +9,15 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
     public class CreatePrivateMessageNotificationEto : CreateNotificationEto
     {
         [NotNull]
-        public string Title { get; protected set; }
+        public string Title { get; set; }
 
         [CanBeNull]
-        public string Content { get; protected set; }
+        public string Content { get; set; }
 
         [NotNull]
         public IDictionary<string, object> Properties { get; protected set; }
 
-        protected CreatePrivateMessageNotificationEto()
-        {
-        }
-        
+
         public CreatePrivateMessageNotificationEto(
             Guid? tenantId,
             IEnumerable<Guid> userIds,
