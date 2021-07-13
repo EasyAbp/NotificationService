@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
+using EasyAbp.PrivateMessaging.PrivateMessages;
 using Volo.Abp.BackgroundJobs;
+using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Guids;
@@ -19,12 +21,13 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly INotificationRepository _notificationRepository;
         private readonly INotificationInfoRepository _notificationInfoRepository;
-
+        private readonly IDistributedEventBus _distributedEventBus;
         public CreatePrivateMessageNotificationEventHandler(
             ICurrentTenant currentTenant,
             IGuidGenerator guidGenerator,
             IBackgroundJobManager backgroundJobManager,
             INotificationRepository notificationRepository,
+            IDistributedEventBus distributedEventBus,
             INotificationInfoRepository notificationInfoRepository)
         {
             _currentTenant = currentTenant;
@@ -32,6 +35,7 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
             _backgroundJobManager = backgroundJobManager;
             _notificationRepository = notificationRepository;
             _notificationInfoRepository = notificationInfoRepository;
+            _distributedEventBus = distributedEventBus;
         }
         
         [UnitOfWork(true)]
@@ -45,14 +49,18 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
 
             var notifications = await CreateNotificationsAsync(notificationInfo, eventData.UserIds);
 
-            await SendNotificationsAsync(notifications);
+            await SendNotificationsAsync(notifications, eventData.Title, eventData.Content);
         }
 
-        protected virtual async Task SendNotificationsAsync(List<Notification> notifications)
+        protected virtual async Task SendNotificationsAsync(List<Notification> notifications, string title, string content)
         {
             foreach (var notification in notifications)
             {
-                await _backgroundJobManager.EnqueueAsync(new PrivateMessageNotificationSendingJobArgs(notification.Id));
+                var eto = new SendPrivateMessageEto(notification.TenantId, notification.CreatorId, notification.UserId, title, content);
+
+                eto.SetProperty(NotificationProviderPrivateMessagingConsts.NotificationIdPropertyName, notification.Id);
+
+                await _distributedEventBus.PublishAsync(eto);
             }
         }
 
@@ -78,5 +86,6 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
 
             return notifications;
         }
+
     }
 }

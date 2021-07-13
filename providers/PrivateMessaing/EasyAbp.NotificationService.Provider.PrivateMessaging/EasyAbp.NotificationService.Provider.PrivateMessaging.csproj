@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿  <Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\..\common.props" />
 
@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PrivateMessaging.Application.Contracts" Version="1.0.0" />
+    <PackageReference Include="EasyAbp.PrivateMessaging.Application.Contracts" Version="1.1.1" />
     <PackageReference Include="Volo.Abp.Users.Abstractions" Version="$(AbpVersion)" />
     <ProjectReference Include="..\..\..\src\EasyAbp.NotificationService.Domain\EasyAbp.NotificationService.Domain.csproj" />
     <ProjectReference Include="..\EasyAbp.NotificationService.Provider.PrivateMessaging.Abstrations\EasyAbp.NotificationService.Provider.PrivateMessaging.Abstrations.csproj" />

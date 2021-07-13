@@ -7,5 +7,7 @@
         public const string NotificationInfoTitlePropertyName = "Title";
 
         public const string NotificationInfoContentPropertyName = "Content";
+
+        public const string NotificationIdPropertyName = "NotificationId";
     }
 }
