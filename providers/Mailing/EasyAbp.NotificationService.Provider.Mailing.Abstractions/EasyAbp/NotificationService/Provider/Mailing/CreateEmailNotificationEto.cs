@@ -14,7 +14,8 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         [CanBeNull]
         public string Body { get; set; }
 
-        
+        public CreateEmailNotificationEto() { }
+
         public CreateEmailNotificationEto(
             Guid? tenantId,
             IEnumerable<Guid> userIds,
