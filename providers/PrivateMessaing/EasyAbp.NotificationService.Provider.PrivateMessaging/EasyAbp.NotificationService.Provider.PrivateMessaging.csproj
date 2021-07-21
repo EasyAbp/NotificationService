@@ -1,0 +1,16 @@
+﻿  <Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EasyAbp.PrivateMessaging.Domain.Shared" Version="$(EasyAbpPrivateMessagingModuleVersion)" />
+    <ProjectReference Include="..\..\..\src\EasyAbp.NotificationService.Domain\EasyAbp.NotificationService.Domain.csproj" />
+    <ProjectReference Include="..\EasyAbp.NotificationService.Provider.PrivateMessaging.Abstrations\EasyAbp.NotificationService.Provider.PrivateMessaging.Abstrations.csproj" />
+  </ItemGroup>
+
+</Project>

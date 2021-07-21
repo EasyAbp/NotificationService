@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace EasyAbp.NotificationService.Provider.Mailing
+namespace EasyAbp.NotificationService.Provider.Sms
 {
-    public static class NotificationServiceProviderMailingTestConsts
+    public static class NotificationServiceProviderSmsTestConsts
     {
         public static Guid FakeUser1Id = Guid.NewGuid();
         

@@ -7,7 +7,7 @@ namespace EasyAbp.NotificationService.Notifications
     [Serializable]
     public abstract class CreateNotificationEto : IMultiTenant
     {
-        public Guid? TenantId { get; }
+        public Guid? TenantId { get; set; }
 
         public IEnumerable<Guid> UserIds { get; set; }
 
@@ -24,7 +24,7 @@ namespace EasyAbp.NotificationService.Notifications
         public CreateNotificationEto(Guid? tenantId, Guid userId)
         {
             TenantId = tenantId;
-            UserIds = new List<Guid> {userId};
+            UserIds = new List<Guid> { userId };
         }
     }
 }
