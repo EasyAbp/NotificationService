@@ -1,29 +1,28 @@
-using System.Threading.Tasks;
-using EasyAbp.NotificationService.Provider.Mailing;
 using EasyAbp.NotificationService.Provider.Sms.UserWelcomeNotifications;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
+using System.Threading.Tasks;
 using Volo.Abp.Users;
 using Xunit;
 
 namespace EasyAbp.NotificationService.Provider.Sms
 {
-    public class NotificationFactoryTests : NotificationServiceTestBase<NotificationServiceProviderMailingTestModule>
+    public class NotificationFactoryTests : NotificationServiceTestBase<NotificationServiceProviderSmsTestModule>
     {
         protected IExternalUserLookupServiceProvider ExternalUserLookupServiceProvider { get; set; }
-        
+
         public NotificationFactoryTests()
         {
             ExternalUserLookupServiceProvider = ServiceProvider.GetRequiredService<IExternalUserLookupServiceProvider>();
         }
-        
+
         [Fact]
         public async Task Should_Create_User_Welcome_Notification()
         {
             var userWelcomeNotificationFactory = ServiceProvider.GetRequiredService<UserWelcomeNotificationFactory>();
-            
+
             var userData =
-                await ExternalUserLookupServiceProvider.FindByIdAsync(NotificationServiceProviderMailingTestConsts
+                await ExternalUserLookupServiceProvider.FindByIdAsync(NotificationServiceProviderSmsTestConsts
                     .FakeUser1Id);
 
             const string giftCardCode = "123456";    // a random gift card code

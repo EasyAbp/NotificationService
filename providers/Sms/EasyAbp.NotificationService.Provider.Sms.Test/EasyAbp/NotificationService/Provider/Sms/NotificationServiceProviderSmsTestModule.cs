@@ -18,7 +18,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
         typeof(NotificationServiceProviderSmsModule),
         typeof(NotificationServiceDomainTestModule)
     )]
-    public class NotificationServiceProviderMailingTestModule : AbpModule
+    public class NotificationServiceProviderSmsTestModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
@@ -27,7 +27,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
             
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.AddEmbedded<NotificationServiceProviderMailingTestModule>();
+                options.FileSets.AddEmbedded<NotificationServiceProviderSmsTestModule>();
             });
         }
         

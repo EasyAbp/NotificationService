@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using EasyAbp.NotificationService.Provider.Mailing;
+using EasyAbp.NotificationService.Provider.Sms;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Users;
 
@@ -12,19 +12,19 @@ namespace EasyAbp.NotificationService.Provider.Sms
     {
         public async Task<IUserData> FindByIdAsync(Guid id, CancellationToken cancellationToken = new CancellationToken())
         {
-            if (id == NotificationServiceProviderMailingTestConsts.FakeUser1Id)
+            if (id == NotificationServiceProviderSmsTestConsts.FakeUser1Id)
             {
                 return new UserData(
-                    NotificationServiceProviderMailingTestConsts.FakeUser1Id,
+                    NotificationServiceProviderSmsTestConsts.FakeUser1Id,
                     "fake1",
                     "user1@easyabp.io",
                     phoneNumber: "123456");
             }
             
-            if (id == NotificationServiceProviderMailingTestConsts.FakeUser2Id)
+            if (id == NotificationServiceProviderSmsTestConsts.FakeUser2Id)
             {
                 return new UserData(
-                    NotificationServiceProviderMailingTestConsts.FakeUser2Id,
+                    NotificationServiceProviderSmsTestConsts.FakeUser2Id,
                     "fake2",
                     "user2@easyabp.io",
                     phoneNumber: "654321");
