@@ -1,8 +1,8 @@
 <Project>
   <PropertyGroup>
 
-    <AbpVersion>4.3.0</AbpVersion>
-    <EasyAbpPrivateMessagingModuleVersion>1.1.2</EasyAbpPrivateMessagingModuleVersion>
+    <AbpVersion>4.4.0</AbpVersion>
+    <EasyAbpPrivateMessagingModuleVersion>1.2.2</EasyAbpPrivateMessagingModuleVersion>
 
   </PropertyGroup>
 </Project>
