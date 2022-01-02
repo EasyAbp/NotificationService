@@ -66,7 +66,7 @@ namespace EasyAbp.NotificationService
             {
                 httpClient.SetBearerToken(accessToken);
 
-                var url = _configuration["RemoteServices:NotificationService:BaseUrl"] +
+                var url = _configuration["RemoteServices:EasyAbpNotificationService:BaseUrl"] +
                           "api/NotificationService/sample/authorized";
 
                 var responseMessage = await httpClient.GetAsync(url);
@@ -127,7 +127,7 @@ namespace EasyAbp.NotificationService
             {
                 httpClient.SetBearerToken(tokenResponse.AccessToken);
 
-                var url = _configuration["RemoteServices:NotificationService:BaseUrl"] +
+                var url = _configuration["RemoteServices:EasyAbpNotificationService:BaseUrl"] +
                           "api/NotificationService/sample/authorized";
 
                 var responseMessage = await httpClient.GetAsync(url);

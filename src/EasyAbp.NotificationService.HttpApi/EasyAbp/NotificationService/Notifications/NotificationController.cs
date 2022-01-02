@@ -8,7 +8,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace EasyAbp.NotificationService.Notifications
 {
-    [RemoteService(Name = "EasyAbpNotificationService")]
+    [RemoteService(Name = NotificationServiceRemoteServiceConsts.RemoteServiceName)]
     [Route("/api/notification-service/notification")]
     public class NotificationController : NotificationServiceController, INotificationAppService
     {

@@ -1,9 +1,11 @@
 ﻿using EasyAbp.NotificationService.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace EasyAbp.NotificationService
 {
-    public abstract class NotificationServiceController : AbpController
+    [Area(NotificationServiceRemoteServiceConsts.ModuleName)]
+    public abstract class NotificationServiceController : AbpControllerBase
     {
         protected NotificationServiceController()
         {

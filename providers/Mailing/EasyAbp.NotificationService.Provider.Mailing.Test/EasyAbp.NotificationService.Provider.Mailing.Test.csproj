@@ -1,14 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\..\common.props" />
-
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
+        <IsPackable>false</IsPackable>
         <RootNamespace />
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
         <PackageReference Include="NSubstitute" Version="4.2.2" />
         <PackageReference Include="Shouldly" Version="4.0.1" />
         <PackageReference Include="xunit" Version="2.4.1" />
@@ -23,10 +22,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="EasyAbp\NotificationService\Provider\Mailing\UserWelcomeNotifications\UserWelcomeEmailBody.tpl" />
-      <EmbeddedResource Include="EasyAbp\NotificationService\Provider\Mailing\UserWelcomeNotifications\UserWelcomeEmailBody.tpl" />
-      <None Remove="EasyAbp\NotificationService\Provider\Mailing\UserWelcomeNotifications\UserWelcomeEmailSubject.tpl" />
-      <EmbeddedResource Include="EasyAbp\NotificationService\Provider\Mailing\UserWelcomeNotifications\UserWelcomeEmailSubject.tpl" />
+      <None Remove="**\*.tpl" />
+      <EmbeddedResource Include="**\*.tpl" />
     </ItemGroup>
 
 </Project>

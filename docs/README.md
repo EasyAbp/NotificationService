@@ -3,6 +3,7 @@
 [![ABP version](https://img.shields.io/badge/dynamic/xml?style=flat-square&color=yellow&label=abp&query=%2F%2FProject%2FPropertyGroup%2FAbpVersion&url=https%3A%2F%2Fraw.githubusercontent.com%2FEasyAbp%2FNotificationService%2Fmaster%2FDirectory.Build.props)](https://abp.io)
 [![NuGet](https://img.shields.io/nuget/v/EasyAbp.NotificationService.Domain.Shared.svg?style=flat-square)](https://www.nuget.org/packages/EasyAbp.NotificationService.Domain.Shared)
 [![NuGet Download](https://img.shields.io/nuget/dt/EasyAbp.NotificationService.Domain.Shared.svg?style=flat-square)](https://www.nuget.org/packages/EasyAbp.NotificationService.Domain.Shared)
+[![Discord online](https://badgen.net/discord/online-members/S6QaezrCRq?label=Discord)](https://discord.gg/S6QaezrCRq)
 [![GitHub stars](https://img.shields.io/github/stars/EasyAbp/NotificationService?style=social)](https://www.github.com/EasyAbp/NotificationService)
 
 An integrated user notification service Abp module, supporting email, SMS, PM, and more other methods.
@@ -25,6 +26,7 @@ We have launched an online demo for this module: [https://notification.samples.e
     * (Optional) EasyAbp.NotificationService.MongoDB
     * (Optional) EasyAbp.NotificationService.Web
     * (Optional) EasyAbp.NotificationService.Provider.Mailing
+    * (Optional) EasyAbp.NotificationService.Provider.PrivateMessaging
     * (Optional) EasyAbp.NotificationService.Provider.Sms
 
 1. Add `DependsOn(typeof(NotificationServiceXxxModule))` attribute to configure the module dependencies. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-module-dependencies))

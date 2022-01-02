@@ -24,7 +24,7 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
             _clock = clock;
         }
 
-        [UnitOfWork(true)]
+        [UnitOfWork]
         public virtual async Task HandleEventAsync(PrivateMessageSentEto eventData)
         {
             if (!eventData.HasProperty(NotificationProviderPrivateMessagingConsts.NotificationIdPropertyName))

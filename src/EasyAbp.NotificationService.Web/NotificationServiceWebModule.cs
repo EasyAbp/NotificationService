@@ -13,7 +13,7 @@ using EasyAbp.NotificationService.Permissions;
 namespace EasyAbp.NotificationService.Web
 {
     [DependsOn(
-        typeof(NotificationServiceHttpApiModule),
+        typeof(NotificationServiceApplicationContractsModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
         typeof(AbpAutoMapperModule)
         )]
