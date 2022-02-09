@@ -10,14 +10,14 @@ namespace EasyAbp.NotificationService.HttpApi.Client.ConsoleTestApp
     {
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using (var application = AbpApplicationFactory.Create<NotificationServiceConsoleApiClientModule>())
+            using (var application = await AbpApplicationFactory.CreateAsync<NotificationServiceConsoleApiClientModule>())
             {
-                application.Initialize();
+                await application.InitializeAsync();
 
                 var demo = application.ServiceProvider.GetRequiredService<ClientDemoService>();
                 await demo.RunAsync();
 
-                application.Shutdown();
+                await application.ShutdownAsync();
             }
         }
 
