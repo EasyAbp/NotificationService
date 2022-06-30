@@ -8,7 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\EasyAbp.NotificationService.Application\EasyAbp.NotificationService.Application.csproj" />
     <ProjectReference Include="..\EasyAbp.NotificationService.Domain.Tests\EasyAbp.NotificationService.Domain.Tests.csproj" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
   </ItemGroup>
 
 </Project>
