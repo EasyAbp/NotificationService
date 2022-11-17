@@ -8,7 +8,7 @@ using Xunit;
 
 namespace EasyAbp.NotificationService.Provider.PrivateMessaging
 {
-    public class NotificationFactoryTests : NotificationServiceTestBase<NotificationServiceProviderPrivateMessagingTestModule>
+    public class NotificationFactoryTests : NotificationServiceTestBase<NotificationServiceProviderPrivateMessagingTestsModule>
     {
         
         public NotificationFactoryTests()
