@@ -17,7 +17,7 @@ using Xunit;
 
 namespace EasyAbp.NotificationService.Provider.PrivateMessaging
 {
-    public class PrivateMessagingNotificationTests : NotificationServiceTestBase<NotificationServiceProviderPrivateMessagingTestModule>
+    public class PrivateMessagingNotificationTests : NotificationServiceTestBase<NotificationServiceProviderPrivateMessagingTestsModule>
     {
         private const string Content = "MyContent";
         private const string Title = "MyTitle";

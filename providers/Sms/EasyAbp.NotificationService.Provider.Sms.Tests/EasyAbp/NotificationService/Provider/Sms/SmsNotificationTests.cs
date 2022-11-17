@@ -13,7 +13,7 @@ using Xunit;
 
 namespace EasyAbp.NotificationService.Provider.Sms
 {
-    public class SmsNotificationTests : NotificationServiceTestBase<NotificationServiceProviderSmsTestModule>
+    public class SmsNotificationTests : NotificationServiceTestBase<NotificationServiceProviderSmsTestsModule>
     {
         private const string Text = "test";
         private const string ExtraPropertyKey = "MyProperty";

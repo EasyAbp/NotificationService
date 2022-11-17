@@ -4,36 +4,36 @@ using Volo.Abp;
 using Volo.Abp.Authorization;
 using Volo.Abp.Autofac;
 using Volo.Abp.BackgroundJobs;
-using Volo.Abp.Emailing;
 using Volo.Abp.Modularity;
+using Volo.Abp.Sms;
 using Volo.Abp.VirtualFileSystem;
 
-namespace EasyAbp.NotificationService.Provider.Mailing
+namespace EasyAbp.NotificationService.Provider.Sms
 {
     [DependsOn(
         typeof(AbpAutofacModule),
         typeof(AbpTestBaseModule),
         typeof(AbpAuthorizationModule),
         typeof(AbpBackgroundJobsModule),
-        typeof(NotificationServiceProviderMailingModule),
+        typeof(NotificationServiceProviderSmsModule),
         typeof(NotificationServiceDomainTestModule)
     )]
-    public class NotificationServiceProviderMailingTestModule : AbpModule
+    public class NotificationServiceProviderSmsTestsModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.TryAddSingleton<IBackgroundJobManager, NullBackgroundJobManager>();
-            context.Services.TryAddTransient<IAsyncBackgroundJob<EmailNotificationSendingJobArgs>, EmailNotificationSendingJob>();
+            context.Services.TryAddTransient<IAsyncBackgroundJob<SmsNotificationSendingJobArgs>, SmsNotificationSendingJob>();
             
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.AddEmbedded<NotificationServiceProviderMailingTestModule>();
+                options.FileSets.AddEmbedded<NotificationServiceProviderSmsTestsModule>();
             });
         }
         
         public override void PostConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
+            context.Services.Replace(ServiceDescriptor.Singleton<ISmsSender, NullSmsSender>());
         }
     }
 }

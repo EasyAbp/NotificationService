@@ -13,7 +13,7 @@ using Xunit;
 
 namespace EasyAbp.NotificationService.Provider.Mailing
 {
-    public class MailingNotificationTests : NotificationServiceTestBase<NotificationServiceProviderMailingTestModule>
+    public class MailingNotificationTests : NotificationServiceTestBase<NotificationServiceProviderMailingTestsModule>
     {
         private const string Subject = "test";
         private const string Body = "test123";
