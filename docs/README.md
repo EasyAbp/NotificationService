@@ -28,6 +28,7 @@ We have launched an online demo for this module: [https://notification.samples.e
     * (Optional) EasyAbp.NotificationService.Provider.Mailing
     * (Optional) EasyAbp.NotificationService.Provider.PrivateMessaging
     * (Optional) EasyAbp.NotificationService.Provider.Sms
+    * (Optional) EasyAbp.NotificationService.Provider.WeChatOfficial
 
 1. Add `DependsOn(typeof(NotificationServiceXxxModule))` attribute to configure the module dependencies. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-module-dependencies))
 
@@ -51,7 +52,7 @@ You can create a notification using a notification factory or manually.
         {
             var text = $"Hello, {model.UserName}, here is a gift card code for you: {model.GiftCardCode}";
 
-            return new CreateSmsNotificationEto(userIds, text, new Dictionary<string, object>());
+            return new CreateSmsNotificationEto(CurrentTenant.Id, userIds, text, new Dictionary<string, object>());
         }
     }
     ```
@@ -71,10 +72,18 @@ You can create a notification using a notification factory or manually.
 Publish the notification.
 
 ```csharp
-await distributedEventBus.PublishAsync(new CreateEmailNotificationEto(userIds, subject, body));
+await distributedEventBus.PublishAsync(
+    new CreateEmailNotificationEto(CurrentTenant.Id, userIds, subject, body));
 ```
 
 ![Notifications](/docs/images/Notifications.png)
+
+## Providers
+
+* Mailing
+* PrivateMessaging
+* Sms
+* [WeChatOfficial](/docs/WeChatOfficial.md)
 
 ## Q&A
 
@@ -88,6 +97,7 @@ You can use the [ABP Text Templating](https://docs.abp.io/en/abp/latest/Text-Tem
 
 ## Road map
 
-- [ ] Private messaging notification provider.
-- [ ] WeChat uniform message notification provider.
+- [x] Private messaging notification provider.
+- [x] WeChat official template message notification provider.
+- [ ] WeChat mini-program subscribe message notification provider.
 - [ ] Notification management UI.
