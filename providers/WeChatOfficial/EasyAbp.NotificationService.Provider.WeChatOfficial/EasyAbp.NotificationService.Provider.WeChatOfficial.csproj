@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RootNamespace />
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="EasyAbp.Abp.WeChat.Official" Version="$(EasyAbpAbpWeChatModuleVersion)" />
+        <ProjectReference Include="..\..\..\src\EasyAbp.NotificationService.Domain\EasyAbp.NotificationService.Domain.csproj" />
+        <ProjectReference Include="..\EasyAbp.NotificationService.Provider.WeChatOfficial.Abstractions\EasyAbp.NotificationService.Provider.WeChatOfficial.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>

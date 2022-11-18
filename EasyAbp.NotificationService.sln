@@ -75,6 +75,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyAbp.NotificationService
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.PrivateMessaging.Tests", "providers\PrivateMessaing\EasyAbp.NotificationService.Provider.PrivateMessaging.Tests\EasyAbp.NotificationService.Provider.PrivateMessaging.Tests.csproj", "{750AF62D-A795-4003-85E7-0DDF5928F274}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeChatOfficial", "WeChatOfficial", "{17B5C253-8A68-477C-BA7F-63A603E20BBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.WeChatOfficial.Abstractions", "providers\WeChatOfficial\EasyAbp.NotificationService.Provider.WeChatOfficial.Abstractions\EasyAbp.NotificationService.Provider.WeChatOfficial.Abstractions.csproj", "{BA8DF4A3-A40F-421E-9379-ECCC534CAF48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.WeChatOfficial", "providers\WeChatOfficial\EasyAbp.NotificationService.Provider.WeChatOfficial\EasyAbp.NotificationService.Provider.WeChatOfficial.csproj", "{90D137F2-C316-4B71-A30B-3030664B60DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAbp.NotificationService.Provider.WeChatOfficial.Tests", "providers\WeChatOfficial\EasyAbp.NotificationService.Provider.WeChatOfficial.Tests\EasyAbp.NotificationService.Provider.WeChatOfficial.Tests.csproj", "{232BA177-2616-4686-B429-BD3C3F50A390}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,6 +205,18 @@ Global
 		{750AF62D-A795-4003-85E7-0DDF5928F274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{750AF62D-A795-4003-85E7-0DDF5928F274}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{750AF62D-A795-4003-85E7-0DDF5928F274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA8DF4A3-A40F-421E-9379-ECCC534CAF48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA8DF4A3-A40F-421E-9379-ECCC534CAF48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA8DF4A3-A40F-421E-9379-ECCC534CAF48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA8DF4A3-A40F-421E-9379-ECCC534CAF48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90D137F2-C316-4B71-A30B-3030664B60DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90D137F2-C316-4B71-A30B-3030664B60DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90D137F2-C316-4B71-A30B-3030664B60DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90D137F2-C316-4B71-A30B-3030664B60DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{232BA177-2616-4686-B429-BD3C3F50A390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{232BA177-2616-4686-B429-BD3C3F50A390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{232BA177-2616-4686-B429-BD3C3F50A390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{232BA177-2616-4686-B429-BD3C3F50A390}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -234,6 +254,10 @@ Global
 		{E343D8C5-EEA2-466D-A70F-FC425D758AC8} = {54A046F1-1CA8-47F1-A2F1-E18812D721A9}
 		{00EEE07E-57FA-4D33-A387-9BF1BF767C24} = {54A046F1-1CA8-47F1-A2F1-E18812D721A9}
 		{750AF62D-A795-4003-85E7-0DDF5928F274} = {54A046F1-1CA8-47F1-A2F1-E18812D721A9}
+		{17B5C253-8A68-477C-BA7F-63A603E20BBD} = {621818C1-51D2-4358-AAA5-B7A8535209E2}
+		{BA8DF4A3-A40F-421E-9379-ECCC534CAF48} = {17B5C253-8A68-477C-BA7F-63A603E20BBD}
+		{90D137F2-C316-4B71-A30B-3030664B60DF} = {17B5C253-8A68-477C-BA7F-63A603E20BBD}
+		{232BA177-2616-4686-B429-BD3C3F50A390} = {17B5C253-8A68-477C-BA7F-63A603E20BBD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4324B3B4-B60B-4E3C-91D8-59576B4E26DD}
