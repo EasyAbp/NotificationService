@@ -12,6 +12,12 @@
 
 You can create a notification using a notification factory or manually.
 
+### 实现 `IWeChatOfficialUserOpenIdProvider`
+
+你需要实现`IWeChatOfficialUserOpenIdProvider`，否则本模块无法获知目标用户的 OpenId。
+
+Todo: demo
+
 ### Create with Notification Factory
 
 1. Create a factory.
