@@ -1,14 +1,29 @@
 using System.Threading.Tasks;
+using EasyAbp.Abp.WeChat.Common.Infrastructure.Services;
+using EasyAbp.Abp.WeChat.Official.Services.TemplateMessage;
 using EasyAbp.NotificationService.Provider.WeChatOfficial.UserWelcomeNotifications;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using NSubstitute;
 using Shouldly;
 using Xunit;
 
 namespace EasyAbp.NotificationService.Provider.WeChatOfficial
 {
-    public class
-        NotificationFactoryTests : NotificationServiceTestBase<NotificationServiceProviderWeChatOfficialTestsModule>
+    public class NotificationFactoryTests :
+        NotificationServiceTestBase<NotificationServiceProviderWeChatOfficialTestsModule>
     {
+        protected override void AfterAddApplication(IServiceCollection services)
+        {
+            base.AfterAddApplication(services);
+
+            var abpWeChatServiceFactory = Substitute.For<IAbpWeChatServiceFactory>();
+            services.Replace(ServiceDescriptor.Transient(s => abpWeChatServiceFactory));
+
+            abpWeChatServiceFactory.CreateAsync<TemplateMessageWeService>(Arg.Any<string>())
+                .Returns(new FakeTemplateMessageWeService(null, null));
+        }
+
         [Fact]
         public async Task Should_Create_User_Welcome_Notification()
         {

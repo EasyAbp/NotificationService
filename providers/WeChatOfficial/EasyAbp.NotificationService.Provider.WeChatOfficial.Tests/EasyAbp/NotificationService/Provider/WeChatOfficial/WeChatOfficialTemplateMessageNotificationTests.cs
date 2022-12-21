@@ -2,23 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyAbp.Abp.WeChat.Common.Infrastructure.Services;
 using EasyAbp.Abp.WeChat.Official.Services.TemplateMessage;
 using EasyAbp.Abp.WeChat.Official.Services.TemplateMessage.Request;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using NSubstitute;
 using Shouldly;
-using Volo.Abp.BackgroundJobs;
-using Volo.Abp.Json;
 using Volo.Abp.MultiTenancy;
 using Xunit;
 
 namespace EasyAbp.NotificationService.Provider.WeChatOfficial
 {
-    public class
-        WeChatOfficialTemplateMessageNotificationTests : NotificationServiceTestBase<
-            NotificationServiceProviderWeChatOfficialTestsModule>
+    public class WeChatOfficialTemplateMessageNotificationTests :
+        NotificationServiceTestBase<NotificationServiceProviderWeChatOfficialTestsModule>
     {
         protected ICurrentTenant CurrentTenant { get; set; }
         protected ITemplateMessageDataModelJsonSerializer JsonSerializer { get; set; }
@@ -33,6 +33,17 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
             NotificationRepository = ServiceProvider.GetRequiredService<INotificationRepository>();
             NotificationInfoRepository = ServiceProvider.GetRequiredService<INotificationInfoRepository>();
             NotificationSendingJob = ServiceProvider.GetRequiredService<SendWeChatOfficialTemplateMessageJob>();
+        }
+
+        protected override void AfterAddApplication(IServiceCollection services)
+        {
+            base.AfterAddApplication(services);
+
+            var abpWeChatServiceFactory = Substitute.For<IAbpWeChatServiceFactory>();
+            services.Replace(ServiceDescriptor.Transient(s => abpWeChatServiceFactory));
+
+            abpWeChatServiceFactory.CreateAsync<TemplateMessageWeService>(Arg.Any<string>())
+                .Returns(new FakeTemplateMessageWeService(null, null));
         }
 
         [Fact]
@@ -135,29 +146,6 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
             notification.CompletionTime.ShouldNotBeNull();
             notification.FailureReason.ShouldBe(
                 NotificationProviderWeChatOfficialConsts.UserOpenIdNotFoundFailureReason);
-        }
-
-        [Fact]
-        public async Task Should_Set_Notification_Result_To_Failure_If_AbpWeChatOfficialOptions_Not_Found()
-        {
-            var userIds = new List<Guid>
-            {
-                NotificationServiceProviderWeChatOfficialTestConsts.FakeUser1Id
-            };
-
-            await CreateWeChatOfficialTemplateMessageNotificationAsync(userIds, "my-official-appid");
-
-            var notification = (await NotificationRepository.GetListAsync()).First();
-
-            await NotificationSendingJob.ExecuteAsync(
-                new SendWeChatOfficialTemplateMessageJobArgs(notification.TenantId, notification.Id));
-
-            notification = await NotificationRepository.GetAsync(notification.Id);
-
-            notification.Success.ShouldBe(false);
-            notification.CompletionTime.ShouldNotBeNull();
-            notification.FailureReason.ShouldBe(
-                NotificationProviderWeChatOfficialConsts.AbpWeChatOfficialOptionsNotFoundFailureReason);
         }
     }
 }
