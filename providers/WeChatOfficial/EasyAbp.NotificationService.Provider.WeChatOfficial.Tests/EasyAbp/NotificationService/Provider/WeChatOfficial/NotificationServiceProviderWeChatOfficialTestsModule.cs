@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using EasyAbp.Abp.WeChat.Official.Options;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Volo.Abp;
 using Volo.Abp.Authorization;
 using Volo.Abp.Autofac;
@@ -20,6 +21,12 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.TryAddSingleton<IBackgroundJobManager, NullBackgroundJobManager>();
+
+            Configure<AbpWeChatOfficialOptions>(options =>
+            {
+                options.AppId = "my-appid";
+                options.AppSecret = "my-appsecret";
+            });
         }
     }
 }

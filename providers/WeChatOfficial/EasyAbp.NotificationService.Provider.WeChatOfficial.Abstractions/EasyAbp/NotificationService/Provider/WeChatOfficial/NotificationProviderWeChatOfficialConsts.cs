@@ -6,7 +6,7 @@
 
         public const string NotificationInfoDataModelPropertyName = "DataModel";
 
-        public const string AbpWeChatOfficialOptionsNotFoundFailureReason = "Cannot resolve AbpWeChatOfficialOptions";
+        public const string FailedToCreateTemplateMessageWeServiceFailureReason = "Failed to create TemplateMessageWeService";
         
         public const string UserOpenIdNotFoundFailureReason = "Cannot resolve user's openid";
     }

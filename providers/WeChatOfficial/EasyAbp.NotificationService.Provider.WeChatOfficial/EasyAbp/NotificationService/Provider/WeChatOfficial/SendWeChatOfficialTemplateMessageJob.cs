@@ -1,13 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using EasyAbp.Abp.WeChat.Official.Infrastructure.OptionsResolve.Contributors;
+using EasyAbp.Abp.WeChat.Common.Infrastructure.Services;
 using EasyAbp.Abp.WeChat.Official.Services.TemplateMessage;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.Json;
 using Volo.Abp.Timing;
 using Volo.Abp.Uow;
 
@@ -17,32 +17,26 @@ public class SendWeChatOfficialTemplateMessageJob : AsyncBackgroundJob<SendWeCha
     ITransientDependency
 {
     private readonly IClock _clock;
+    private readonly IAbpWeChatServiceFactory _abpWeChatServiceFactory;
     private readonly ITemplateMessageDataModelJsonSerializer _jsonSerializer;
-    private readonly TemplateMessageService _templateMessageService;
     private readonly INotificationRepository _notificationRepository;
     private readonly INotificationInfoRepository _notificationInfoRepository;
-    private readonly IWeChatOfficialAsyncLocal _weChatOfficialAsyncLocal;
     private readonly IWeChatOfficialUserOpenIdProvider _userOpenIdProvider;
-    private readonly IAbpWeChatOfficialOptionsProvider _abpWeChatOfficialOptionsProvider;
 
     public SendWeChatOfficialTemplateMessageJob(
         IClock clock,
+        IAbpWeChatServiceFactory abpWeChatServiceFactory,
         ITemplateMessageDataModelJsonSerializer jsonSerializer,
-        TemplateMessageService templateMessageService,
         INotificationRepository notificationRepository,
         INotificationInfoRepository notificationInfoRepository,
-        IWeChatOfficialAsyncLocal weChatOfficialAsyncLocal,
-        IWeChatOfficialUserOpenIdProvider userOpenIdProvider,
-        IAbpWeChatOfficialOptionsProvider abpWeChatOfficialOptionsProvider)
+        IWeChatOfficialUserOpenIdProvider userOpenIdProvider)
     {
         _clock = clock;
+        _abpWeChatServiceFactory = abpWeChatServiceFactory;
         _jsonSerializer = jsonSerializer;
-        _templateMessageService = templateMessageService;
         _notificationRepository = notificationRepository;
         _notificationInfoRepository = notificationInfoRepository;
-        _weChatOfficialAsyncLocal = weChatOfficialAsyncLocal;
         _userOpenIdProvider = userOpenIdProvider;
-        _abpWeChatOfficialOptionsProvider = abpWeChatOfficialOptionsProvider;
     }
 
     [UnitOfWork]
@@ -54,26 +48,7 @@ public class SendWeChatOfficialTemplateMessageJob : AsyncBackgroundJob<SendWeCha
 
         var dataModel = notificationInfo.GetWeChatOfficialTemplateMessageData(_jsonSerializer);
 
-        if (dataModel.AppId.IsNullOrWhiteSpace())
-        {
-            await SendTemplateMessageAsync(dataModel, notification);
-        }
-        else
-        {
-            var options = await _abpWeChatOfficialOptionsProvider.GetOrNullAsync(dataModel.AppId!);
-
-            if (options is null)
-            {
-                await SaveNotificationResultAsync(notification, false,
-                    NotificationProviderWeChatOfficialConsts.AbpWeChatOfficialOptionsNotFoundFailureReason);
-
-                return;
-            }
-
-            using var change = _weChatOfficialAsyncLocal.Change(options);
-
-            await SendTemplateMessageAsync(dataModel, notification);
-        }
+        await SendTemplateMessageAsync(dataModel, notification);
     }
 
     protected virtual async Task SendTemplateMessageAsync(WeChatOfficialTemplateMessageDataModel dataModel,
@@ -89,7 +64,24 @@ public class SendWeChatOfficialTemplateMessageJob : AsyncBackgroundJob<SendWeCha
             return;
         }
 
-        var response = await _templateMessageService.SendMessageAsync(
+        TemplateMessageWeService templateMessageWeService;
+
+        try
+        {
+            templateMessageWeService =
+                await _abpWeChatServiceFactory.CreateAsync<TemplateMessageWeService>(dataModel.AppId);
+        }
+        catch (Exception e)
+        {
+            await SaveNotificationResultAsync(notification, false,
+                NotificationProviderWeChatOfficialConsts.FailedToCreateTemplateMessageWeServiceFailureReason);
+
+            Logger.LogException(e);
+
+            return;
+        }
+
+        var response = await templateMessageWeService.SendMessageAsync(
             openId, dataModel.TemplateId, dataModel.Url, dataModel.Data, dataModel.MiniProgram);
 
         if (response.ErrorCode == 0)
