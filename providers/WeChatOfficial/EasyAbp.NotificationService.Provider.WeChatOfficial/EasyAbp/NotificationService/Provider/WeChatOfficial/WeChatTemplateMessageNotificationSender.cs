@@ -11,11 +11,11 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial;
 public class WeChatTemplateMessageNotificationSender : IWeChatTemplateMessageNotificationSender, ITransientDependency
 {
     protected IAbpWeChatServiceFactory AbpWeChatServiceFactory { get; }
-    protected Logger<WeChatTemplateMessageNotificationSender> Logger { get; }
+    protected ILogger<WeChatTemplateMessageNotificationSender> Logger { get; }
 
     public WeChatTemplateMessageNotificationSender(
         IAbpWeChatServiceFactory abpWeChatServiceFactory,
-        Logger<WeChatTemplateMessageNotificationSender> logger)
+        ILogger<WeChatTemplateMessageNotificationSender> logger)
     {
         AbpWeChatServiceFactory = abpWeChatServiceFactory;
         Logger = logger;
