@@ -1,11 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using EasyAbp.Abp.WeChat.Common.Infrastructure.Services;
-using EasyAbp.Abp.WeChat.Official.Services.TemplateMessage;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Timing;
@@ -17,26 +14,26 @@ public class SendWeChatOfficialTemplateMessageJob : AsyncBackgroundJob<SendWeCha
     ITransientDependency
 {
     private readonly IClock _clock;
-    private readonly IAbpWeChatServiceFactory _abpWeChatServiceFactory;
     private readonly ITemplateMessageDataModelJsonSerializer _jsonSerializer;
     private readonly INotificationRepository _notificationRepository;
     private readonly INotificationInfoRepository _notificationInfoRepository;
     private readonly IWeChatOfficialUserOpenIdProvider _userOpenIdProvider;
+    private readonly IWeChatTemplateMessageNotificationSender _notificationSender;
 
     public SendWeChatOfficialTemplateMessageJob(
         IClock clock,
-        IAbpWeChatServiceFactory abpWeChatServiceFactory,
         ITemplateMessageDataModelJsonSerializer jsonSerializer,
         INotificationRepository notificationRepository,
         INotificationInfoRepository notificationInfoRepository,
-        IWeChatOfficialUserOpenIdProvider userOpenIdProvider)
+        IWeChatOfficialUserOpenIdProvider userOpenIdProvider,
+        IWeChatTemplateMessageNotificationSender notificationSender)
     {
         _clock = clock;
-        _abpWeChatServiceFactory = abpWeChatServiceFactory;
         _jsonSerializer = jsonSerializer;
         _notificationRepository = notificationRepository;
         _notificationInfoRepository = notificationInfoRepository;
         _userOpenIdProvider = userOpenIdProvider;
+        _notificationSender = notificationSender;
     }
 
     [UnitOfWork]
@@ -64,33 +61,15 @@ public class SendWeChatOfficialTemplateMessageJob : AsyncBackgroundJob<SendWeCha
             return;
         }
 
-        TemplateMessageWeService templateMessageWeService;
+        var response = await _notificationSender.SendAsync(openId, dataModel);
 
-        try
-        {
-            templateMessageWeService =
-                await _abpWeChatServiceFactory.CreateAsync<TemplateMessageWeService>(dataModel.AppId);
-        }
-        catch (Exception e)
-        {
-            await SaveNotificationResultAsync(notification, false,
-                NotificationProviderWeChatOfficialConsts.FailedToCreateTemplateMessageWeServiceFailureReason);
-
-            Logger.LogException(e);
-
-            return;
-        }
-
-        var response = await templateMessageWeService.SendMessageAsync(
-            openId, dataModel.TemplateId, dataModel.Url, dataModel.Data, dataModel.MiniProgram);
-
-        if (response.ErrorCode == 0)
+        if (response?.ErrorCode == 0)
         {
             await SaveNotificationResultAsync(notification, true);
         }
         else
         {
-            await SaveNotificationResultAsync(notification, false, response.ErrorMessage);
+            await SaveNotificationResultAsync(notification, false, response?.ErrorMessage ?? "See exception logs");
         }
     }
 
