@@ -6,13 +6,16 @@ using JetBrains.Annotations;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Emailing;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Timing;
 using Volo.Abp.Uow;
 
 namespace EasyAbp.NotificationService.Provider.Mailing
 {
-    public class EmailNotificationSendingJob : IAsyncBackgroundJob<EmailNotificationSendingJobArgs>, ITransientDependency
+    public class EmailNotificationSendingJob : IAsyncBackgroundJob<EmailNotificationSendingJobArgs>,
+        ITransientDependency
     {
+        private readonly ICurrentTenant _currentTenant;
         private readonly INotificationInfoRepository _notificationInfoRepository;
         private readonly IUserEmailAddressProvider _userEmailAddressProvider;
         private readonly INotificationRepository _notificationRepository;
@@ -20,38 +23,46 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         private readonly IClock _clock;
 
         public EmailNotificationSendingJob(
+            ICurrentTenant currentTenant,
             INotificationInfoRepository notificationInfoRepository,
             IUserEmailAddressProvider userEmailAddressProvider,
             INotificationRepository notificationRepository,
             IEmailSender emailSender,
             IClock clock)
         {
+            _currentTenant = currentTenant;
             _notificationInfoRepository = notificationInfoRepository;
             _userEmailAddressProvider = userEmailAddressProvider;
             _notificationRepository = notificationRepository;
             _emailSender = emailSender;
             _clock = clock;
         }
-        
+
         [UnitOfWork]
         public virtual async Task ExecuteAsync(EmailNotificationSendingJobArgs args)
         {
+            using var changeTenant = _currentTenant.Change(args.TenantId);
+
             var notification = await _notificationRepository.GetAsync(args.NotificationId);
 
             var userEmailAddress = await _userEmailAddressProvider.GetAsync(notification.UserId);
 
             if (userEmailAddress.IsNullOrWhiteSpace())
             {
-                await SaveNotificationResultAsync(notification, false, NotificationConsts.FailureReasons.ReceiverInfoNotFound);
+                await SaveNotificationResultAsync(
+                    notification, false, NotificationConsts.FailureReasons.ReceiverInfoNotFound);
+
                 return;
             }
-            
+
             var notificationInfo = await _notificationInfoRepository.GetAsync(notification.NotificationInfoId);
 
             await _emailSender.SendAsync(userEmailAddress,
-                notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoSubjectPropertyName).ToString(),
-                notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoBodyPropertyName).ToString());
-            
+                notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoSubjectPropertyName)
+                    .ToString(),
+                notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoBodyPropertyName)
+                    .ToString());
+
             await SaveNotificationResultAsync(notification, true);
         }
 

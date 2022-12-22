@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
@@ -18,26 +19,26 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
     {
         private readonly ICurrentTenant _currentTenant;
         private readonly IGuidGenerator _guidGenerator;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly ITemplateMessageDataModelJsonSerializer _jsonSerializer;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
-        private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly INotificationRepository _notificationRepository;
         private readonly INotificationInfoRepository _notificationInfoRepository;
 
         public CreateWeChatOfficialTemplateMessageNotificationEventHandler(
             ICurrentTenant currentTenant,
             IGuidGenerator guidGenerator,
+            IServiceScopeFactory serviceScopeFactory,
             ITemplateMessageDataModelJsonSerializer jsonSerializer,
             IUnitOfWorkManager unitOfWorkManager,
-            IBackgroundJobManager backgroundJobManager,
             INotificationRepository notificationRepository,
             INotificationInfoRepository notificationInfoRepository)
         {
             _currentTenant = currentTenant;
             _guidGenerator = guidGenerator;
+            _serviceScopeFactory = serviceScopeFactory;
             _jsonSerializer = jsonSerializer;
             _unitOfWorkManager = unitOfWorkManager;
-            _backgroundJobManager = backgroundJobManager;
             _notificationRepository = notificationRepository;
             _notificationInfoRepository = notificationInfoRepository;
         }
@@ -61,9 +62,13 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
             // todo: should use Stepping.NET or distributed event bus to ensure done?
             _unitOfWorkManager.Current.OnCompleted(async () =>
             {
+                using var scope = _serviceScopeFactory.CreateScope();
+
+                var backgroundJobManager = scope.ServiceProvider.GetRequiredService<IBackgroundJobManager>();
+
                 foreach (var notification in notifications)
                 {
-                    await _backgroundJobManager.EnqueueAsync(
+                    await backgroundJobManager.EnqueueAsync(
                         new SendWeChatOfficialTemplateMessageJobArgs(notification.TenantId, notification.Id));
                 }
             });
