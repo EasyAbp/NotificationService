@@ -17,20 +17,21 @@ namespace EasyAbp.NotificationService.Provider.Mailing
     {
         private const string Subject = "test";
         private const string Body = "test123";
-        
+
         protected ICurrentTenant CurrentTenant { get; set; }
         protected INotificationRepository NotificationRepository { get; set; }
         protected INotificationInfoRepository NotificationInfoRepository { get; set; }
         protected IAsyncBackgroundJob<EmailNotificationSendingJobArgs> EmailNotificationSendingJob { get; set; }
-        
+
         public MailingNotificationTests()
         {
             CurrentTenant = ServiceProvider.GetRequiredService<ICurrentTenant>();
             NotificationRepository = ServiceProvider.GetRequiredService<INotificationRepository>();
             NotificationInfoRepository = ServiceProvider.GetRequiredService<INotificationInfoRepository>();
-            EmailNotificationSendingJob = ServiceProvider.GetRequiredService<IAsyncBackgroundJob<EmailNotificationSendingJobArgs>>();
+            EmailNotificationSendingJob =
+                ServiceProvider.GetRequiredService<IAsyncBackgroundJob<EmailNotificationSendingJobArgs>>();
         }
-        
+
         [Fact]
         public async Task Should_Create_Notifications()
         {
@@ -41,16 +42,16 @@ namespace EasyAbp.NotificationService.Provider.Mailing
             };
 
             await CreateEmailNotificationAsync(userIds, Subject, Body);
-            
+
             var notifications = await NotificationRepository.GetListAsync();
-            
+
             notifications.Count.ShouldBe(2);
 
             foreach (var notification in userIds.Select(userId => notifications.Find(x => x.UserId == userId)))
             {
                 notification.ShouldNotBeNull();
             }
-            
+
             var notificationInfo = await NotificationInfoRepository.GetAsync(notifications.First().NotificationInfoId);
 
             var subject = notificationInfo
@@ -58,7 +59,7 @@ namespace EasyAbp.NotificationService.Provider.Mailing
 
             var body = notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoBodyPropertyName)
                 .ToString();
-            
+
             subject.ShouldBe(Subject);
             body.ShouldBe(Body);
         }
@@ -66,7 +67,7 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         private async Task CreateEmailNotificationAsync(List<Guid> userIds, string subject, string body)
         {
             var handler = ServiceProvider.GetRequiredService<CreateEmailNotificationEventHandler>();
-            
+
             var eto = new CreateEmailNotificationEto(CurrentTenant.Id, userIds, subject, body);
 
             await handler.HandleEventAsync(eto);
@@ -81,18 +82,19 @@ namespace EasyAbp.NotificationService.Provider.Mailing
             };
 
             await CreateEmailNotificationAsync(userIds, Subject, Body);
-            
+
             var notification = (await NotificationRepository.GetListAsync()).First();
 
-            await EmailNotificationSendingJob.ExecuteAsync(new EmailNotificationSendingJobArgs(notification.Id));
-            
+            await EmailNotificationSendingJob.ExecuteAsync(
+                new EmailNotificationSendingJobArgs(notification.TenantId, notification.Id));
+
             notification = await NotificationRepository.GetAsync(notification.Id);
 
             notification.Success.ShouldBe(true);
             notification.CompletionTime.ShouldNotBeNull();
             notification.FailureReason.ShouldBeNull();
         }
-        
+
         [Fact]
         public async Task Should_Set_Notification_Result_To_Failure_If_User_Not_Found()
         {
@@ -102,13 +104,14 @@ namespace EasyAbp.NotificationService.Provider.Mailing
             };
 
             await CreateEmailNotificationAsync(userIds, Subject, Body);
-            
+
             var notification = (await NotificationRepository.GetListAsync()).First();
 
-            await EmailNotificationSendingJob.ExecuteAsync(new EmailNotificationSendingJobArgs(notification.Id));
+            await EmailNotificationSendingJob.ExecuteAsync(
+                new EmailNotificationSendingJobArgs(notification.TenantId, notification.Id));
 
             notification = await NotificationRepository.GetAsync(notification.Id);
-            
+
             notification.Success.ShouldBe(false);
             notification.CompletionTime.ShouldNotBeNull();
             notification.FailureReason.ShouldBe(NotificationConsts.FailureReasons.ReceiverInfoNotFound);

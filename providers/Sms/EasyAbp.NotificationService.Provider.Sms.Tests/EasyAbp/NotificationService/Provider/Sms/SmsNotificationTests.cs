@@ -31,7 +31,8 @@ namespace EasyAbp.NotificationService.Provider.Sms
             JsonSerializer = ServiceProvider.GetRequiredService<IJsonSerializer>();
             NotificationRepository = ServiceProvider.GetRequiredService<INotificationRepository>();
             NotificationInfoRepository = ServiceProvider.GetRequiredService<INotificationInfoRepository>();
-            SmsNotificationSendingJob = ServiceProvider.GetRequiredService<IAsyncBackgroundJob<SmsNotificationSendingJobArgs>>();
+            SmsNotificationSendingJob =
+                ServiceProvider.GetRequiredService<IAsyncBackgroundJob<SmsNotificationSendingJobArgs>>();
         }
 
         [Fact]
@@ -45,7 +46,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
 
             await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
             {
-                {ExtraPropertyKey, ExtraPropertyValue}
+                { ExtraPropertyKey, ExtraPropertyValue }
             });
 
             var notifications = await NotificationRepository.GetListAsync();
@@ -71,7 +72,8 @@ namespace EasyAbp.NotificationService.Provider.Sms
             properties.First().Value.ShouldBe(ExtraPropertyValue);
         }
 
-        private async Task CreateSmsNotificationAsync(List<Guid> userIds, string text, IDictionary<string, object> properties)
+        private async Task CreateSmsNotificationAsync(List<Guid> userIds, string text,
+            IDictionary<string, object> properties)
         {
             var handler = ServiceProvider.GetRequiredService<CreateSmsNotificationEventHandler>();
 
@@ -90,12 +92,13 @@ namespace EasyAbp.NotificationService.Provider.Sms
 
             await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
             {
-                {ExtraPropertyKey, ExtraPropertyValue}
+                { ExtraPropertyKey, ExtraPropertyValue }
             });
 
             var notification = (await NotificationRepository.GetListAsync()).First();
 
-            await SmsNotificationSendingJob.ExecuteAsync(new SmsNotificationSendingJobArgs(notification.Id));
+            await SmsNotificationSendingJob.ExecuteAsync(
+                new SmsNotificationSendingJobArgs(notification.TenantId, notification.Id));
 
             notification = await NotificationRepository.GetAsync(notification.Id);
 
@@ -114,12 +117,13 @@ namespace EasyAbp.NotificationService.Provider.Sms
 
             await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
             {
-                {ExtraPropertyKey, ExtraPropertyValue}
+                { ExtraPropertyKey, ExtraPropertyValue }
             });
 
             var notification = (await NotificationRepository.GetListAsync()).First();
 
-            await SmsNotificationSendingJob.ExecuteAsync(new SmsNotificationSendingJobArgs(notification.Id));
+            await SmsNotificationSendingJob.ExecuteAsync(
+                new SmsNotificationSendingJobArgs(notification.TenantId, notification.Id));
 
             notification = await NotificationRepository.GetAsync(notification.Id);
 

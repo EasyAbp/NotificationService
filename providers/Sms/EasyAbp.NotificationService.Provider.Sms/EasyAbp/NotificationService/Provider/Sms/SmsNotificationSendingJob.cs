@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Json;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Sms;
 using Volo.Abp.Timing;
 using Volo.Abp.Uow;
@@ -15,6 +16,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
 {
     public class SmsNotificationSendingJob : IAsyncBackgroundJob<SmsNotificationSendingJobArgs>, ITransientDependency
     {
+        private readonly ICurrentTenant _currentTenant;
         private readonly INotificationInfoRepository _notificationInfoRepository;
         private readonly IUserPhoneNumberProvider _userPhoneNumberProvider;
         private readonly INotificationRepository _notificationRepository;
@@ -23,6 +25,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
         private readonly IClock _clock;
 
         public SmsNotificationSendingJob(
+            ICurrentTenant currentTenant,
             INotificationInfoRepository notificationInfoRepository,
             IUserPhoneNumberProvider userPhoneNumberProvider,
             INotificationRepository notificationRepository,
@@ -30,6 +33,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
             ISmsSender smsSender,
             IClock clock)
         {
+            _currentTenant = currentTenant;
             _notificationInfoRepository = notificationInfoRepository;
             _userPhoneNumberProvider = userPhoneNumberProvider;
             _notificationRepository = notificationRepository;
@@ -37,21 +41,24 @@ namespace EasyAbp.NotificationService.Provider.Sms
             _smsSender = smsSender;
             _clock = clock;
         }
-        
+
         [UnitOfWork]
         public virtual async Task ExecuteAsync(SmsNotificationSendingJobArgs args)
         {
+            using var changeTenant = _currentTenant.Change(args.TenantId);
+
             var notification = await _notificationRepository.GetAsync(args.NotificationId);
 
             var userPhoneNumber = await _userPhoneNumberProvider.GetAsync(notification.UserId);
 
             if (userPhoneNumber.IsNullOrWhiteSpace())
             {
-                await SaveNotificationResultAsync(notification, false,
-                    NotificationConsts.FailureReasons.ReceiverInfoNotFound);
+                await SaveNotificationResultAsync(
+                    notification, false, NotificationConsts.FailureReasons.ReceiverInfoNotFound);
+
                 return;
             }
-            
+
             var notificationInfo = await _notificationInfoRepository.GetAsync(notification.NotificationInfoId);
 
             var properties = _jsonSerializer.Deserialize<IDictionary<string, object>>(notificationInfo
@@ -65,9 +72,9 @@ namespace EasyAbp.NotificationService.Provider.Sms
             {
                 smsMessage.Properties.AddIfNotContains(property);
             }
-            
+
             await _smsSender.SendAsync(smsMessage);
-            
+
             await SaveNotificationResultAsync(notification, true);
         }
 

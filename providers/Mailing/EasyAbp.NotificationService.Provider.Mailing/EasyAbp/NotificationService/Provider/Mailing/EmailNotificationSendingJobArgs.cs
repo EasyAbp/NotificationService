@@ -1,13 +1,22 @@
 ﻿using System;
+using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.NotificationService.Provider.Mailing
 {
-    public class EmailNotificationSendingJobArgs
+    [Serializable]
+    public class EmailNotificationSendingJobArgs : IMultiTenant
     {
+        public Guid? TenantId { get; set; }
+
         public Guid NotificationId { get; set; }
 
-        public EmailNotificationSendingJobArgs(Guid notificationId)
+        public EmailNotificationSendingJobArgs()
         {
+        }
+
+        public EmailNotificationSendingJobArgs(Guid? tenantId, Guid notificationId)
+        {
+            TenantId = tenantId;
             NotificationId = notificationId;
         }
     }

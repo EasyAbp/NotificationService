@@ -5,6 +5,7 @@ using EasyAbp.NotificationService.Notifications;
 using JetBrains.Annotations;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Timing;
 using Volo.Abp.Uow;
 
@@ -14,6 +15,7 @@ public class SendWeChatOfficialTemplateMessageJob : AsyncBackgroundJob<SendWeCha
     ITransientDependency
 {
     private readonly IClock _clock;
+    private readonly ICurrentTenant _currentTenant;
     private readonly ITemplateMessageDataModelJsonSerializer _jsonSerializer;
     private readonly INotificationRepository _notificationRepository;
     private readonly INotificationInfoRepository _notificationInfoRepository;
@@ -22,6 +24,7 @@ public class SendWeChatOfficialTemplateMessageJob : AsyncBackgroundJob<SendWeCha
 
     public SendWeChatOfficialTemplateMessageJob(
         IClock clock,
+        ICurrentTenant currentTenant,
         ITemplateMessageDataModelJsonSerializer jsonSerializer,
         INotificationRepository notificationRepository,
         INotificationInfoRepository notificationInfoRepository,
@@ -29,6 +32,7 @@ public class SendWeChatOfficialTemplateMessageJob : AsyncBackgroundJob<SendWeCha
         IWeChatTemplateMessageNotificationSender notificationSender)
     {
         _clock = clock;
+        _currentTenant = currentTenant;
         _jsonSerializer = jsonSerializer;
         _notificationRepository = notificationRepository;
         _notificationInfoRepository = notificationInfoRepository;
@@ -39,6 +43,8 @@ public class SendWeChatOfficialTemplateMessageJob : AsyncBackgroundJob<SendWeCha
     [UnitOfWork]
     public override async Task ExecuteAsync(SendWeChatOfficialTemplateMessageJobArgs args)
     {
+        using var changeTenant = _currentTenant.Change(args.TenantId);
+
         var notification = await _notificationRepository.GetAsync(args.NotificationId);
 
         var notificationInfo = await _notificationInfoRepository.GetAsync(notification.NotificationInfoId);
