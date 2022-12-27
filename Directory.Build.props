@@ -3,7 +3,7 @@
 
     <AbpVersion>6.0.1</AbpVersion>
     <EasyAbpPrivateMessagingModuleVersion>1.5.0</EasyAbpPrivateMessagingModuleVersion>
-    <EasyAbpAbpWeChatModuleVersion>2.0.0-rc.22</EasyAbpAbpWeChatModuleVersion>
+    <EasyAbpAbpWeChatModuleVersion>2.0.0-rc.23</EasyAbpAbpWeChatModuleVersion>
 
   </PropertyGroup>
 </Project>
