@@ -41,6 +41,8 @@ using Volo.Abp.MultiTenancy;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.PermissionManagement.Web;
 using Volo.Abp.Security.Claims;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.SettingManagement.Web;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.Web;
@@ -63,6 +65,8 @@ namespace EasyAbp.NotificationService
         typeof(AbpHttpClientWebModule),
         typeof(AbpIdentityWebModule),
         typeof(AbpIdentityHttpApiClientModule),
+        typeof(AbpSettingManagementWebModule),
+        typeof(AbpSettingManagementHttpApiClientModule),
         typeof(AbpFeatureManagementWebModule),
         typeof(AbpFeatureManagementHttpApiClientModule),
         typeof(AbpTenantManagementWebModule),
