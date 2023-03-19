@@ -18,7 +18,8 @@ namespace EasyAbp.NotificationService.Provider.Sms
                     NotificationServiceProviderSmsTestConsts.FakeUser1Id,
                     "fake1",
                     "user1@easyabp.io",
-                    phoneNumber: "123456");
+                    phoneNumber: "123456",
+                    phoneNumberConfirmed: true);
             }
             
             if (id == NotificationServiceProviderSmsTestConsts.FakeUser2Id)
@@ -27,7 +28,17 @@ namespace EasyAbp.NotificationService.Provider.Sms
                     NotificationServiceProviderSmsTestConsts.FakeUser2Id,
                     "fake2",
                     "user2@easyabp.io",
-                    phoneNumber: "654321");
+                    phoneNumber: "654321",
+                    phoneNumberConfirmed: false);
+            }
+            
+            if (id == NotificationServiceProviderSmsTestConsts.FakeUser3Id)
+            {
+                return new UserData(
+                    NotificationServiceProviderSmsTestConsts.FakeUser3Id,
+                    "fake3",
+                    "user2@easyabp.io",
+                    phoneNumber: null);
             }
 
             return null;

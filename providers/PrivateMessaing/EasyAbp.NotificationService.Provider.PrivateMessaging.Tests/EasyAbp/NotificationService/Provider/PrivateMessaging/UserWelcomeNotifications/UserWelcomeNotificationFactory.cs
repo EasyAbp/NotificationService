@@ -7,13 +7,15 @@ using Volo.Abp.DependencyInjection;
 
 namespace EasyAbp.NotificationService.Provider.PrivateMessaging.UserWelcomeNotifications
 {
-    public class UserWelcomeNotificationFactory : NotificationFactory<UserWelcomeNotificationDataModel, CreatePrivateMessageNotificationEto>, ITransientDependency
+    public class UserWelcomeNotificationFactory :
+        NotificationFactory<UserWelcomeNotificationDataModel, CreatePrivateMessageNotificationEto>, ITransientDependency
     {
-        public override async Task<CreatePrivateMessageNotificationEto> CreateAsync(UserWelcomeNotificationDataModel model, IEnumerable<Guid> userIds)
+        public override async Task<CreatePrivateMessageNotificationEto> CreateAsync(
+            UserWelcomeNotificationDataModel model, IEnumerable<Guid> userIds)
         {
             var text = $"Hello, here is a gift card code for you: {model.GiftCardCode}";
 
-            return new CreatePrivateMessageNotificationEto(CurrentTenant.Id, userIds, "Gift Card Code", text);
+            return new CreatePrivateMessageNotificationEto(CurrentTenant.Id, userIds, "Gift Card Code", text, true);
         }
     }
 }

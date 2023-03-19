@@ -26,6 +26,12 @@ public class CreatePrivateMessageNotificationEto : CreateNotificationInfoModel, 
         set => this.SetContent(value);
     }
 
+    public bool SendFromCreator
+    {
+        get => this.GetSendFromCreator();
+        set => this.SetSendFromCreator(value);
+    }
+
     public CreatePrivateMessageNotificationEto()
     {
     }
@@ -34,21 +40,25 @@ public class CreatePrivateMessageNotificationEto : CreateNotificationInfoModel, 
         Guid? tenantId,
         IEnumerable<Guid> userIds,
         [NotNull] string title,
-        [CanBeNull] string content) : base(NotificationProviderPrivateMessagingConsts.NotificationMethod, userIds)
+        [CanBeNull] string content,
+        bool sendFromCreator) : base(NotificationProviderPrivateMessagingConsts.NotificationMethod, userIds)
     {
         TenantId = tenantId;
         Title = title;
         Content = content;
+        SendFromCreator = sendFromCreator;
     }
 
     public CreatePrivateMessageNotificationEto(
         Guid? tenantId,
         Guid userId,
         [NotNull] string title,
-        [CanBeNull] string content) : base(NotificationProviderPrivateMessagingConsts.NotificationMethod, userId)
+        [CanBeNull] string content,
+        bool sendFromCreator) : base(NotificationProviderPrivateMessagingConsts.NotificationMethod, userId)
     {
         TenantId = tenantId;
         Title = title;
         Content = content;
+        SendFromCreator = sendFromCreator;
     }
 }

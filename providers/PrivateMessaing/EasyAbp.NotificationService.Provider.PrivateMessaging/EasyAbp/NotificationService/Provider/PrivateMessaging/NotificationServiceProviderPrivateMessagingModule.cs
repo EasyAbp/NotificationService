@@ -7,7 +7,7 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging;
 [DependsOn(
     typeof(NotificationServiceDomainModule),
     typeof(NotificationServiceProviderPrivateMessagingAbstractionsModule),
-    typeof(PrivateMessagingDomainSharedModule)
+    typeof(PrivateMessagingApplicationContractsModule)
 )]
 public class NotificationServiceProviderPrivateMessagingModule : AbpModule
 {

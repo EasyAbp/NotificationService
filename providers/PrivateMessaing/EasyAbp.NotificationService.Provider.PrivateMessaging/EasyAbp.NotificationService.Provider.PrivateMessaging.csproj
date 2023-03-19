@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyAbp.PrivateMessaging.Domain.Shared" Version="$(EasyAbpPrivateMessagingModuleVersion)" />
+    <PackageReference Include="EasyAbp.PrivateMessaging.Application.Contracts" Version="$(EasyAbpPrivateMessagingModuleVersion)" />
     <ProjectReference Include="..\..\..\src\EasyAbp.NotificationService.Domain\EasyAbp.NotificationService.Domain.csproj" />
     <ProjectReference Include="..\EasyAbp.NotificationService.Provider.PrivateMessaging.Abstractions\EasyAbp.NotificationService.Provider.PrivateMessaging.Abstractions.csproj" />
   </ItemGroup>

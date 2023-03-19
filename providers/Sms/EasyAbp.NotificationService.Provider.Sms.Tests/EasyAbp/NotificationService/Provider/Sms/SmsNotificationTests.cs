@@ -107,6 +107,56 @@ namespace EasyAbp.NotificationService.Provider.Sms
         }
 
         [Fact]
+        public async Task Should_Set_Notification_Result_To_Failure_If_Phone_Number_Is_Not_Confirmed()
+        {
+            var userIds = new List<Guid>
+            {
+                NotificationServiceProviderSmsTestConsts.FakeUser2Id
+            };
+
+            await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
+            {
+                { ExtraPropertyKey, ExtraPropertyValue }
+            });
+
+            var notification = (await NotificationRepository.GetListAsync()).First();
+
+            await SmsNotificationSendingJob.ExecuteAsync(
+                new SmsNotificationSendingJobArgs(notification.TenantId, notification.Id));
+
+            notification = await NotificationRepository.GetAsync(notification.Id);
+
+            notification.Success.ShouldBe(false);
+            notification.CompletionTime.ShouldNotBeNull();
+            notification.FailureReason.ShouldBe(NotificationConsts.FailureReasons.ReceiverInfoNotFound);
+        }
+
+        [Fact]
+        public async Task Should_Set_Notification_Result_To_Failure_If_Phone_Number_Is_Not_Set()
+        {
+            var userIds = new List<Guid>
+            {
+                NotificationServiceProviderSmsTestConsts.FakeUser3Id
+            };
+
+            await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
+            {
+                { ExtraPropertyKey, ExtraPropertyValue }
+            });
+
+            var notification = (await NotificationRepository.GetListAsync()).First();
+
+            await SmsNotificationSendingJob.ExecuteAsync(
+                new SmsNotificationSendingJobArgs(notification.TenantId, notification.Id));
+
+            notification = await NotificationRepository.GetAsync(notification.Id);
+
+            notification.Success.ShouldBe(false);
+            notification.CompletionTime.ShouldNotBeNull();
+            notification.FailureReason.ShouldBe(NotificationConsts.FailureReasons.ReceiverInfoNotFound);
+        }
+
+        [Fact]
         public async Task Should_Set_Notification_Result_To_Failure_If_User_Not_Found()
         {
             var userIds = new List<Guid>

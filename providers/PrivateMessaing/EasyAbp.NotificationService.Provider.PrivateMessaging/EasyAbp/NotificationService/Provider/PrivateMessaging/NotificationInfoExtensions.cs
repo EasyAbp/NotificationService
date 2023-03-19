@@ -6,12 +6,15 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging;
 public static class NotificationInfoExtensions
 {
     public static void SetPrivateMessagingData(this NotificationInfo notificationInfo, [NotNull] string title,
-        [CanBeNull] string content)
+        [CanBeNull] string content, bool sendFromCreator)
     {
         notificationInfo.SetDataValue(NotificationProviderPrivateMessagingConsts.NotificationInfoTitlePropertyName,
             title);
         notificationInfo.SetDataValue(
             NotificationProviderPrivateMessagingConsts.NotificationInfoContentPropertyName, content);
+        notificationInfo.SetDataValue(
+            NotificationProviderPrivateMessagingConsts.NotificationInfoSendFromCreatorPropertyName,
+            sendFromCreator);
     }
 
     public static string GetPrivateMessagingTitle(this NotificationInfo notificationInfo)
@@ -24,5 +27,11 @@ public static class NotificationInfoExtensions
     {
         return (string)notificationInfo.GetDataValue(NotificationProviderPrivateMessagingConsts
             .NotificationInfoContentPropertyName);
+    }
+
+    public static bool GetPrivateMessagingSendFromCreator(this NotificationInfo notificationInfo)
+    {
+        return (bool)notificationInfo.GetDataValue(NotificationProviderPrivateMessagingConsts
+            .NotificationInfoSendFromCreatorPropertyName);
     }
 }
