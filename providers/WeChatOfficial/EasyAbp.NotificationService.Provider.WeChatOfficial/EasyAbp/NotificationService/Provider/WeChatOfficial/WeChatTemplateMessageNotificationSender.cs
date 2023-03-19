@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using EasyAbp.Abp.WeChat.Common.Infrastructure.Services;
 using EasyAbp.Abp.WeChat.Official.Services.TemplateMessage;
@@ -24,19 +23,10 @@ public class WeChatTemplateMessageNotificationSender : IWeChatTemplateMessageNot
     public virtual async Task<SendMessageResponse> SendAsync(
         string openId, WeChatOfficialTemplateMessageDataModel dataModel)
     {
-        try
-        {
-            var templateMessageWeService =
-                await AbpWeChatServiceFactory.CreateAsync<TemplateMessageWeService>(dataModel.AppId);
+        var templateMessageWeService =
+            await AbpWeChatServiceFactory.CreateAsync<TemplateMessageWeService>(dataModel.AppId);
 
-            return await templateMessageWeService.SendMessageAsync(
-                openId, dataModel.TemplateId, dataModel.Url, dataModel.Data, dataModel.MiniProgram);
-        }
-        catch (Exception e)
-        {
-            Logger.LogException(e);
-
-            return null;
-        }
+        return await templateMessageWeService.SendMessageAsync(openId, dataModel.TemplateId, dataModel.Url,
+            dataModel.Data, dataModel.MiniProgram);
     }
 }

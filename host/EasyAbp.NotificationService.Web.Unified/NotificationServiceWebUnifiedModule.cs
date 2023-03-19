@@ -4,12 +4,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EasyAbp.NotificationService.EntityFrameworkCore;
 using EasyAbp.NotificationService.MultiTenancy;
+using EasyAbp.NotificationService.Provider.Sms;
 using EasyAbp.NotificationService.Web;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
+using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
@@ -47,6 +49,7 @@ namespace EasyAbp.NotificationService
         typeof(NotificationServiceApplicationModule),
         typeof(NotificationServiceHttpApiModule),
         typeof(NotificationServiceEntityFrameworkCoreModule),
+        typeof(NotificationServiceProviderSmsModule),
         typeof(AbpAuditLoggingEntityFrameworkCoreModule),
         typeof(AbpAutofacModule),
         typeof(AbpAccountWebModule),
@@ -82,6 +85,17 @@ namespace EasyAbp.NotificationService
         {
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
+
+            Configure<AbpAspNetCoreMvcOptions>(options =>
+            {
+                options
+                    .ConventionalControllers
+                    .Create(typeof(NotificationServiceApplicationModule).Assembly, conventionalControllerSetting =>
+                    {
+                        conventionalControllerSetting.ApplicationServiceTypes =
+                            ApplicationServiceTypes.IntegrationServices;
+                    });
+            });
 
             Configure<AbpDbContextOptions>(options =>
             {
@@ -155,7 +169,7 @@ namespace EasyAbp.NotificationService
             app.UseAuthorization();
 
             app.UseSwagger();
-            app.UseSwaggerUI(options =>
+            app.UseAbpSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Support APP API");
             });

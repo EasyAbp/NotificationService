@@ -44,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\providers\Sms\EasyAbp.NotificationService.Provider.Sms\EasyAbp.NotificationService.Provider.Sms.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.NotificationService.Application\EasyAbp.NotificationService.Application.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.NotificationService.HttpApi\EasyAbp.NotificationService.HttpApi.csproj" />
     <ProjectReference Include="..\..\src\EasyAbp.NotificationService.EntityFrameworkCore\EasyAbp.NotificationService.EntityFrameworkCore.csproj" />

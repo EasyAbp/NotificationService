@@ -6,6 +6,6 @@
         
         public const string NotificationInfoTextPropertyName = "Text";
         
-        public const string NotificationInfoPropertiesPropertyName = "Properties";
+        public const string NotificationInfoJsonPropertiesPropertyName = "JsonProperties";
     }
 }

@@ -13,6 +13,13 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
     public class NotificationFactoryTests :
         NotificationServiceTestBase<NotificationServiceProviderWeChatOfficialTestsModule>
     {
+        protected ITemplateMessageDataModelJsonSerializer TemplateMessageDataModelJsonSerializer { get; }
+
+        public NotificationFactoryTests()
+        {
+            TemplateMessageDataModelJsonSerializer = GetRequiredService<ITemplateMessageDataModelJsonSerializer>();
+        }
+
         protected override void AfterAddApplication(IServiceCollection services)
         {
             base.AfterAddApplication(services);
@@ -42,16 +49,17 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
 
             eto.UserIds.ShouldContain(NotificationServiceProviderWeChatOfficialTestConsts.FakeUser1Id);
             eto.UserIds.ShouldContain(NotificationServiceProviderWeChatOfficialTestConsts.FakeUser2Id);
-            eto.DataModel.Url.ShouldBe("https://github.com");
-            eto.DataModel.AppId.ShouldBe("my-official-appid");
-            eto.DataModel.MiniProgram.ShouldNotBeNull();
-            eto.DataModel.MiniProgram.AppId.ShouldBe("my-mini-program-appid");
-            eto.DataModel.MiniProgram.PagePath.ShouldBe("my-mini-program-page-path");
-            eto.DataModel.TemplateId.ShouldBe("my-template-id");
-            eto.DataModel.Data.ShouldNotBeNull();
-            eto.DataModel.Data.ShouldContain(x => x.Key == "first" && x.Value.Value == "Hello, my-username");
-            eto.DataModel.Data.ShouldContain(x => x.Key == "remark" && x.Value.Value == "Thank you");
-            eto.DataModel.Data.ShouldContain(x => x.Key == "gift-card-code" && x.Value.Value == giftCardCode);
+            var dataModel = eto.GetDataModel(TemplateMessageDataModelJsonSerializer);
+            dataModel.Url.ShouldBe("https://github.com");
+            dataModel.AppId.ShouldBe("my-official-appid");
+            dataModel.MiniProgram.ShouldNotBeNull();
+            dataModel.MiniProgram.AppId.ShouldBe("my-mini-program-appid");
+            dataModel.MiniProgram.PagePath.ShouldBe("my-mini-program-page-path");
+            dataModel.TemplateId.ShouldBe("my-template-id");
+            dataModel.Data.ShouldNotBeNull();
+            dataModel.Data.ShouldContain(x => x.Key == "first" && x.Value.Value == "Hello, my-username");
+            dataModel.Data.ShouldContain(x => x.Key == "remark" && x.Value.Value == "Thank you");
+            dataModel.Data.ShouldContain(x => x.Key == "gift-card-code" && x.Value.Value == giftCardCode);
         }
     }
 }

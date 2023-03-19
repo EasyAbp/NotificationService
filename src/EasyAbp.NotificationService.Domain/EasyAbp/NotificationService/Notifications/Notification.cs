@@ -24,7 +24,7 @@ namespace EasyAbp.NotificationService.Notifications
         [CanBeNull]
         public virtual string FailureReason { get; protected set; }
         
-        public virtual Guid? RetryNotificationId { get; protected set; }
+        public virtual Guid? RetryForNotificationId { get; protected set; }
 
         protected Notification()
         {

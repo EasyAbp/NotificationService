@@ -60,11 +60,10 @@ namespace EasyAbp.NotificationService.Provider.Sms
 
             var notificationInfo = await NotificationInfoRepository.GetAsync(notifications.First().NotificationInfoId);
 
-            var text = notificationInfo.GetDataValue(NotificationProviderSmsConsts.NotificationInfoTextPropertyName)
-                .ToString();
+            var text = notificationInfo.GetSmsText();
 
-            var properties = JsonSerializer.Deserialize<IDictionary<string, object>>(notificationInfo
-                .GetDataValue(NotificationProviderSmsConsts.NotificationInfoPropertiesPropertyName).ToString());
+            var properties =
+                JsonSerializer.Deserialize<IDictionary<string, object>>(notificationInfo.GetSmsJsonProperties());
 
             text.ShouldBe(Text);
             properties.Count.ShouldBe(1);
@@ -77,7 +76,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
         {
             var handler = ServiceProvider.GetRequiredService<CreateSmsNotificationEventHandler>();
 
-            var eto = new CreateSmsNotificationEto(CurrentTenant.Id, userIds, text, properties);
+            var eto = new CreateSmsNotificationEto(CurrentTenant.Id, userIds, text, properties, JsonSerializer);
 
             await handler.HandleEventAsync(eto);
         }

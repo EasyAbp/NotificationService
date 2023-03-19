@@ -2,23 +2,43 @@
 using System.Collections.Generic;
 using EasyAbp.NotificationService.Notifications;
 using JetBrains.Annotations;
+using Volo.Abp.Data;
+using Volo.Abp.Json;
+using Volo.Abp.MultiTenancy;
 
-namespace EasyAbp.NotificationService.Provider.WeChatOfficial
+namespace EasyAbp.NotificationService.Provider.WeChatOfficial;
+
+[Serializable]
+public class CreateWeChatOfficialTemplateMessageNotificationEto : CreateNotificationInfoModel, IMultiTenant
 {
-    [Serializable]
-    public class CreateWeChatOfficialTemplateMessageNotificationEto : CreateNotificationEto
+    public Guid? TenantId { get; set; }
+
+    [NotNull]
+    public string JsonDataModel
     {
-        [NotNull]
-        public WeChatOfficialTemplateMessageDataModel DataModel { get; set; } = null!;
+        get => this.GetJsonDataModel();
+        set => this.SetJsonDataModel(value);
+    }
 
-        protected CreateWeChatOfficialTemplateMessageNotificationEto()
-        {
-        }
+    public CreateWeChatOfficialTemplateMessageNotificationEto()
+    {
+    }
 
-        public CreateWeChatOfficialTemplateMessageNotificationEto(Guid? tenantId, IEnumerable<Guid> userIds,
-            [NotNull] WeChatOfficialTemplateMessageDataModel dataModel) : base(tenantId, userIds)
-        {
-            DataModel = dataModel;
-        }
+    public CreateWeChatOfficialTemplateMessageNotificationEto(Guid? tenantId, IEnumerable<Guid> userIds,
+        [NotNull] WeChatOfficialTemplateMessageDataModel dataModel,
+        ITemplateMessageDataModelJsonSerializer templateMessageDataModelJsonSerializer) : base(
+        NotificationProviderWeChatOfficialConsts.TemplateMessageNotificationMethod, userIds)
+    {
+        TenantId = tenantId;
+        this.SetDataModel(dataModel, templateMessageDataModelJsonSerializer);
+    }
+
+    public CreateWeChatOfficialTemplateMessageNotificationEto(Guid? tenantId, Guid userId,
+        [NotNull] WeChatOfficialTemplateMessageDataModel dataModel,
+        ITemplateMessageDataModelJsonSerializer templateMessageDataModelJsonSerializer) : base(
+        NotificationProviderWeChatOfficialConsts.TemplateMessageNotificationMethod, userId)
+    {
+        TenantId = tenantId;
+        this.SetDataModel(dataModel, templateMessageDataModelJsonSerializer);
     }
 }

@@ -12,6 +12,11 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial.UserWelcomeNotific
         NotificationFactory<UserWelcomeNotificationDataModel, CreateWeChatOfficialTemplateMessageNotificationEto>,
         ITransientDependency
     {
+        protected ITemplateMessageDataModelJsonSerializer TemplateMessageDataModelJsonSerializer =>
+            LazyGetRequiredService(ref _templateMessageDataModelJsonSerializer);
+
+        private ITemplateMessageDataModelJsonSerializer _templateMessageDataModelJsonSerializer;
+
         public override Task<CreateWeChatOfficialTemplateMessageNotificationEto> CreateAsync(
             UserWelcomeNotificationDataModel model, IEnumerable<Guid> userIds)
         {
@@ -25,8 +30,8 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial.UserWelcomeNotific
                 PagePath = "my-mini-program-page-path"
             }, "https://github.com", templateData, "my-official-appid");
 
-            return Task.FromResult(
-                new CreateWeChatOfficialTemplateMessageNotificationEto(CurrentTenant.Id, userIds, dataModel));
+            return Task.FromResult(new CreateWeChatOfficialTemplateMessageNotificationEto(CurrentTenant.Id, userIds,
+                dataModel, TemplateMessageDataModelJsonSerializer));
         }
     }
 }

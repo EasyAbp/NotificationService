@@ -244,7 +244,7 @@ namespace EasyAbp.NotificationService
             app.UseAuthorization();
 
             app.UseSwagger();
-            app.UseSwaggerUI(options =>
+            app.UseAbpSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "NotificationService API");
             });

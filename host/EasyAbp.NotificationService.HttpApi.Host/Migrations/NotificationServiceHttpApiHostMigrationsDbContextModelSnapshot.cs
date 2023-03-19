@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
+#nullable disable
+
 namespace EasyAbp.NotificationService.Migrations
 {
     [DbContext(typeof(NotificationServiceHttpApiHostMigrationsDbContext))]
@@ -17,9 +19,10 @@ namespace EasyAbp.NotificationService.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
-                .HasAnnotation("ProductVersion", "3.1.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "7.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("EasyAbp.NotificationService.NotificationInfos.NotificationInfo", b =>
                 {
@@ -29,51 +32,51 @@ namespace EasyAbp.NotificationService.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnName("ConcurrencyStamp")
+                        .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnName("CreationTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnName("CreatorId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnName("DeleterId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnName("DeletionTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnName("ExtraProperties")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("IsDeleted")
                         .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnName("LastModificationTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnName("LastModifierId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
 
                     b.Property<Guid?>("TenantId")
-                        .HasColumnName("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpNotificationServiceNotificationInfos");
+                    b.ToTable("EasyAbpNotificationServiceNotificationInfos", (string)null);
                 });
 
             modelBuilder.Entity("EasyAbp.NotificationService.Notifications.Notification", b =>
@@ -87,21 +90,21 @@ namespace EasyAbp.NotificationService.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnName("ConcurrencyStamp")
+                        .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnName("CreationTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnName("CreatorId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnName("ExtraProperties")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
 
                     b.Property<string>("FailureReason")
                         .HasColumnType("nvarchar(max)");
@@ -112,22 +115,22 @@ namespace EasyAbp.NotificationService.Migrations
                     b.Property<string>("NotificationMethod")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RetryNotificationId")
+                    b.Property<Guid?>("RetryForNotificationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool?>("Success")
                         .HasColumnType("bit");
 
                     b.Property<Guid?>("TenantId")
-                        .HasColumnName("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("EasyAbpNotificationServiceNotifications");
+                    b.ToTable("EasyAbpNotificationServiceNotifications", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -137,99 +140,109 @@ namespace EasyAbp.NotificationService.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ApplicationName")
-                        .HasColumnName("ApplicationName")
+                        .HasMaxLength(96)
                         .HasColumnType("nvarchar(96)")
-                        .HasMaxLength(96);
+                        .HasColumnName("ApplicationName");
 
                     b.Property<string>("BrowserInfo")
-                        .HasColumnName("BrowserInfo")
+                        .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasColumnName("BrowserInfo");
 
                     b.Property<string>("ClientId")
-                        .HasColumnName("ClientId")
+                        .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasColumnName("ClientId");
 
                     b.Property<string>("ClientIpAddress")
-                        .HasColumnName("ClientIpAddress")
+                        .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasColumnName("ClientIpAddress");
 
                     b.Property<string>("ClientName")
-                        .HasColumnName("ClientName")
+                        .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnName("ClientName");
 
                     b.Property<string>("Comments")
-                        .HasColumnName("Comments")
+                        .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnName("Comments");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnName("ConcurrencyStamp")
+                        .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("CorrelationId")
-                        .HasColumnName("CorrelationId")
+                        .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasColumnName("CorrelationId");
 
                     b.Property<string>("Exceptions")
-                        .HasColumnName("Exceptions")
-                        .HasColumnType("nvarchar(4000)")
-                        .HasMaxLength(4000);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ExecutionDuration")
-                        .HasColumnName("ExecutionDuration")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("ExecutionDuration");
 
                     b.Property<DateTime>("ExecutionTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnName("ExtraProperties")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
 
                     b.Property<string>("HttpMethod")
-                        .HasColumnName("HttpMethod")
+                        .HasMaxLength(16)
                         .HasColumnType("nvarchar(16)")
-                        .HasMaxLength(16);
+                        .HasColumnName("HttpMethod");
 
                     b.Property<int?>("HttpStatusCode")
-                        .HasColumnName("HttpStatusCode")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("HttpStatusCode");
 
                     b.Property<Guid?>("ImpersonatorTenantId")
-                        .HasColumnName("ImpersonatorTenantId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ImpersonatorTenantId");
+
+                    b.Property<string>("ImpersonatorTenantName")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)")
+                        .HasColumnName("ImpersonatorTenantName");
 
                     b.Property<Guid?>("ImpersonatorUserId")
-                        .HasColumnName("ImpersonatorUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ImpersonatorUserId");
+
+                    b.Property<string>("ImpersonatorUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("ImpersonatorUserName");
 
                     b.Property<Guid?>("TenantId")
-                        .HasColumnName("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.Property<string>("TenantName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)")
+                        .HasColumnName("TenantName");
 
                     b.Property<string>("Url")
-                        .HasColumnName("Url")
+                        .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnName("Url");
 
                     b.Property<Guid?>("UserId")
-                        .HasColumnName("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("UserId");
 
                     b.Property<string>("UserName")
-                        .HasColumnName("UserName")
+                        .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnName("UserName");
 
                     b.HasKey("Id");
 
@@ -237,7 +250,7 @@ namespace EasyAbp.NotificationService.Migrations
 
                     b.HasIndex("TenantId", "UserId", "ExecutionTime");
 
-                    b.ToTable("AbpAuditLogs");
+                    b.ToTable("AbpAuditLogs", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -247,39 +260,39 @@ namespace EasyAbp.NotificationService.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AuditLogId")
-                        .HasColumnName("AuditLogId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("AuditLogId");
 
                     b.Property<int>("ExecutionDuration")
-                        .HasColumnName("ExecutionDuration")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("ExecutionDuration");
 
                     b.Property<DateTime>("ExecutionTime")
-                        .HasColumnName("ExecutionTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ExecutionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnName("ExtraProperties")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
 
                     b.Property<string>("MethodName")
-                        .HasColumnName("MethodName")
+                        .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnName("MethodName");
 
                     b.Property<string>("Parameters")
-                        .HasColumnName("Parameters")
+                        .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                        .HasColumnName("Parameters");
 
                     b.Property<string>("ServiceName")
-                        .HasColumnName("ServiceName")
+                        .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnName("ServiceName");
 
                     b.Property<Guid?>("TenantId")
-                        .HasColumnName("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.HasKey("Id");
 
@@ -287,7 +300,7 @@ namespace EasyAbp.NotificationService.Migrations
 
                     b.HasIndex("TenantId", "ServiceName", "MethodName", "ExecutionTime");
 
-                    b.ToTable("AbpAuditLogActions");
+                    b.ToTable("AbpAuditLogActions", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.EntityChange", b =>
@@ -297,39 +310,39 @@ namespace EasyAbp.NotificationService.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AuditLogId")
-                        .HasColumnName("AuditLogId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("AuditLogId");
 
                     b.Property<DateTime>("ChangeTime")
-                        .HasColumnName("ChangeTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ChangeTime");
 
                     b.Property<byte>("ChangeType")
-                        .HasColumnName("ChangeType")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("tinyint")
+                        .HasColumnName("ChangeType");
 
                     b.Property<string>("EntityId")
                         .IsRequired()
-                        .HasColumnName("EntityId")
+                        .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnName("EntityId");
 
                     b.Property<Guid?>("EntityTenantId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("EntityTypeFullName")
                         .IsRequired()
-                        .HasColumnName("EntityTypeFullName")
+                        .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnName("EntityTypeFullName");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnName("ExtraProperties")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
 
                     b.Property<Guid?>("TenantId")
-                        .HasColumnName("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.HasKey("Id");
 
@@ -337,7 +350,7 @@ namespace EasyAbp.NotificationService.Migrations
 
                     b.HasIndex("TenantId", "EntityTypeFullName", "EntityId");
 
-                    b.ToTable("AbpEntityChanges");
+                    b.ToTable("AbpEntityChanges", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.EntityPropertyChange", b =>
@@ -350,36 +363,89 @@ namespace EasyAbp.NotificationService.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("NewValue")
-                        .HasColumnName("NewValue")
+                        .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasColumnName("NewValue");
 
                     b.Property<string>("OriginalValue")
-                        .HasColumnName("OriginalValue")
+                        .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasColumnName("OriginalValue");
 
                     b.Property<string>("PropertyName")
                         .IsRequired()
-                        .HasColumnName("PropertyName")
+                        .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnName("PropertyName");
 
                     b.Property<string>("PropertyTypeFullName")
                         .IsRequired()
-                        .HasColumnName("PropertyTypeFullName")
+                        .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasColumnName("PropertyTypeFullName");
 
                     b.Property<Guid?>("TenantId")
-                        .HasColumnName("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EntityChangeId");
 
-                    b.ToTable("AbpEntityPropertyChanges");
+                    b.ToTable("AbpEntityPropertyChanges", (string)null);
+                });
+
+            modelBuilder.Entity("Volo.Abp.PermissionManagement.PermissionDefinitionRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<string>("GroupName")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<byte>("MultiTenancySide")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ParentName")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Providers")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("StateCheckers")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupName");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("AbpPermissions", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.PermissionManagement.PermissionGrant", b =>
@@ -390,28 +456,58 @@ namespace EasyAbp.NotificationService.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
                         .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("ProviderName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<Guid?>("TenantId")
-                        .HasColumnName("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "ProviderName", "ProviderKey");
+                    b.HasIndex("TenantId", "Name", "ProviderName", "ProviderKey")
+                        .IsUnique()
+                        .HasFilter("[TenantId] IS NOT NULL");
 
-                    b.ToTable("AbpPermissionGrants");
+                    b.ToTable("AbpPermissionGrants", (string)null);
+                });
+
+            modelBuilder.Entity("Volo.Abp.PermissionManagement.PermissionGroupDefinitionRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("AbpPermissionGroups", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.SettingManagement.Setting", b =>
@@ -422,27 +518,29 @@ namespace EasyAbp.NotificationService.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("ProviderName")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("nvarchar(2048)")
-                        .HasMaxLength(2048);
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "ProviderName", "ProviderKey");
+                    b.HasIndex("Name", "ProviderName", "ProviderKey")
+                        .IsUnique()
+                        .HasFilter("[ProviderName] IS NOT NULL AND [ProviderKey] IS NOT NULL");
 
-                    b.ToTable("AbpSettings");
+                    b.ToTable("AbpSettings", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -470,6 +568,18 @@ namespace EasyAbp.NotificationService.Migrations
                         .HasForeignKey("EntityChangeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
+                {
+                    b.Navigation("Actions");
+
+                    b.Navigation("EntityChanges");
+                });
+
+            modelBuilder.Entity("Volo.Abp.AuditLogging.EntityChange", b =>
+                {
+                    b.Navigation("PropertyChanges");
                 });
 #pragma warning restore 612, 618
         }

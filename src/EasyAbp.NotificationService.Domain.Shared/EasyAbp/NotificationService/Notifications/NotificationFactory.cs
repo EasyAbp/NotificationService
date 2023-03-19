@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Json;
 using Volo.Abp.MultiTenancy;
 
 namespace EasyAbp.NotificationService.Notifications
 {
     public abstract class NotificationFactory<TNotificationDataModel, TCreateNotificationEto>
         where TNotificationDataModel : class
-        where TCreateNotificationEto : CreateNotificationEto
+        where TCreateNotificationEto : CreateNotificationInfoModel, IMultiTenant
     {
         public IServiceProvider ServiceProvider { get; set; }
-        protected readonly object ServiceProviderLock = new ();
+        protected readonly object ServiceProviderLock = new();
 
         protected TService LazyGetRequiredService<TService>(ref TService reference)
             => LazyGetRequiredService(typeof(TService), ref reference);
@@ -31,16 +32,19 @@ namespace EasyAbp.NotificationService.Notifications
 
             return reference;
         }
-        
+
         protected ICurrentTenant CurrentTenant => LazyGetRequiredService(ref _currentTenant);
         private ICurrentTenant _currentTenant;
 
+        protected IJsonSerializer JsonSerializer => LazyGetRequiredService(ref _jsonSerializer);
+        private IJsonSerializer _jsonSerializer;
+
         public abstract Task<TCreateNotificationEto> CreateAsync(TNotificationDataModel model,
             IEnumerable<Guid> userIds);
-        
+
         public virtual Task<TCreateNotificationEto> CreateAsync(TNotificationDataModel model, Guid userId)
         {
-            return CreateAsync(model, new List<Guid> {userId});
+            return CreateAsync(model, new List<Guid> { userId });
         }
     }
 }

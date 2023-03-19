@@ -21,18 +21,19 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
         NotificationServiceTestBase<NotificationServiceProviderWeChatOfficialTestsModule>
     {
         protected ICurrentTenant CurrentTenant { get; set; }
-        protected ITemplateMessageDataModelJsonSerializer JsonSerializer { get; set; }
+        protected ITemplateMessageDataModelJsonSerializer TemplateMessageDataModelJsonSerializer { get; set; }
         protected INotificationRepository NotificationRepository { get; set; }
         protected INotificationInfoRepository NotificationInfoRepository { get; set; }
-        protected SendWeChatOfficialTemplateMessageJob NotificationSendingJob { get; set; }
+        protected WeChatOfficialTemplateMessageNotificationSendingJob NotificationSendingJob { get; set; }
 
         public WeChatOfficialTemplateMessageNotificationTests()
         {
             CurrentTenant = ServiceProvider.GetRequiredService<ICurrentTenant>();
-            JsonSerializer = ServiceProvider.GetRequiredService<ITemplateMessageDataModelJsonSerializer>();
+            TemplateMessageDataModelJsonSerializer = ServiceProvider.GetRequiredService<ITemplateMessageDataModelJsonSerializer>();
             NotificationRepository = ServiceProvider.GetRequiredService<INotificationRepository>();
             NotificationInfoRepository = ServiceProvider.GetRequiredService<INotificationInfoRepository>();
-            NotificationSendingJob = ServiceProvider.GetRequiredService<SendWeChatOfficialTemplateMessageJob>();
+            NotificationSendingJob =
+                ServiceProvider.GetRequiredService<WeChatOfficialTemplateMessageNotificationSendingJob>();
         }
 
         protected override void AfterAddApplication(IServiceCollection services)
@@ -68,7 +69,7 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
 
             var notificationInfo = await NotificationInfoRepository.GetAsync(notifications.First().NotificationInfoId);
 
-            var dataModel = notificationInfo.GetWeChatOfficialTemplateMessageData(JsonSerializer);
+            var dataModel = notificationInfo.GetWeChatOfficialTemplateMessageData(TemplateMessageDataModelJsonSerializer);
 
             dataModel.Url.ShouldBe("https://github.com");
             dataModel.AppId.ShouldBeNull();
@@ -98,7 +99,8 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
             var handler = ServiceProvider
                 .GetRequiredService<CreateWeChatOfficialTemplateMessageNotificationEventHandler>();
 
-            var eto = new CreateWeChatOfficialTemplateMessageNotificationEto(CurrentTenant.Id, userIds, dataModel);
+            var eto = new CreateWeChatOfficialTemplateMessageNotificationEto(
+                CurrentTenant.Id, userIds, dataModel, TemplateMessageDataModelJsonSerializer);
 
             await handler.HandleEventAsync(eto);
         }
@@ -116,7 +118,7 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
             var notification = (await NotificationRepository.GetListAsync()).First();
 
             await NotificationSendingJob.ExecuteAsync(
-                new SendWeChatOfficialTemplateMessageJobArgs(notification.TenantId, notification.Id));
+                new WeChatOfficialTemplateMessageNotificationSendingJobArgs(notification.TenantId, notification.Id));
 
             notification = await NotificationRepository.GetAsync(notification.Id);
 
@@ -138,7 +140,7 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
             var notification = (await NotificationRepository.GetListAsync()).First();
 
             await NotificationSendingJob.ExecuteAsync(
-                new SendWeChatOfficialTemplateMessageJobArgs(notification.TenantId, notification.Id));
+                new WeChatOfficialTemplateMessageNotificationSendingJobArgs(notification.TenantId, notification.Id));
 
             notification = await NotificationRepository.GetAsync(notification.Id);
 
