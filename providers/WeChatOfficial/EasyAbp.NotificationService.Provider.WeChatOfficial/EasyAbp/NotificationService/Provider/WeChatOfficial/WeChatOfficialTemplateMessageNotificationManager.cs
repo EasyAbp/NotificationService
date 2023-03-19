@@ -5,6 +5,7 @@ using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
+using Volo.Abp;
 using Volo.Abp.Uow;
 
 namespace EasyAbp.NotificationService.Provider.WeChatOfficial;
@@ -76,7 +77,8 @@ public class
         catch (Exception e)
         {
             Logger.LogException(e);
-            await SetNotificationResultAsync(notification, false, e.ToString());
+            var message = e is BusinessException b ? b.Code ?? b.Message : e.ToString();
+            await SetNotificationResultAsync(notification, false, message);
         }
     }
 
