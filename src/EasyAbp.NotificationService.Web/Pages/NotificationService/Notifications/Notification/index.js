@@ -14,13 +14,13 @@ $(function () {
         order: [[0, "asc"]],
         ajax: abp.libs.datatables.createAjax(service.getList),
         columnDefs: [
-            {
-                rowAction: {
-                    items:
-                        [
-                        ]
-                }
-            },
+            // {
+            //     rowAction: {
+            //         items:
+            //             [
+            //             ]
+            //     }
+            // },
             { data: "userId" },
             { data: "notificationInfoId" },
             { data: "notificationMethod" },
