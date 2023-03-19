@@ -8,6 +8,8 @@
 
         public const string NotificationInfoContentPropertyName = "Content";
 
+        public const string NotificationInfoSendFromCreatorPropertyName = "SendFromCreator";
+
         public const string NotificationIdPropertyName = "NotificationId";
     }
 }

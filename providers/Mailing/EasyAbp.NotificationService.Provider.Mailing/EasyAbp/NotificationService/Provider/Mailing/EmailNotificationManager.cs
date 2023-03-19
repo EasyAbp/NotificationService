@@ -6,6 +6,7 @@ using EasyAbp.NotificationService.Notifications;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.Emailing;
+using Volo.Abp.ExceptionHandling;
 using Volo.Abp.Uow;
 
 namespace EasyAbp.NotificationService.Provider.Mailing;
@@ -55,7 +56,7 @@ public class EmailNotificationManager : NotificationManagerBase
         catch (Exception e)
         {
             Logger.LogException(e);
-            var message = e is BusinessException b ? b.Code ?? b.Message : e.ToString();
+            var message = e is IHasErrorCode b ? b.Code ?? e.Message : e.ToString();
             await SetNotificationResultAsync(notification, false, message);
         }
     }

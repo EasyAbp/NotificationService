@@ -25,4 +25,14 @@ public static class CreateNotificationInfoModelExtensions
     {
         return (string)model.GetProperty(nameof(CreatePrivateMessageNotificationEto.Content));
     }
+
+    public static void SetSendFromCreator(this CreateNotificationInfoModel model, bool sendFromCreator)
+    {
+        model.SetProperty(nameof(CreatePrivateMessageNotificationEto.SendFromCreator), sendFromCreator);
+    }
+
+    public static bool GetSendFromCreator(this CreateNotificationInfoModel model)
+    {
+        return (bool)model.GetProperty(nameof(CreatePrivateMessageNotificationEto.SendFromCreator));
+    }
 }
