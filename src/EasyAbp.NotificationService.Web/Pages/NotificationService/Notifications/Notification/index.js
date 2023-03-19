@@ -27,7 +27,7 @@ $(function () {
             { data: "success" },
             { data: "completionTime" },
             { data: "failureReason" },
-            { data: "retryNotificationId" },
+            { data: "retryForNotificationId" },
         ]
     }));
 });

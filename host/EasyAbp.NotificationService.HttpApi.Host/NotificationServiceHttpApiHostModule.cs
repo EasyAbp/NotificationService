@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.MultiTenancy;
+using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
@@ -59,6 +60,17 @@ namespace EasyAbp.NotificationService
         {
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
+
+            Configure<AbpAspNetCoreMvcOptions>(options =>
+            {
+                options
+                    .ConventionalControllers
+                    .Create(typeof(NotificationServiceApplicationModule).Assembly, conventionalControllerSetting =>
+                    {
+                        conventionalControllerSetting.ApplicationServiceTypes =
+                            ApplicationServiceTypes.IntegrationServices;
+                    });
+            });
 
             Configure<AbpDbContextOptions>(options =>
             {
@@ -177,7 +189,7 @@ namespace EasyAbp.NotificationService
             app.UseAbpRequestLocalization();
             app.UseAuthorization();
             app.UseSwagger();
-            app.UseSwaggerUI(options =>
+            app.UseAbpSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Support APP API");
             });

@@ -57,11 +57,9 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
             
             var notificationInfo = await NotificationInfoRepository.GetAsync(notifications.First().NotificationInfoId);
 
-            var title = notificationInfo.GetDataValue(NotificationProviderPrivateMessagingConsts.NotificationInfoTitlePropertyName)
-                .ToString();
+            var title = notificationInfo.GetPrivateMessagingTitle();
 
-            var content = notificationInfo.GetDataValue(NotificationProviderPrivateMessagingConsts.NotificationInfoContentPropertyName)
-                .ToString();
+            var content = notificationInfo.GetPrivateMessagingContent();
 
             title.ShouldBe(Title);
             content.ShouldBe(Content);

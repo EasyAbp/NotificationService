@@ -14,7 +14,7 @@
     "NotificationSuccess": "是否成功",
     "NotificationCompletionTime": "完成时间",
     "NotificationFailureReason": "失败原因",
-    "NotificationRetryNotificationId": "重试的通知 ID",
+    "NotificationRetryForNotificationId": "根通知 ID",
     "CreateNotification": "新建",
     "EditNotification": "编辑",
     "NotificationDeletionConfirmationMessage": "确认删除通知 {0}?",

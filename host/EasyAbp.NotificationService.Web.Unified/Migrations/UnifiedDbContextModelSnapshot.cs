@@ -115,7 +115,7 @@ namespace EasyAbp.NotificationService.Migrations
                     b.Property<string>("NotificationMethod")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RetryNotificationId")
+                    b.Property<Guid?>("RetryForNotificationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool?>("Success")

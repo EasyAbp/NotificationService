@@ -1,77 +1,42 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
-using JetBrains.Annotations;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.Emailing;
 using Volo.Abp.MultiTenancy;
-using Volo.Abp.Timing;
 using Volo.Abp.Uow;
 
-namespace EasyAbp.NotificationService.Provider.Mailing
+namespace EasyAbp.NotificationService.Provider.Mailing;
+
+public class EmailNotificationSendingJob : IAsyncBackgroundJob<EmailNotificationSendingJobArgs>, ITransientDependency
 {
-    public class EmailNotificationSendingJob : IAsyncBackgroundJob<EmailNotificationSendingJobArgs>,
-        ITransientDependency
+    private readonly EmailNotificationManager _emailNotificationManager;
+    private readonly ICurrentTenant _currentTenant;
+    private readonly INotificationInfoRepository _notificationInfoRepository;
+    private readonly INotificationRepository _notificationRepository;
+
+    public EmailNotificationSendingJob(
+        EmailNotificationManager emailNotificationManager,
+        ICurrentTenant currentTenant,
+        INotificationInfoRepository notificationInfoRepository,
+        INotificationRepository notificationRepository)
     {
-        private readonly ICurrentTenant _currentTenant;
-        private readonly INotificationInfoRepository _notificationInfoRepository;
-        private readonly IUserEmailAddressProvider _userEmailAddressProvider;
-        private readonly INotificationRepository _notificationRepository;
-        private readonly IEmailSender _emailSender;
-        private readonly IClock _clock;
+        _emailNotificationManager = emailNotificationManager;
+        _currentTenant = currentTenant;
+        _notificationInfoRepository = notificationInfoRepository;
+        _notificationRepository = notificationRepository;
+    }
 
-        public EmailNotificationSendingJob(
-            ICurrentTenant currentTenant,
-            INotificationInfoRepository notificationInfoRepository,
-            IUserEmailAddressProvider userEmailAddressProvider,
-            INotificationRepository notificationRepository,
-            IEmailSender emailSender,
-            IClock clock)
-        {
-            _currentTenant = currentTenant;
-            _notificationInfoRepository = notificationInfoRepository;
-            _userEmailAddressProvider = userEmailAddressProvider;
-            _notificationRepository = notificationRepository;
-            _emailSender = emailSender;
-            _clock = clock;
-        }
+    [UnitOfWork]
+    public virtual async Task ExecuteAsync(EmailNotificationSendingJobArgs args)
+    {
+        using var changeTenant = _currentTenant.Change(args.TenantId);
 
-        [UnitOfWork]
-        public virtual async Task ExecuteAsync(EmailNotificationSendingJobArgs args)
-        {
-            using var changeTenant = _currentTenant.Change(args.TenantId);
+        var notification = await _notificationRepository.GetAsync(args.NotificationId);
+        var notificationInfo = await _notificationInfoRepository.GetAsync(notification.NotificationInfoId);
 
-            var notification = await _notificationRepository.GetAsync(args.NotificationId);
-
-            var userEmailAddress = await _userEmailAddressProvider.GetAsync(notification.UserId);
-
-            if (userEmailAddress.IsNullOrWhiteSpace())
-            {
-                await SaveNotificationResultAsync(
-                    notification, false, NotificationConsts.FailureReasons.ReceiverInfoNotFound);
-
-                return;
-            }
-
-            var notificationInfo = await _notificationInfoRepository.GetAsync(notification.NotificationInfoId);
-
-            await _emailSender.SendAsync(userEmailAddress,
-                notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoSubjectPropertyName)
-                    .ToString(),
-                notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoBodyPropertyName)
-                    .ToString());
-
-            await SaveNotificationResultAsync(notification, true);
-        }
-
-        protected virtual async Task SaveNotificationResultAsync(Notification notification, bool success,
-            [CanBeNull] string failureReason = null)
-        {
-            notification.SetResult(_clock, success, failureReason);
-
-            await _notificationRepository.UpdateAsync(notification, true);
-        }
+        await _emailNotificationManager.SendNotificationsAsync(new List<Notification> { notification },
+            notificationInfo);
     }
 }

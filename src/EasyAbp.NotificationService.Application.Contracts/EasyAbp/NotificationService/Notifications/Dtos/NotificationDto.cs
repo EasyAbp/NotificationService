@@ -18,6 +18,6 @@ namespace EasyAbp.NotificationService.Notifications.Dtos
 
         public string FailureReason { get; set; }
 
-        public Guid? RetryNotificationId { get; set; }
+        public Guid? RetryForNotificationId { get; set; }
     }
 }

@@ -4,17 +4,17 @@ using Volo.Abp.MultiTenancy;
 namespace EasyAbp.NotificationService.Provider.WeChatOfficial;
 
 [Serializable]
-public class SendWeChatOfficialTemplateMessageJobArgs : IMultiTenant
+public class WeChatOfficialTemplateMessageNotificationSendingJobArgs : IMultiTenant
 {
     public Guid? TenantId { get; set; }
 
     public Guid NotificationId { get; set; }
 
-    public SendWeChatOfficialTemplateMessageJobArgs()
+    public WeChatOfficialTemplateMessageNotificationSendingJobArgs()
     {
     }
 
-    public SendWeChatOfficialTemplateMessageJobArgs(Guid? tenantId, Guid notificationId)
+    public WeChatOfficialTemplateMessageNotificationSendingJobArgs(Guid? tenantId, Guid notificationId)
     {
         TenantId = tenantId;
         NotificationId = notificationId;

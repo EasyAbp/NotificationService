@@ -33,7 +33,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
             );
 
             eto.Text.ShouldBe($"Hello, {userData.UserName}, here is a gift card code for you: {giftCardCode}");
-            eto.Properties.Count.ShouldBe(0);
+            eto.GetProperties(JsonSerializer).Count.ShouldBe(0);
         }
     }
 }

@@ -1,89 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
-using JetBrains.Annotations;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.Json;
 using Volo.Abp.MultiTenancy;
-using Volo.Abp.Sms;
-using Volo.Abp.Timing;
 using Volo.Abp.Uow;
 
-namespace EasyAbp.NotificationService.Provider.Sms
+namespace EasyAbp.NotificationService.Provider.Sms;
+
+public class SmsNotificationSendingJob : IAsyncBackgroundJob<SmsNotificationSendingJobArgs>, ITransientDependency
 {
-    public class SmsNotificationSendingJob : IAsyncBackgroundJob<SmsNotificationSendingJobArgs>, ITransientDependency
+    private readonly SmsNotificationManager _smsNotificationManager;
+    private readonly ICurrentTenant _currentTenant;
+    private readonly INotificationInfoRepository _notificationInfoRepository;
+    private readonly INotificationRepository _notificationRepository;
+
+    public SmsNotificationSendingJob(
+        SmsNotificationManager smsNotificationManager,
+        ICurrentTenant currentTenant,
+        INotificationInfoRepository notificationInfoRepository,
+        INotificationRepository notificationRepository)
     {
-        private readonly ICurrentTenant _currentTenant;
-        private readonly INotificationInfoRepository _notificationInfoRepository;
-        private readonly IUserPhoneNumberProvider _userPhoneNumberProvider;
-        private readonly INotificationRepository _notificationRepository;
-        private readonly IJsonSerializer _jsonSerializer;
-        private readonly ISmsSender _smsSender;
-        private readonly IClock _clock;
+        _smsNotificationManager = smsNotificationManager;
+        _currentTenant = currentTenant;
+        _notificationInfoRepository = notificationInfoRepository;
+        _notificationRepository = notificationRepository;
+    }
 
-        public SmsNotificationSendingJob(
-            ICurrentTenant currentTenant,
-            INotificationInfoRepository notificationInfoRepository,
-            IUserPhoneNumberProvider userPhoneNumberProvider,
-            INotificationRepository notificationRepository,
-            IJsonSerializer jsonSerializer,
-            ISmsSender smsSender,
-            IClock clock)
-        {
-            _currentTenant = currentTenant;
-            _notificationInfoRepository = notificationInfoRepository;
-            _userPhoneNumberProvider = userPhoneNumberProvider;
-            _notificationRepository = notificationRepository;
-            _jsonSerializer = jsonSerializer;
-            _smsSender = smsSender;
-            _clock = clock;
-        }
+    [UnitOfWork]
+    public virtual async Task ExecuteAsync(SmsNotificationSendingJobArgs args)
+    {
+        using var changeTenant = _currentTenant.Change(args.TenantId);
 
-        [UnitOfWork]
-        public virtual async Task ExecuteAsync(SmsNotificationSendingJobArgs args)
-        {
-            using var changeTenant = _currentTenant.Change(args.TenantId);
+        var notification = await _notificationRepository.GetAsync(args.NotificationId);
+        var notificationInfo = await _notificationInfoRepository.GetAsync(notification.NotificationInfoId);
 
-            var notification = await _notificationRepository.GetAsync(args.NotificationId);
-
-            var userPhoneNumber = await _userPhoneNumberProvider.GetAsync(notification.UserId);
-
-            if (userPhoneNumber.IsNullOrWhiteSpace())
-            {
-                await SaveNotificationResultAsync(
-                    notification, false, NotificationConsts.FailureReasons.ReceiverInfoNotFound);
-
-                return;
-            }
-
-            var notificationInfo = await _notificationInfoRepository.GetAsync(notification.NotificationInfoId);
-
-            var properties = _jsonSerializer.Deserialize<IDictionary<string, object>>(notificationInfo
-                .GetDataValue(NotificationProviderSmsConsts.NotificationInfoPropertiesPropertyName).ToString());
-
-            var smsMessage = new SmsMessage(userPhoneNumber,
-                notificationInfo.GetDataValue(NotificationProviderSmsConsts.NotificationInfoTextPropertyName)
-                    .ToString());
-
-            foreach (var property in properties)
-            {
-                smsMessage.Properties.AddIfNotContains(property);
-            }
-
-            await _smsSender.SendAsync(smsMessage);
-
-            await SaveNotificationResultAsync(notification, true);
-        }
-
-        protected virtual async Task SaveNotificationResultAsync(Notification notification, bool success,
-            [CanBeNull] string failureReason = null)
-        {
-            notification.SetResult(_clock, success, failureReason);
-
-            await _notificationRepository.UpdateAsync(notification, true);
-        }
+        await _smsNotificationManager.SendNotificationsAsync(new List<Notification> { notification }, notificationInfo);
     }
 }

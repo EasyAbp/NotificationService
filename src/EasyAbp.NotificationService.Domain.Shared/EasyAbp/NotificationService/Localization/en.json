@@ -14,7 +14,7 @@
     "NotificationSuccess": "Success",
     "NotificationCompletionTime": "Completion time",
     "NotificationFailureReason": "Failure reason",
-    "NotificationRetryNotificationId": "Retry notification ID",
+    "NotificationRetryForNotificationId": "Root notification ID",
     "CreateNotification": "New",
     "EditNotification": "Edit",
     "NotificationDeletionConfirmationMessage": "Are you sure to delete the notification {0}?",

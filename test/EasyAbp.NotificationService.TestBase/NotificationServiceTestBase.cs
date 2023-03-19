@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
+using Volo.Abp.Json;
 using Volo.Abp.Modularity;
 using Volo.Abp.Uow;
 using Volo.Abp.Testing;
@@ -9,9 +10,16 @@ using Volo.Abp.Testing;
 namespace EasyAbp.NotificationService
 {
     /* All test classes are derived from this class, directly or indirectly. */
-    public abstract class NotificationServiceTestBase<TStartupModule> : AbpIntegratedTest<TStartupModule> 
+    public abstract class NotificationServiceTestBase<TStartupModule> : AbpIntegratedTest<TStartupModule>
         where TStartupModule : IAbpModule
     {
+        protected IJsonSerializer JsonSerializer { get; }
+
+        public NotificationServiceTestBase()
+        {
+            JsonSerializer = GetRequiredService<IJsonSerializer>();
+        }
+
         protected override void SetAbpApplicationCreationOptions(AbpApplicationCreationOptions options)
         {
             options.UseAutofac();
@@ -42,7 +50,8 @@ namespace EasyAbp.NotificationService
             return WithUnitOfWorkAsync(new AbpUnitOfWorkOptions(), func);
         }
 
-        protected virtual async Task<TResult> WithUnitOfWorkAsync<TResult>(AbpUnitOfWorkOptions options, Func<Task<TResult>> func)
+        protected virtual async Task<TResult> WithUnitOfWorkAsync<TResult>(AbpUnitOfWorkOptions options,
+            Func<Task<TResult>> func)
         {
             using (var scope = ServiceProvider.CreateScope())
             {

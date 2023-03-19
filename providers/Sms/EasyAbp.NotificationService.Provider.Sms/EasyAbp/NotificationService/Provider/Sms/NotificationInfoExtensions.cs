@@ -2,15 +2,26 @@
 using EasyAbp.NotificationService.NotificationInfos;
 using JetBrains.Annotations;
 
-namespace EasyAbp.NotificationService.Provider.Sms
+namespace EasyAbp.NotificationService.Provider.Sms;
+
+public static class NotificationInfoExtensions
 {
-    public static class NotificationInfoExtensions
+    public static void SetSmsData(this NotificationInfo notificationInfo, [NotNull] string text,
+        [NotNull] string jsonProperties)
     {
-        public static void SetSmsData(this NotificationInfo notificationInfo, [NotNull] string text,
-            [NotNull] IDictionary<string, object> properties)
-        {
-            notificationInfo.SetDataValue(NotificationProviderSmsConsts.NotificationInfoTextPropertyName, text);
-            notificationInfo.SetDataValue(NotificationProviderSmsConsts.NotificationInfoPropertiesPropertyName, properties);
-        }
+        notificationInfo.SetDataValue(NotificationProviderSmsConsts.NotificationInfoTextPropertyName, text);
+        notificationInfo.SetDataValue(NotificationProviderSmsConsts.NotificationInfoJsonPropertiesPropertyName,
+            jsonProperties);
+    }
+
+    public static string GetSmsText(this NotificationInfo notificationInfo)
+    {
+        return (string)notificationInfo.GetDataValue(NotificationProviderSmsConsts.NotificationInfoTextPropertyName);
+    }
+
+    public static string GetSmsJsonProperties(this NotificationInfo notificationInfo)
+    {
+        return (string)notificationInfo.GetDataValue(NotificationProviderSmsConsts
+            .NotificationInfoJsonPropertiesPropertyName);
     }
 }

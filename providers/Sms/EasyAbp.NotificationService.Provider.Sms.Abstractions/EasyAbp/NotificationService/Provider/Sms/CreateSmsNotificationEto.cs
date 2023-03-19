@@ -2,38 +2,53 @@
 using System.Collections.Generic;
 using EasyAbp.NotificationService.Notifications;
 using JetBrains.Annotations;
+using Volo.Abp.Json;
+using Volo.Abp.MultiTenancy;
 
-namespace EasyAbp.NotificationService.Provider.Sms
+namespace EasyAbp.NotificationService.Provider.Sms;
+
+[Serializable]
+public class CreateSmsNotificationEto : CreateNotificationInfoModel, IMultiTenant
 {
-    [Serializable]
-    public class CreateSmsNotificationEto : CreateNotificationEto
+    public Guid? TenantId { get; set; }
+
+    [NotNull]
+    public string Text
     {
-        [NotNull]
-        public string Text { get; set; }
+        get => this.GetText();
+        set => this.SetText(value);
+    }
 
-        [NotNull]
-        public IDictionary<string, object> Properties { get; set; }
-        
-        public CreateSmsNotificationEto() { }
+    [NotNull]
+    public string JsonProperties
+    {
+        get => this.GetJsonProperties();
+        set => this.SetJsonProperties(value);
+    }
 
-        public CreateSmsNotificationEto(
-            Guid? tenantId,
-            IEnumerable<Guid> userIds,
-            [NotNull] string text,
-            [NotNull] IDictionary<string, object> properties) : base(tenantId, userIds)
-        {
-            Text = text;
-            Properties = properties;
-        }
-        
-        public CreateSmsNotificationEto(
-            Guid? tenantId,
-            Guid userId,
-            [NotNull] string text,
-            [NotNull] IDictionary<string, object> properties) : base(tenantId, userId)
-        {
-            Text = text;
-            Properties = properties;
-        }
+    public CreateSmsNotificationEto(
+        Guid? tenantId,
+        IEnumerable<Guid> userIds,
+        [NotNull] string text,
+        [NotNull] IDictionary<string, object> properties,
+        IJsonSerializer jsonSerializer) :
+        base(NotificationProviderSmsConsts.NotificationMethod, userIds)
+    {
+        TenantId = tenantId;
+        Text = text;
+        JsonProperties = jsonSerializer.Serialize(properties);
+    }
+
+    public CreateSmsNotificationEto(
+        Guid? tenantId,
+        Guid userId,
+        [NotNull] string text,
+        [NotNull] IDictionary<string, object> properties,
+        IJsonSerializer jsonSerializer) :
+        base(NotificationProviderSmsConsts.NotificationMethod, userId)
+    {
+        TenantId = tenantId;
+        Text = text;
+        JsonProperties = jsonSerializer.Serialize(properties);
     }
 }

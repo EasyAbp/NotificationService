@@ -54,11 +54,9 @@ namespace EasyAbp.NotificationService.Provider.Mailing
 
             var notificationInfo = await NotificationInfoRepository.GetAsync(notifications.First().NotificationInfoId);
 
-            var subject = notificationInfo
-                .GetDataValue(NotificationProviderMailingConsts.NotificationInfoSubjectPropertyName).ToString();
+            var subject = notificationInfo.GetMailingSubject();
 
-            var body = notificationInfo.GetDataValue(NotificationProviderMailingConsts.NotificationInfoBodyPropertyName)
-                .ToString();
+            var body = notificationInfo.GetMailingBody();
 
             subject.ShouldBe(Subject);
             body.ShouldBe(Body);
