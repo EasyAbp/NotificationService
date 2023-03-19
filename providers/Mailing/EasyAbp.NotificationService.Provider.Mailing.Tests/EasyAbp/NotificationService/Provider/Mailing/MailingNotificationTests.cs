@@ -94,6 +94,28 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         }
 
         [Fact]
+        public async Task Should_Set_Notification_Result_To_Failure_If_Email_Is_Not_Confirmed()
+        {
+            var userIds = new List<Guid>
+            {
+                NotificationServiceProviderMailingTestConsts.FakeUser2Id
+            };
+
+            await CreateEmailNotificationAsync(userIds, Subject, Body);
+
+            var notification = (await NotificationRepository.GetListAsync()).First();
+
+            await EmailNotificationSendingJob.ExecuteAsync(
+                new EmailNotificationSendingJobArgs(notification.TenantId, notification.Id));
+
+            notification = await NotificationRepository.GetAsync(notification.Id);
+
+            notification.Success.ShouldBe(false);
+            notification.CompletionTime.ShouldNotBeNull();
+            notification.FailureReason.ShouldBe(NotificationConsts.FailureReasons.ReceiverInfoNotFound);
+        }
+
+        [Fact]
         public async Task Should_Set_Notification_Result_To_Failure_If_User_Not_Found()
         {
             var userIds = new List<Guid>

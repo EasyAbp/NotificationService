@@ -16,7 +16,8 @@ namespace EasyAbp.NotificationService.Provider.Mailing
                 return new UserData(
                     NotificationServiceProviderMailingTestConsts.FakeUser1Id,
                     "fake1",
-                    "user1@easyabp.io");
+                    "user1@easyabp.io",
+                    emailConfirmed: true);
             }
             
             if (id == NotificationServiceProviderMailingTestConsts.FakeUser2Id)
@@ -24,7 +25,8 @@ namespace EasyAbp.NotificationService.Provider.Mailing
                 return new UserData(
                     NotificationServiceProviderMailingTestConsts.FakeUser2Id,
                     "fake2",
-                    "user2@easyabp.io");
+                    "user2@easyabp.io",
+                    emailConfirmed: false);
             }
 
             return null;
