@@ -15,12 +15,17 @@ namespace EasyAbp.NotificationService.Provider.Sms
         {
             _userLookupServiceProvider = userLookupServiceProvider;
         }
-        
+
         public virtual async Task<string> GetAsync(Guid userId)
         {
             var userData = await _userLookupServiceProvider.FindByIdAsync(userId);
 
-            return userData?.PhoneNumber;
+            if (userData is null || !userData.PhoneNumberConfirmed || userData.PhoneNumber.IsNullOrWhiteSpace())
+            {
+                return null;
+            }
+
+            return userData.PhoneNumber;
         }
     }
 }
