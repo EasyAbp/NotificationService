@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EasyAbp.NotificationService.NotificationInfos;
 using EasyAbp.NotificationService.Notifications;
 using Microsoft.Extensions.Logging;
+using Volo.Abp;
 using Volo.Abp.Json;
 using Volo.Abp.Sms;
 using Volo.Abp.Uow;
@@ -65,7 +66,8 @@ public class SmsNotificationManager : NotificationManagerBase
         catch (Exception e)
         {
             Logger.LogException(e);
-            await SetNotificationResultAsync(notification, false, e.ToString());
+            var message = e is BusinessException b ? b.Code ?? b.Message : e.ToString();
+            await SetNotificationResultAsync(notification, false, message);
         }
     }
 }
