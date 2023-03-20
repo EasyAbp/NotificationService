@@ -63,8 +63,13 @@ You can create a notification using a notification factory or manually.
         model: new UserWelcomeNotificationDataModel(userData.UserName, giftCardCode),
         userId: userData.Id
     );
-    
+
+    // use the distributed event bus to create notifications and send them in the background
     await distributedEventBus.PublishAsync(eto);
+    // or use the integration service to create notifications and send them in the background
+    var notifications = await notificationIntegrationService.CreateAsync(eto);
+    // or use the integration service to create notifications and send it them immediately
+    var notifications = await notificationIntegrationService.QuickSendAsync(eto);
     ```
 
 ### Create Manually
