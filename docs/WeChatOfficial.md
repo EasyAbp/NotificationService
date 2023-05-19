@@ -27,7 +27,7 @@ Todo: demo
         ITransientDependency
     {
         // 如果 appId 为空，则自动获取配置的 AbpWeChatOfficialOptions
-        // 如果你指定了 appId，请自行实现 IAbpWeChatOfficialOptionsProvider
+        // 如果你指定了 appId，请自行实现 IAbpWeChatOptionsProvider<AbpWeChatOfficialOptions>
         var appId = "my-official-appid";
         var templateData = new TemplateMessage($"Hello, {model.UserName}", "Thank you");
 
