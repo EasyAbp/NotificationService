@@ -1,7 +1,9 @@
-﻿using Volo.Abp.Modularity;
+﻿using Volo.Abp.Domain;
+using Volo.Abp.Modularity;
 using Volo.Abp.Localization;
 using EasyAbp.NotificationService.Localization;
-using Volo.Abp.EventBus;
+using Volo.Abp.EventBus.Abstractions;
+using Volo.Abp.Json;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
@@ -11,7 +13,9 @@ namespace EasyAbp.NotificationService
 {
     [DependsOn(
         typeof(AbpValidationModule),
-        typeof(AbpEventBusModule)
+        typeof(AbpDddDomainSharedModule),
+        typeof(AbpEventBusAbstractionsModule),
+        typeof(AbpJsonAbstractionsModule)
     )]
     public class NotificationServiceDomainSharedModule : AbpModule
     {

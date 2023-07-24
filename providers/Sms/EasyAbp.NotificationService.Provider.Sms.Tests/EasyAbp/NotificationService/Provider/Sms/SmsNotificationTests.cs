@@ -20,7 +20,6 @@ namespace EasyAbp.NotificationService.Provider.Sms
         private const string ExtraPropertyValue = "123456";
 
         protected ICurrentTenant CurrentTenant { get; set; }
-        protected IJsonSerializer JsonSerializer { get; set; }
         protected INotificationRepository NotificationRepository { get; set; }
         protected INotificationInfoRepository NotificationInfoRepository { get; set; }
         protected IAsyncBackgroundJob<SmsNotificationSendingJobArgs> SmsNotificationSendingJob { get; set; }
@@ -28,7 +27,6 @@ namespace EasyAbp.NotificationService.Provider.Sms
         public SmsNotificationTests()
         {
             CurrentTenant = ServiceProvider.GetRequiredService<ICurrentTenant>();
-            JsonSerializer = ServiceProvider.GetRequiredService<IJsonSerializer>();
             NotificationRepository = ServiceProvider.GetRequiredService<INotificationRepository>();
             NotificationInfoRepository = ServiceProvider.GetRequiredService<INotificationInfoRepository>();
             SmsNotificationSendingJob =
