@@ -21,7 +21,8 @@ namespace EasyAbp.NotificationService.Web.Menus
             var l = context.GetLocalizer<NotificationServiceResource>();
              //Add main menu items.
 
-            var notificationServiceMenuItem = new ApplicationMenuItem(NotificationServiceMenus.Prefix, l["Menu:NotificationService"]);
+            var notificationServiceMenuItem = new ApplicationMenuItem(NotificationServiceMenus.Prefix,
+                l["Menu:NotificationService"], icon: "fa fa-bell");
             
             if (await context.IsGrantedAsync(NotificationServicePermissions.Notification.Default))
             {
@@ -32,7 +33,7 @@ namespace EasyAbp.NotificationService.Web.Menus
 
             if (!notificationServiceMenuItem.Items.IsNullOrEmpty())
             {
-                context.Menu.AddItem(notificationServiceMenuItem);
+                context.Menu.GetAdministration().AddItem(notificationServiceMenuItem);
             }
         }
     }
