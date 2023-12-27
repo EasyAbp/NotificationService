@@ -8,10 +8,6 @@
 
 An integrated user notification service Abp module, supporting email, SMS, PM, and more other methods.
 
-## Online Demo
-
-We have launched an online demo for this module: [https://notification.samples.easyabp.io](https://notification.samples.easyabp.io)
-
 ## Installation
 
 1. Install the following NuGet packages. ([see how](https://github.com/EasyAbp/EasyAbpGuide/blob/master/docs/How-To.md#add-nuget-packages))
