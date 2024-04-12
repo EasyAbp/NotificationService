@@ -86,7 +86,7 @@ namespace EasyAbp.NotificationService
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
 
-            Configure<AbpAspNetCoreMvcOptions>(options =>
+            PreConfigure<AbpAspNetCoreMvcOptions>(options =>
             {
                 options
                     .ConventionalControllers

@@ -4,6 +4,7 @@ using EasyAbp.NotificationService.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EasyAbp.NotificationService.Migrations
 {
     [DbContext(typeof(IdentityServerHostMigrationsDbContext))]
-    partial class IdentityServerHostMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240412152708_UpgradedToAbp_8_1")]
+    partial class UpgradedToAbp_8_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
