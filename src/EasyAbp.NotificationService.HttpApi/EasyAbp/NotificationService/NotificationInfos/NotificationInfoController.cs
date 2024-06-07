@@ -19,26 +19,6 @@ namespace EasyAbp.NotificationService.NotificationInfos
             _service = service;
         }
 
-        [HttpPost]
-        public virtual Task<NotificationInfoDto> CreateAsync(CreateUpdateNotificationInfoDto input)
-        {
-            return _service.CreateAsync(input);
-        }
-
-        [HttpPut]
-        [Route("{id}")]
-        public virtual Task<NotificationInfoDto> UpdateAsync(Guid id, CreateUpdateNotificationInfoDto input)
-        {
-            return _service.UpdateAsync(id, input);
-        }
-
-        [HttpDelete]
-        [Route("{id}")]
-        public virtual Task DeleteAsync(Guid id)
-        {
-            return _service.DeleteAsync(id);
-        }
-
         [HttpGet]
         [Route("{id}")]
         public virtual Task<NotificationInfoDto> GetAsync(Guid id)

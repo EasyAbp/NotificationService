@@ -14,9 +14,7 @@ namespace EasyAbp.NotificationService
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
             CreateMap<Notification, NotificationDto>();
-            CreateMap<CreateUpdateNotificationDto, Notification>(MemberList.Source);
             CreateMap<NotificationInfo, NotificationInfoDto>();
-            CreateMap<CreateUpdateNotificationInfoDto, NotificationInfo>(MemberList.Source);
         }
     }
 }

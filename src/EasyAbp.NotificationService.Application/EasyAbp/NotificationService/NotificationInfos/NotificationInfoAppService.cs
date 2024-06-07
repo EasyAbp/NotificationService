@@ -3,23 +3,30 @@ using EasyAbp.NotificationService.Permissions;
 using EasyAbp.NotificationService.NotificationInfos.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.ObjectExtending;
 
 namespace EasyAbp.NotificationService.NotificationInfos
 {
-    public class NotificationInfoAppService : CrudAppService<NotificationInfo, NotificationInfoDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateNotificationInfoDto, CreateUpdateNotificationInfoDto>,
-        INotificationInfoAppService
+    public class NotificationInfoAppService : ReadOnlyAppService<NotificationInfo, NotificationInfoDto, Guid,
+        PagedAndSortedResultRequestDto>, INotificationInfoAppService
     {
-        protected override string GetPolicyName { get; set; } = NotificationServicePermissions.Notification.Default;
-        protected override string GetListPolicyName { get; set; } = NotificationServicePermissions.Notification.Default;
-        protected override string CreatePolicyName { get; set; } = NotificationServicePermissions.Notification.Create;
-        protected override string UpdatePolicyName { get; set; } = NotificationServicePermissions.Notification.Update;
-        protected override string DeletePolicyName { get; set; } = NotificationServicePermissions.Notification.Delete;
+        protected override string GetPolicyName { get; set; } = NotificationServicePermissions.Notification.Manage;
+        protected override string GetListPolicyName { get; set; } = NotificationServicePermissions.Notification.Manage;
 
         private readonly INotificationInfoRepository _repository;
-        
+
         public NotificationInfoAppService(INotificationInfoRepository repository) : base(repository)
         {
             _repository = repository;
+        }
+
+        protected override NotificationInfoDto MapToGetOutputDto(NotificationInfo entity)
+        {
+            var dto = ObjectMapper.Map<NotificationInfo, NotificationInfoDto>(entity);
+
+            entity.MapExtraPropertiesTo(dto, MappingPropertyDefinitionChecks.None);
+
+            return dto;
         }
     }
 }

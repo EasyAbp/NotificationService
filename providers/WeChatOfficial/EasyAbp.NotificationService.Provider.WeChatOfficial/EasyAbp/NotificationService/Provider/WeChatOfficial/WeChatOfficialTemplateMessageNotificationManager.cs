@@ -32,9 +32,10 @@ public class
     {
         var notificationInfo = new NotificationInfo(GuidGenerator.Create(), CurrentTenant.Id);
 
-        notificationInfo.SetWeChatOfficialTemplateMessageData(model.GetDataModel(TemplateMessageDataModelJsonSerializer), TemplateMessageDataModelJsonSerializer);
+        notificationInfo.SetWeChatOfficialTemplateMessageData(
+            model.GetDataModel(TemplateMessageDataModelJsonSerializer), TemplateMessageDataModelJsonSerializer);
 
-        var notifications = await CreateNotificationsAsync(notificationInfo, model.UserIds);
+        var notifications = await CreateNotificationsAsync(notificationInfo, model);
 
         return (notifications, notificationInfo);
     }

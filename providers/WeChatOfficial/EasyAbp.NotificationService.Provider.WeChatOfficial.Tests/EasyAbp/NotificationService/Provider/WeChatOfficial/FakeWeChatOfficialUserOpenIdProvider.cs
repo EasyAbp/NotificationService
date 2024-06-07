@@ -13,12 +13,12 @@ public class FakeWeChatOfficialUserOpenIdProvider : IWeChatOfficialUserOpenIdPro
 
     public virtual Task<string> GetOrNullAsync(Guid userId)
     {
-        if (userId == NotificationServiceProviderWeChatOfficialTestConsts.FakeUser1Id)
+        if (userId == NotificationServiceTestConsts.FakeUser1Id)
         {
             return Task.FromResult("my-openid-1");
         }
 
-        if (userId == NotificationServiceProviderWeChatOfficialTestConsts.FakeUser2Id)
+        if (userId == NotificationServiceTestConsts.FakeUser2Id)
         {
             return Task.FromResult("my-openid-2");
         }

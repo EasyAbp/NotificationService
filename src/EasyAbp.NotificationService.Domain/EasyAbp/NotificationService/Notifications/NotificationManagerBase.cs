@@ -6,11 +6,14 @@ using EasyAbp.NotificationService.NotificationInfos;
 using JetBrains.Annotations;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.Uow;
+using Volo.Abp.Users;
 
 namespace EasyAbp.NotificationService.Notifications;
 
 public abstract class NotificationManagerBase : DomainService, INotificationManager
 {
+    public static string UnknownUserName = "__UNKNOWN";
+
     protected abstract string NotificationMethod { get; }
 
     protected INotificationRepository NotificationRepository =>
@@ -19,14 +22,33 @@ public abstract class NotificationManagerBase : DomainService, INotificationMana
     protected INotificationInfoRepository NotificationInfoRepository =>
         LazyServiceProvider.LazyGetRequiredService<INotificationInfoRepository>();
 
+    protected IExternalUserLookupServiceProvider ExternalUserLookupServiceProvider =>
+        LazyServiceProvider.LazyGetRequiredService<IExternalUserLookupServiceProvider>();
+
     public abstract Task<(List<Notification>, NotificationInfo)> CreateAsync(CreateNotificationInfoModel model);
 
-    protected virtual Task<List<Notification>> CreateNotificationsAsync(NotificationInfo notificationInfo,
-        IEnumerable<Guid> userIds)
+    protected virtual async Task<List<Notification>> CreateNotificationsAsync(NotificationInfo notificationInfo,
+        CreateNotificationInfoModel model)
     {
-        return Task.FromResult(userIds.Select(userId => new Notification(GuidGenerator.Create(), CurrentTenant.Id,
-            userId,
-            notificationInfo.Id, NotificationMethod)).ToList());
+        if (model.Users is not null)
+        {
+            return model.Users.Select(user => new Notification(GuidGenerator.Create(), CurrentTenant.Id, user.Id,
+                user.UserName, notificationInfo.Id, NotificationMethod)).ToList();
+        }
+
+        var notifications = new List<Notification>();
+
+        foreach (var userId in model.UserIds)
+        {
+            var user = await ExternalUserLookupServiceProvider.FindByIdAsync(userId);
+
+            var userName = user?.UserName ?? UnknownUserName;
+
+            notifications.Add(new Notification(GuidGenerator.Create(), CurrentTenant.Id, userId, userName,
+                notificationInfo.Id, NotificationMethod));
+        }
+
+        return notifications;
     }
 
     [UnitOfWork]

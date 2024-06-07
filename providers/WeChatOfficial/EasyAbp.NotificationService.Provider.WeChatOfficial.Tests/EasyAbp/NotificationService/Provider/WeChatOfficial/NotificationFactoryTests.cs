@@ -42,13 +42,13 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
                 model: new UserWelcomeNotificationDataModel("my-username", giftCardCode),
                 userIds: new[]
                 {
-                    NotificationServiceProviderWeChatOfficialTestConsts.FakeUser1Id,
-                    NotificationServiceProviderWeChatOfficialTestConsts.FakeUser2Id
+                    NotificationServiceTestConsts.FakeUser1Id,
+                    NotificationServiceTestConsts.FakeUser2Id
                 }
             );
 
-            eto.UserIds.ShouldContain(NotificationServiceProviderWeChatOfficialTestConsts.FakeUser1Id);
-            eto.UserIds.ShouldContain(NotificationServiceProviderWeChatOfficialTestConsts.FakeUser2Id);
+            eto.UserIds.ShouldContain(NotificationServiceTestConsts.FakeUser1Id);
+            eto.UserIds.ShouldContain(NotificationServiceTestConsts.FakeUser2Id);
             var dataModel = eto.GetDataModel(TemplateMessageDataModelJsonSerializer);
             dataModel.Url.ShouldBe("https://github.com");
             dataModel.AppId.ShouldBe("my-official-appid");

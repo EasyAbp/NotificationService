@@ -6,13 +6,10 @@ using Volo.Abp.Application.Services;
 namespace EasyAbp.NotificationService.NotificationInfos
 {
     public interface INotificationInfoAppService :
-        ICrudAppService< 
-            NotificationInfoDto, 
-            Guid, 
-            PagedAndSortedResultRequestDto,
-            CreateUpdateNotificationInfoDto,
-            CreateUpdateNotificationInfoDto>
+        IReadOnlyAppService<
+            NotificationInfoDto,
+            Guid,
+            PagedAndSortedResultRequestDto>
     {
-
     }
 }

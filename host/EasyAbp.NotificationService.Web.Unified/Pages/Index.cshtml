@@ -4,4 +4,11 @@
 @using EasyAbp.NotificationService.Pages
 @model IndexModel
 @inject IStringLocalizer<AbpUiResource> Localizer
-<a href="~/Account/Login">@Localizer["Login"]</a>
+
+<div>
+    <a href="~/Account/Login">@Localizer["Login"]</a>
+</div>
+
+<div>
+    <a href="/test/send-test-notification" target="_blank">Send test notification</a>
+</div>

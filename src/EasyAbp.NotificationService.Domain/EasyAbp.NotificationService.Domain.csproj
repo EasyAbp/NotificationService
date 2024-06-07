@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.BackgroundJobs.Abstractions" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Users.Abstractions" Version="$(AbpVersion)" />
     <ProjectReference Include="..\EasyAbp.NotificationService.Domain.Shared\EasyAbp.NotificationService.Domain.Shared.csproj" />
   </ItemGroup>
 

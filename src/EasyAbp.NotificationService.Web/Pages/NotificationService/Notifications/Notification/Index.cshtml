@@ -31,24 +31,18 @@
             <abp-column size-md="_6">
                 <abp-card-title>@L["Notification"]</abp-card-title>
             </abp-column>
-            <abp-column size-md="_6" class="text-end">
-            </abp-column>
         </abp-row>
     </abp-card-header>
     <abp-card-body>
-        <abp-table striped-rows="true" id="NotificationTable" class="nowrap">
-            <thead>
-            <tr>
-                @* <th>@L["Actions"]</th> *@
-                <th>@L["NotificationUserId"]</th>
-                <th>@L["NotificationNotificationInfoId"]</th>
-                <th>@L["NotificationNotificationMethod"]</th>
-                <th>@L["NotificationSuccess"]</th>
-                <th>@L["NotificationCompletionTime"]</th>
-                <th>@L["NotificationFailureReason"]</th>
-                <th>@L["NotificationRetryForNotificationId"]</th>
-            </tr>
-            </thead>
-        </abp-table>
+        <abp-row class="mb-3">
+            <a abp-collapse-id="NotificationCollapse" class="text-secondary">@L["TableFilter"] </a>
+        </abp-row>
+        <abp-dynamic-form abp-model="NotificationFilter" id="NotificationFilter" required-symbols="false" column-size="_3">
+            <abp-collapse-body id="NotificationCollapse">
+                <abp-form-content />
+            </abp-collapse-body>
+        </abp-dynamic-form>
+        <hr />
+        <abp-table striped-rows="true" id="NotificationTable" class="nowrap"/>
     </abp-card-body>
 </abp-card>

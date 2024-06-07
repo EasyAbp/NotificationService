@@ -31,7 +31,7 @@ public class SmsNotificationManager : NotificationManagerBase
 
         notificationInfo.SetSmsData(model.GetText(), JsonSerializer.Serialize(model.GetProperties(JsonSerializer)));
 
-        var notifications = await CreateNotificationsAsync(notificationInfo, model.UserIds);
+        var notifications = await CreateNotificationsAsync(notificationInfo, model);
 
         return (notifications, notificationInfo);
     }

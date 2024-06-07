@@ -37,8 +37,8 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         {
             var userIds = new List<Guid>
             {
-                NotificationServiceProviderMailingTestConsts.FakeUser1Id,
-                NotificationServiceProviderMailingTestConsts.FakeUser2Id
+                NotificationServiceTestConsts.FakeUser1Id,
+                NotificationServiceTestConsts.FakeUser2Id
             };
 
             await CreateEmailNotificationAsync(userIds, Subject, Body);
@@ -76,7 +76,7 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         {
             var userIds = new List<Guid>
             {
-                NotificationServiceProviderMailingTestConsts.FakeUser1Id
+                NotificationServiceTestConsts.FakeUser1Id
             };
 
             await CreateEmailNotificationAsync(userIds, Subject, Body);
@@ -98,7 +98,7 @@ namespace EasyAbp.NotificationService.Provider.Mailing
         {
             var userIds = new List<Guid>
             {
-                NotificationServiceProviderMailingTestConsts.FakeUser2Id
+                NotificationServiceTestConsts.FakeUser2Id
             };
 
             await CreateEmailNotificationAsync(userIds, Subject, Body);

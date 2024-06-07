@@ -26,6 +26,23 @@ public class CreateSmsNotificationEto : CreateNotificationInfoModel, IMultiTenan
         set => this.SetJsonProperties(value);
     }
 
+    public CreateSmsNotificationEto()
+    {
+    }
+
+    public CreateSmsNotificationEto(
+        Guid? tenantId,
+        IEnumerable<NotificationUserInfoModel> users,
+        [NotNull] string text,
+        [NotNull] IDictionary<string, object> properties,
+        IJsonSerializer jsonSerializer) :
+        base(NotificationProviderSmsConsts.NotificationMethod, users)
+    {
+        TenantId = tenantId;
+        Text = text;
+        JsonProperties = jsonSerializer.Serialize(properties);
+    }
+
     public CreateSmsNotificationEto(
         Guid? tenantId,
         IEnumerable<Guid> userIds,
@@ -33,6 +50,19 @@ public class CreateSmsNotificationEto : CreateNotificationInfoModel, IMultiTenan
         [NotNull] IDictionary<string, object> properties,
         IJsonSerializer jsonSerializer) :
         base(NotificationProviderSmsConsts.NotificationMethod, userIds)
+    {
+        TenantId = tenantId;
+        Text = text;
+        JsonProperties = jsonSerializer.Serialize(properties);
+    }
+
+    public CreateSmsNotificationEto(
+        Guid? tenantId,
+        NotificationUserInfoModel user,
+        [NotNull] string text,
+        [NotNull] IDictionary<string, object> properties,
+        IJsonSerializer jsonSerializer) :
+        base(NotificationProviderSmsConsts.NotificationMethod, user)
     {
         TenantId = tenantId;
         Text = text;

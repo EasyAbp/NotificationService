@@ -27,7 +27,7 @@ public class PrivateMessageNotificationManager : NotificationManagerBase
 
         notificationInfo.SetPrivateMessagingData(model.GetTitle(), model.GetContent(), model.GetSendFromCreator());
 
-        var notifications = await CreateNotificationsAsync(notificationInfo, model.UserIds);
+        var notifications = await CreateNotificationsAsync(notificationInfo, model);
 
         return (notifications, notificationInfo);
     }

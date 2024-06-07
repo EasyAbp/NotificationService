@@ -11,19 +11,19 @@ namespace EasyAbp.NotificationService.Provider.Mailing
     {
         public async Task<IUserData> FindByIdAsync(Guid id, CancellationToken cancellationToken = new CancellationToken())
         {
-            if (id == NotificationServiceProviderMailingTestConsts.FakeUser1Id)
+            if (id == NotificationServiceTestConsts.FakeUser1Id)
             {
                 return new UserData(
-                    NotificationServiceProviderMailingTestConsts.FakeUser1Id,
+                    NotificationServiceTestConsts.FakeUser1Id,
                     "fake1",
                     "user1@easyabp.io",
                     emailConfirmed: true);
             }
             
-            if (id == NotificationServiceProviderMailingTestConsts.FakeUser2Id)
+            if (id == NotificationServiceTestConsts.FakeUser2Id)
             {
                 return new UserData(
-                    NotificationServiceProviderMailingTestConsts.FakeUser2Id,
+                    NotificationServiceTestConsts.FakeUser2Id,
                     "fake2",
                     "user2@easyabp.io",
                     emailConfirmed: false);

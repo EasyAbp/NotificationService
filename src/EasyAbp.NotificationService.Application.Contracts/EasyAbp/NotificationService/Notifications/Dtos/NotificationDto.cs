@@ -8,6 +8,8 @@ namespace EasyAbp.NotificationService.Notifications.Dtos
     {
         public Guid UserId { get; set; }
 
+        public string UserName { get; set; }
+
         public Guid NotificationInfoId { get; set; }
 
         public string NotificationMethod { get; set; }
