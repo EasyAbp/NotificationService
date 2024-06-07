@@ -40,11 +40,20 @@ namespace EasyAbp.NotificationService.Notifications
         private IJsonSerializer _jsonSerializer;
 
         public abstract Task<TCreateNotificationEto> CreateAsync(TNotificationDataModel model,
+            IEnumerable<NotificationUserInfoModel> users);
+
+        public abstract Task<TCreateNotificationEto> CreateAsync(TNotificationDataModel model,
             IEnumerable<Guid> userIds);
 
         public virtual Task<TCreateNotificationEto> CreateAsync(TNotificationDataModel model, Guid userId)
         {
-            return CreateAsync(model, new List<Guid> { userId });
+            return CreateAsync(model, [userId]);
+        }
+
+        public virtual Task<TCreateNotificationEto> CreateAsync(TNotificationDataModel model,
+            NotificationUserInfoModel user)
+        {
+            return CreateAsync(model, [user]);
         }
     }
 }

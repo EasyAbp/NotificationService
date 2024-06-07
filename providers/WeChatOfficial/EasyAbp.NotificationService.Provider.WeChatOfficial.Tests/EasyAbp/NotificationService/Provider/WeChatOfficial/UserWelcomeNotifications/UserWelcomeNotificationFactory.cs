@@ -18,6 +18,23 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial.UserWelcomeNotific
         private ITemplateMessageDataModelJsonSerializer _templateMessageDataModelJsonSerializer;
 
         public override Task<CreateWeChatOfficialTemplateMessageNotificationEto> CreateAsync(
+            UserWelcomeNotificationDataModel model, IEnumerable<NotificationUserInfoModel> users)
+        {
+            var templateData = new TemplateMessage($"Hello, {model.UserName}", "Thank you");
+
+            templateData.AddKeywords("gift-card-code", model.GiftCardCode);
+
+            var dataModel = new WeChatOfficialTemplateMessageDataModel("my-template-id", new MiniProgramRequest
+            {
+                AppId = "my-mini-program-appid",
+                PagePath = "my-mini-program-page-path"
+            }, "https://github.com", templateData, "my-official-appid");
+
+            return Task.FromResult(new CreateWeChatOfficialTemplateMessageNotificationEto(CurrentTenant.Id, users,
+                dataModel, TemplateMessageDataModelJsonSerializer));
+        }
+
+        public override Task<CreateWeChatOfficialTemplateMessageNotificationEto> CreateAsync(
             UserWelcomeNotificationDataModel model, IEnumerable<Guid> userIds)
         {
             var templateData = new TemplateMessage($"Hello, {model.UserName}", "Thank you");

@@ -11,6 +11,15 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging.UserWelcomeNotif
         NotificationFactory<UserWelcomeNotificationDataModel, CreatePrivateMessageNotificationEto>, ITransientDependency
     {
         public override async Task<CreatePrivateMessageNotificationEto> CreateAsync(
+            UserWelcomeNotificationDataModel model,
+            IEnumerable<NotificationUserInfoModel> users)
+        {
+            var text = $"Hello, here is a gift card code for you: {model.GiftCardCode}";
+
+            return new CreatePrivateMessageNotificationEto(CurrentTenant.Id, users, "Gift Card Code", text, true);
+        }
+
+        public override async Task<CreatePrivateMessageNotificationEto> CreateAsync(
             UserWelcomeNotificationDataModel model, IEnumerable<Guid> userIds)
         {
             var text = $"Hello, here is a gift card code for you: {model.GiftCardCode}";

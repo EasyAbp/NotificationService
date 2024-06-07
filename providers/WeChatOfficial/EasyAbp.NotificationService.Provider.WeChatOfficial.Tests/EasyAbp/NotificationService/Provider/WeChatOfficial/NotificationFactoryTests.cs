@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using EasyAbp.Abp.WeChat.Common.Infrastructure.Services;
 using EasyAbp.Abp.WeChat.Official.Services.TemplateMessage;
+using EasyAbp.NotificationService.Notifications;
 using EasyAbp.NotificationService.Provider.WeChatOfficial.UserWelcomeNotifications;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -33,6 +34,37 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
 
         [Fact]
         public async Task Should_Create_User_Welcome_Notification()
+        {
+            var userWelcomeNotificationFactory = ServiceProvider.GetRequiredService<UserWelcomeNotificationFactory>();
+
+            const string giftCardCode = "123456"; // a random gift card code
+
+            var eto = await userWelcomeNotificationFactory.CreateAsync(
+                model: new UserWelcomeNotificationDataModel("my-username", giftCardCode),
+                users: new[]
+                {
+                    new NotificationUserInfoModel(NotificationServiceTestConsts.FakeUser1Id, "user1"),
+                    new NotificationUserInfoModel(NotificationServiceTestConsts.FakeUser2Id, "user2")
+                }
+            );
+
+            eto.Users.ShouldContain(x => x.Id == NotificationServiceTestConsts.FakeUser1Id && x.UserName == "user1");
+            eto.Users.ShouldContain(x => x.Id == NotificationServiceTestConsts.FakeUser2Id && x.UserName == "user2");
+            var dataModel = eto.GetDataModel(TemplateMessageDataModelJsonSerializer);
+            dataModel.Url.ShouldBe("https://github.com");
+            dataModel.AppId.ShouldBe("my-official-appid");
+            dataModel.MiniProgram.ShouldNotBeNull();
+            dataModel.MiniProgram.AppId.ShouldBe("my-mini-program-appid");
+            dataModel.MiniProgram.PagePath.ShouldBe("my-mini-program-page-path");
+            dataModel.TemplateId.ShouldBe("my-template-id");
+            dataModel.Data.ShouldNotBeNull();
+            dataModel.Data.ShouldContain(x => x.Key == "first" && x.Value.Value == "Hello, my-username");
+            dataModel.Data.ShouldContain(x => x.Key == "remark" && x.Value.Value == "Thank you");
+            dataModel.Data.ShouldContain(x => x.Key == "gift-card-code" && x.Value.Value == giftCardCode);
+        }
+
+        [Fact]
+        public async Task Should_Create_User_Welcome_Notification_By_User_Ids()
         {
             var userWelcomeNotificationFactory = ServiceProvider.GetRequiredService<UserWelcomeNotificationFactory>();
 
