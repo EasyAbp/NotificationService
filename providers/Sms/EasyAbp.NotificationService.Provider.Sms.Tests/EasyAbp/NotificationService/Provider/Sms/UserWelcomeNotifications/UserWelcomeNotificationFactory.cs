@@ -10,6 +10,15 @@ namespace EasyAbp.NotificationService.Provider.Sms.UserWelcomeNotifications
         NotificationFactory<UserWelcomeNotificationDataModel, CreateSmsNotificationEto>, ITransientDependency
     {
         public override async Task<CreateSmsNotificationEto> CreateAsync(UserWelcomeNotificationDataModel model,
+            IEnumerable<NotificationUserInfoModel> users)
+        {
+            var text = $"Hello, {model.UserName}, here is a gift card code for you: {model.GiftCardCode}";
+
+            return new CreateSmsNotificationEto(
+                CurrentTenant.Id, users, text, new Dictionary<string, object>(), JsonSerializer);
+        }
+
+        public override async Task<CreateSmsNotificationEto> CreateAsync(UserWelcomeNotificationDataModel model,
             IEnumerable<Guid> userIds)
         {
             var text = $"Hello, {model.UserName}, here is a gift card code for you: {model.GiftCardCode}";

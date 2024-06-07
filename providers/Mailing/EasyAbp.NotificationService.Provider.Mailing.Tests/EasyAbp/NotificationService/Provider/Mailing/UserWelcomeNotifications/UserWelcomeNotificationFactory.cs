@@ -7,7 +7,8 @@ using Volo.Abp.TextTemplating;
 
 namespace EasyAbp.NotificationService.Provider.Mailing.UserWelcomeNotifications
 {
-    public class UserWelcomeNotificationFactory : NotificationFactory<UserWelcomeNotificationDataModel, CreateEmailNotificationEto>, ITransientDependency
+    public class UserWelcomeNotificationFactory :
+        NotificationFactory<UserWelcomeNotificationDataModel, CreateEmailNotificationEto>, ITransientDependency
     {
         private readonly ITemplateRenderer _templateRenderer;
 
@@ -16,12 +17,23 @@ namespace EasyAbp.NotificationService.Provider.Mailing.UserWelcomeNotifications
             _templateRenderer = templateRenderer;
         }
 
-        public override async Task<CreateEmailNotificationEto> CreateAsync(UserWelcomeNotificationDataModel model, IEnumerable<Guid> userIds)
+        public override async Task<CreateEmailNotificationEto> CreateAsync(UserWelcomeNotificationDataModel model,
+            IEnumerable<NotificationUserInfoModel> users)
         {
             var subject = await _templateRenderer.RenderAsync("UserWelcomeEmailSubject", model);
-            
+
             var body = await _templateRenderer.RenderAsync("UserWelcomeEmailBody", model);
-            
+
+            return new CreateEmailNotificationEto(CurrentTenant.Id, users, subject, body);
+        }
+
+        public override async Task<CreateEmailNotificationEto> CreateAsync(UserWelcomeNotificationDataModel model,
+            IEnumerable<Guid> userIds)
+        {
+            var subject = await _templateRenderer.RenderAsync("UserWelcomeEmailSubject", model);
+
+            var body = await _templateRenderer.RenderAsync("UserWelcomeEmailBody", model);
+
             return new CreateEmailNotificationEto(CurrentTenant.Id, userIds, subject, body);
         }
     }
