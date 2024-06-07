@@ -27,7 +27,7 @@ public class EmailNotificationManager : NotificationManagerBase
 
         notificationInfo.SetMailingData(model.GetSubject(), model.GetBody());
 
-        var notifications = await CreateNotificationsAsync(notificationInfo, model.UserIds);
+        var notifications = await CreateNotificationsAsync(notificationInfo, model);
 
         return (notifications, notificationInfo);
     }

@@ -13,7 +13,8 @@ namespace EasyAbp.NotificationService.Provider.Sms
 
         public NotificationFactoryTests()
         {
-            ExternalUserLookupServiceProvider = ServiceProvider.GetRequiredService<IExternalUserLookupServiceProvider>();
+            ExternalUserLookupServiceProvider =
+                ServiceProvider.GetRequiredService<IExternalUserLookupServiceProvider>();
         }
 
         [Fact]
@@ -22,10 +23,9 @@ namespace EasyAbp.NotificationService.Provider.Sms
             var userWelcomeNotificationFactory = ServiceProvider.GetRequiredService<UserWelcomeNotificationFactory>();
 
             var userData =
-                await ExternalUserLookupServiceProvider.FindByIdAsync(NotificationServiceProviderSmsTestConsts
-                    .FakeUser1Id);
+                await ExternalUserLookupServiceProvider.FindByIdAsync(NotificationServiceTestConsts.FakeUser1Id);
 
-            const string giftCardCode = "123456";    // a random gift card code
+            const string giftCardCode = "123456"; // a random gift card code
 
             var eto = await userWelcomeNotificationFactory.CreateAsync(
                 model: new UserWelcomeNotificationDataModel(userData.UserName, giftCardCode),

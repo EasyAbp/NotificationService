@@ -24,6 +24,16 @@ public class CreateWeChatOfficialTemplateMessageNotificationEto : CreateNotifica
     {
     }
 
+    public CreateWeChatOfficialTemplateMessageNotificationEto(Guid? tenantId,
+        IEnumerable<NotificationUserInfoModel> users,
+        [NotNull] WeChatOfficialTemplateMessageDataModel dataModel,
+        ITemplateMessageDataModelJsonSerializer templateMessageDataModelJsonSerializer) : base(
+        NotificationProviderWeChatOfficialConsts.TemplateMessageNotificationMethod, users)
+    {
+        TenantId = tenantId;
+        this.SetDataModel(dataModel, templateMessageDataModelJsonSerializer);
+    }
+
     public CreateWeChatOfficialTemplateMessageNotificationEto(Guid? tenantId, IEnumerable<Guid> userIds,
         [NotNull] WeChatOfficialTemplateMessageDataModel dataModel,
         ITemplateMessageDataModelJsonSerializer templateMessageDataModelJsonSerializer) : base(
@@ -37,6 +47,15 @@ public class CreateWeChatOfficialTemplateMessageNotificationEto : CreateNotifica
         [NotNull] WeChatOfficialTemplateMessageDataModel dataModel,
         ITemplateMessageDataModelJsonSerializer templateMessageDataModelJsonSerializer) : base(
         NotificationProviderWeChatOfficialConsts.TemplateMessageNotificationMethod, userId)
+    {
+        TenantId = tenantId;
+        this.SetDataModel(dataModel, templateMessageDataModelJsonSerializer);
+    }
+
+    public CreateWeChatOfficialTemplateMessageNotificationEto(Guid? tenantId, NotificationUserInfoModel user,
+        [NotNull] WeChatOfficialTemplateMessageDataModel dataModel,
+        ITemplateMessageDataModelJsonSerializer templateMessageDataModelJsonSerializer) : base(
+        NotificationProviderWeChatOfficialConsts.TemplateMessageNotificationMethod, user)
     {
         TenantId = tenantId;
         this.SetDataModel(dataModel, templateMessageDataModelJsonSerializer);

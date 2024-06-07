@@ -24,9 +24,9 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
             const string giftCardCode = "123456";    // a random gift card code
 
             var eto = await userWelcomeNotificationFactory.CreateAsync(
-                model: new UserWelcomeNotificationDataModel(NotificationServiceProviderPrivateMessagingTestConsts
+                model: new UserWelcomeNotificationDataModel(NotificationServiceTestConsts
                     .FakeUser1Id, giftCardCode),
-                userId: NotificationServiceProviderPrivateMessagingTestConsts
+                userId: NotificationServiceTestConsts
                     .FakeUser1Id
             );
 

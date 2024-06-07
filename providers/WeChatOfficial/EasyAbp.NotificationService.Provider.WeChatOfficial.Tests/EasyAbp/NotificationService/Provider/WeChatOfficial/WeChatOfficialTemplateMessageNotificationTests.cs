@@ -52,8 +52,8 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
         {
             var userIds = new List<Guid>
             {
-                NotificationServiceProviderWeChatOfficialTestConsts.FakeUser1Id,
-                NotificationServiceProviderWeChatOfficialTestConsts.FakeUser2Id
+                NotificationServiceTestConsts.FakeUser1Id,
+                NotificationServiceTestConsts.FakeUser2Id
             };
 
             await CreateWeChatOfficialTemplateMessageNotificationAsync(userIds);
@@ -110,7 +110,7 @@ namespace EasyAbp.NotificationService.Provider.WeChatOfficial
         {
             var userIds = new List<Guid>
             {
-                NotificationServiceProviderWeChatOfficialTestConsts.FakeUser1Id
+                NotificationServiceTestConsts.FakeUser1Id
             };
 
             await CreateWeChatOfficialTemplateMessageNotificationAsync(userIds);

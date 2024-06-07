@@ -34,8 +34,8 @@ namespace EasyAbp.NotificationService.Provider.PrivateMessaging
         {
             var userIds = new List<Guid>
             {
-                NotificationServiceProviderPrivateMessagingTestConsts.FakeUser1Id,
-                NotificationServiceProviderPrivateMessagingTestConsts.FakeUser2Id
+                NotificationServiceTestConsts.FakeUser1Id,
+                NotificationServiceTestConsts.FakeUser2Id
             };
 
             await CreatePrivateMessagingNotificationAsync(userIds, Title, Content, true);

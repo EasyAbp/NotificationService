@@ -6,9 +6,11 @@ using Volo.Abp.ObjectExtending;
 namespace EasyAbp.NotificationService.Notifications;
 
 [Serializable]
-public class CreateNotificationInfoModel : ExtensibleObject
+public abstract class CreateNotificationInfoModel : ExtensibleObject
 {
     public string NotificationMethod { get; set; }
+
+    public IEnumerable<NotificationUserInfoModel> Users { get; set; }
 
     public IEnumerable<Guid> UserIds { get; set; }
 
@@ -20,11 +22,28 @@ public class CreateNotificationInfoModel : ExtensibleObject
     {
         NotificationMethod = notificationMethod;
         UserIds = userIds;
+        Users = null;
+    }
+
+    public CreateNotificationInfoModel([NotNull] string notificationMethod,
+        IEnumerable<NotificationUserInfoModel> users)
+    {
+        NotificationMethod = notificationMethod;
+        UserIds = null;
+        Users = users;
     }
 
     public CreateNotificationInfoModel([NotNull] string notificationMethod, Guid userId)
     {
         NotificationMethod = notificationMethod;
-        UserIds = new List<Guid> { userId };
+        UserIds = new[] { userId };
+        Users = null;
+    }
+
+    public CreateNotificationInfoModel([NotNull] string notificationMethod, NotificationUserInfoModel user)
+    {
+        NotificationMethod = notificationMethod;
+        UserIds = null;
+        Users = new[] { user };
     }
 }

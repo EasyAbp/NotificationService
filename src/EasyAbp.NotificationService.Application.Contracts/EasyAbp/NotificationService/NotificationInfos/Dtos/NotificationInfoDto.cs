@@ -4,7 +4,7 @@ using Volo.Abp.Application.Dtos;
 namespace EasyAbp.NotificationService.NotificationInfos.Dtos
 {
     [Serializable]
-    public class NotificationInfoDto : FullAuditedEntityDto<Guid>
+    public class NotificationInfoDto : ExtensibleFullAuditedEntityDto<Guid>
     {
     }
 }

@@ -32,9 +32,31 @@ public class CreateEmailNotificationEto : CreateNotificationInfoModel, IMultiTen
 
     public CreateEmailNotificationEto(
         Guid? tenantId,
+        IEnumerable<NotificationUserInfoModel> users,
+        [NotNull] string subject,
+        [CanBeNull] string body) : base(NotificationProviderMailingConsts.NotificationMethod, users)
+    {
+        TenantId = tenantId;
+        Subject = subject;
+        Body = body;
+    }
+
+    public CreateEmailNotificationEto(
+        Guid? tenantId,
         IEnumerable<Guid> userIds,
         [NotNull] string subject,
         [CanBeNull] string body) : base(NotificationProviderMailingConsts.NotificationMethod, userIds)
+    {
+        TenantId = tenantId;
+        Subject = subject;
+        Body = body;
+    }
+
+    public CreateEmailNotificationEto(
+        Guid? tenantId,
+        NotificationUserInfoModel user,
+        [NotNull] string subject,
+        [CanBeNull] string body) : base(NotificationProviderMailingConsts.NotificationMethod, user)
     {
         TenantId = tenantId;
         Subject = subject;

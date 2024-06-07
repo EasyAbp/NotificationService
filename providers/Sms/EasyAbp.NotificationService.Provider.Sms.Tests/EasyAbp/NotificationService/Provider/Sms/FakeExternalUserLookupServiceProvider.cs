@@ -12,30 +12,30 @@ namespace EasyAbp.NotificationService.Provider.Sms
     {
         public async Task<IUserData> FindByIdAsync(Guid id, CancellationToken cancellationToken = new CancellationToken())
         {
-            if (id == NotificationServiceProviderSmsTestConsts.FakeUser1Id)
+            if (id == NotificationServiceTestConsts.FakeUser1Id)
             {
                 return new UserData(
-                    NotificationServiceProviderSmsTestConsts.FakeUser1Id,
+                    NotificationServiceTestConsts.FakeUser1Id,
                     "fake1",
                     "user1@easyabp.io",
                     phoneNumber: "123456",
                     phoneNumberConfirmed: true);
             }
             
-            if (id == NotificationServiceProviderSmsTestConsts.FakeUser2Id)
+            if (id == NotificationServiceTestConsts.FakeUser2Id)
             {
                 return new UserData(
-                    NotificationServiceProviderSmsTestConsts.FakeUser2Id,
+                    NotificationServiceTestConsts.FakeUser2Id,
                     "fake2",
                     "user2@easyabp.io",
                     phoneNumber: "654321",
                     phoneNumberConfirmed: false);
             }
             
-            if (id == NotificationServiceProviderSmsTestConsts.FakeUser3Id)
+            if (id == NotificationServiceTestConsts.FakeUser3Id)
             {
                 return new UserData(
-                    NotificationServiceProviderSmsTestConsts.FakeUser3Id,
+                    NotificationServiceTestConsts.FakeUser3Id,
                     "fake3",
                     "user2@easyabp.io",
                     phoneNumber: null);

@@ -10,22 +10,22 @@ namespace EasyAbp.NotificationService.Provider.Mailing
     public class NotificationFactoryTests : NotificationServiceTestBase<NotificationServiceProviderMailingTestsModule>
     {
         protected IExternalUserLookupServiceProvider ExternalUserLookupServiceProvider { get; set; }
-        
+
         public NotificationFactoryTests()
         {
-            ExternalUserLookupServiceProvider = ServiceProvider.GetRequiredService<IExternalUserLookupServiceProvider>();
+            ExternalUserLookupServiceProvider =
+                ServiceProvider.GetRequiredService<IExternalUserLookupServiceProvider>();
         }
-        
+
         [Fact]
         public async Task Should_Create_User_Welcome_Notification()
         {
             var userWelcomeNotificationFactory = ServiceProvider.GetRequiredService<UserWelcomeNotificationFactory>();
-            
-            var userData =
-                await ExternalUserLookupServiceProvider.FindByIdAsync(NotificationServiceProviderMailingTestConsts
-                    .FakeUser1Id);
 
-            const string giftCardCode = "123456";    // a random gift card code
+            var userData =
+                await ExternalUserLookupServiceProvider.FindByIdAsync(NotificationServiceTestConsts.FakeUser1Id);
+
+            const string giftCardCode = "123456"; // a random gift card code
 
             var eto = await userWelcomeNotificationFactory.CreateAsync(
                 model: new UserWelcomeNotificationDataModel(userData.UserName, giftCardCode),

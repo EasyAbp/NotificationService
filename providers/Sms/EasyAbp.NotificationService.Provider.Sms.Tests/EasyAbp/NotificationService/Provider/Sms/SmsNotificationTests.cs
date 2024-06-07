@@ -38,8 +38,8 @@ namespace EasyAbp.NotificationService.Provider.Sms
         {
             var userIds = new List<Guid>
             {
-                NotificationServiceProviderSmsTestConsts.FakeUser1Id,
-                NotificationServiceProviderSmsTestConsts.FakeUser2Id
+                NotificationServiceTestConsts.FakeUser1Id,
+                NotificationServiceTestConsts.FakeUser2Id
             };
 
             await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
@@ -84,7 +84,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
         {
             var userIds = new List<Guid>
             {
-                NotificationServiceProviderSmsTestConsts.FakeUser1Id
+                NotificationServiceTestConsts.FakeUser1Id
             };
 
             await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
@@ -109,7 +109,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
         {
             var userIds = new List<Guid>
             {
-                NotificationServiceProviderSmsTestConsts.FakeUser2Id
+                NotificationServiceTestConsts.FakeUser2Id
             };
 
             await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
@@ -134,7 +134,7 @@ namespace EasyAbp.NotificationService.Provider.Sms
         {
             var userIds = new List<Guid>
             {
-                NotificationServiceProviderSmsTestConsts.FakeUser3Id
+                NotificationServiceTestConsts.FakeUser3Id
             };
 
             await CreateSmsNotificationAsync(userIds, Text, new Dictionary<string, object>
