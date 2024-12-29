@@ -231,7 +231,7 @@ namespace EasyAbp.NotificationService
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.MapAbpStaticAssets();
             app.UseRouting();
             app.UseAuthentication();
 
