@@ -1,6 +1,4 @@
 @page
-@using EasyAbp.NotificationService.Permissions
-@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @using EasyAbp.NotificationService.Web.Pages.NotificationService.Notifications.Notification
@@ -9,10 +7,9 @@
 @model IndexModel
 @inject IPageLayout PageLayout
 @inject IHtmlLocalizer<NotificationServiceResource> L
-@inject IAuthorizationService Authorization
 @{
-    PageLayout.Content.Title = L["Notification"].Value;
-    PageLayout.Content.BreadCrumb.Add(L["Menu:Notification"].Value);
+    PageLayout.Content.Title = L["Menu:Notification"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:NotificationService"].Value);
     PageLayout.Content.MenuItemName = NotificationServiceMenus.Notification;
 }
 
@@ -26,13 +23,6 @@
 }
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["Notification"]</abp-card-title>
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-row class="mb-3">
             <a abp-collapse-id="NotificationCollapse" class="text-secondary">@L["TableFilter"] </a>
