@@ -67,7 +67,8 @@ $(function () {
             },
             {
                 title: l('NotificationCompletionTime'),
-                data: "completionTime"
+                data: "completionTime",
+                dataFormat: 'datetime'
             },
             {
                 title: l('NotificationFailureReason'),

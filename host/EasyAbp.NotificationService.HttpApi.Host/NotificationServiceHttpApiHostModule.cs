@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using IdentityModel;
+using Duende.IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
@@ -177,8 +177,8 @@ namespace EasyAbp.NotificationService
 
             app.UseHttpsRedirection();
             app.UseCorrelationId();
-            app.MapAbpStaticAssets();
             app.UseRouting();
+            app.MapAbpStaticAssets();
             app.UseCors(DefaultCorsPolicyName);
             app.UseAuthentication();
             app.UseAbpClaimsMap();

@@ -8,7 +8,7 @@ using Volo.Abp.Application.Services;
 
 namespace EasyAbp.NotificationService.Notifications;
 
-public class NotificationIntegrationService : ApplicationService, INotificationIntegrationService
+public class NotificationIntegrationService : NotificationServiceAppService, INotificationIntegrationService
 {
     private readonly INotificationRepository _notificationRepository;
     private readonly INotificationInfoRepository _notificationInfoRepository;

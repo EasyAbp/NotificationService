@@ -1,4 +1,5 @@
 using System;
+using EasyAbp.NotificationService.Localization;
 using EasyAbp.NotificationService.Permissions;
 using EasyAbp.NotificationService.NotificationInfos.Dtos;
 using Volo.Abp.Application.Dtos;
@@ -18,6 +19,9 @@ namespace EasyAbp.NotificationService.NotificationInfos
         public NotificationInfoAppService(INotificationInfoRepository repository) : base(repository)
         {
             _repository = repository;
+
+            LocalizationResource = typeof(NotificationServiceResource);
+            ObjectMapperContext = typeof(NotificationServiceApplicationModule);
         }
 
         protected override NotificationInfoDto MapToGetOutputDto(NotificationInfo entity)
