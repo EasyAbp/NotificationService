@@ -11,5 +11,7 @@
         public const string NotificationInfoSendFromCreatorPropertyName = "SendFromCreator";
 
         public const string NotificationIdPropertyName = "NotificationId";
+
+        public const string NotificationInfoCategoryPropertyName = "Category";
     }
 }
