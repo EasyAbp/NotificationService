@@ -35,4 +35,14 @@ public static class CreateNotificationInfoModelExtensions
     {
         return (bool)model.GetProperty(nameof(CreatePrivateMessageNotificationEto.SendFromCreator));
     }
+
+    public static void SetCategory(this CreateNotificationInfoModel model, [CanBeNull] string category)
+    {
+        model.SetProperty(nameof(CreatePrivateMessageNotificationEto.Category), category);
+    }
+
+    public static string GetCategory(this CreateNotificationInfoModel model)
+    {
+        return (string)model.GetProperty(nameof(CreatePrivateMessageNotificationEto.Category));
+    }
 }

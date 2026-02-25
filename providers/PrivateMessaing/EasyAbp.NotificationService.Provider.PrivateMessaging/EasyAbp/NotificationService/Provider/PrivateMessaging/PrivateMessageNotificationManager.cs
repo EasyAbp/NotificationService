@@ -25,7 +25,7 @@ public class PrivateMessageNotificationManager : NotificationManagerBase
     {
         var notificationInfo = new NotificationInfo(GuidGenerator.Create(), CurrentTenant.Id);
 
-        notificationInfo.SetPrivateMessagingData(model.GetTitle(), model.GetContent(), model.GetSendFromCreator());
+        notificationInfo.SetPrivateMessagingData(model.GetTitle(), model.GetContent(), model.GetSendFromCreator(), model.GetCategory());
 
         var notifications = await CreateNotificationsAsync(notificationInfo, model);
 
@@ -38,7 +38,8 @@ public class PrivateMessageNotificationManager : NotificationManagerBase
             notificationInfo.GetPrivateMessagingSendFromCreator() ? notification.CreatorId : null,
             notification.UserId,
             notificationInfo.GetPrivateMessagingTitle(),
-            notificationInfo.GetPrivateMessagingContent());
+            notificationInfo.GetPrivateMessagingContent(),
+            notificationInfo.GetPrivateMessagingCategory());
 
         model.SetProperty(NotificationProviderPrivateMessagingConsts.NotificationIdPropertyName, notification.Id);
 

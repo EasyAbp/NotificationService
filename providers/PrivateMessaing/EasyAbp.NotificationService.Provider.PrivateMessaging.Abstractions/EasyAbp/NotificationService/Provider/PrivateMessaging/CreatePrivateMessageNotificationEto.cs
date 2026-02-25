@@ -32,6 +32,13 @@ public class CreatePrivateMessageNotificationEto : CreateNotificationInfoModel, 
         set => this.SetSendFromCreator(value);
     }
 
+    [CanBeNull]
+    public string Category
+    {
+        get => this.GetCategory();
+        set => this.SetCategory(value);
+    }
+
     public CreatePrivateMessageNotificationEto()
     {
     }
