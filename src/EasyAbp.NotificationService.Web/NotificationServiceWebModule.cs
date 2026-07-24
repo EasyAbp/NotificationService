@@ -4,7 +4,7 @@ using EasyAbp.NotificationService.Localization;
 using EasyAbp.NotificationService.Web.Menus;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
-using Volo.Abp.AutoMapper;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
@@ -15,7 +15,7 @@ namespace EasyAbp.NotificationService.Web
     [DependsOn(
         typeof(NotificationServiceApplicationContractsModule),
         typeof(AbpAspNetCoreMvcUiThemeSharedModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpMapperlyModule)
         )]
     public class NotificationServiceWebModule : AbpModule
     {
@@ -44,11 +44,7 @@ namespace EasyAbp.NotificationService.Web
                 options.FileSets.AddEmbedded<NotificationServiceWebModule>();
             });
 
-            context.Services.AddAutoMapperObjectMapper<NotificationServiceWebModule>();
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<NotificationServiceWebModule>(validate: true);
-            });
+            context.Services.AddMapperlyObjectMapper<NotificationServiceWebModule>();
 
             Configure<RazorPagesOptions>(options =>
             {
