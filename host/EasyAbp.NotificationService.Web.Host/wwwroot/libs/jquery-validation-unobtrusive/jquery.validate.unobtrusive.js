@@ -2,8 +2,9 @@
  * @license
  * Unobtrusive validation support library for jQuery and jQuery Validate
  * Copyright (c) .NET Foundation. All rights reserved.
- * Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+ * Licensed under the MIT License. See License.txt in the package root for license information.
  * @version v4.0.0
+ * Patched copy: uses JSON.parse, typeof and Function.prototype.bind instead of the jQuery APIs removed or deprecated in jQuery 4.
  */
 
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true, eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true, immed: true, strict: false */
@@ -55,7 +56,7 @@
     function onError(error, inputElement) {  // 'this' is the form element
         var container = $(this).find("[data-valmsg-for='" + escapeAttributeValue(inputElement[0].name) + "']"),
             replaceAttrValue = container.attr("data-valmsg-replace"),
-            replace = replaceAttrValue ? $.parseJSON(replaceAttrValue) !== false : null;
+            replace = replaceAttrValue ? JSON.parse(replaceAttrValue) !== false : null;
 
         container.removeClass("field-validation-valid").addClass("field-validation-error");
         error.data("unobtrusiveContainer", container);
@@ -88,7 +89,7 @@
 
         if (container) {
             var replaceAttrValue = container.attr("data-valmsg-replace"),
-                replace = replaceAttrValue ? $.parseJSON(replaceAttrValue) : null;
+                replace = replaceAttrValue ? JSON.parse(replaceAttrValue) : null;
 
             container.addClass("field-validation-valid").removeClass("field-validation-error");
             error.removeData("unobtrusiveContainer");
@@ -127,11 +128,11 @@
     function validationInfo(form) {
         var $form = $(form),
             result = $form.data(data_validation),
-            onResetProxy = $.proxy(onReset, form),
+            onResetProxy = onReset.bind(form),
             defaultOptions = $jQval.unobtrusive.options || {},
             execInContext = function (name, args) {
                 var func = defaultOptions[name];
-                func && $.isFunction(func) && func.apply(form, args);
+                func && typeof func === "function" && func.apply(form, args);
             };
 
         if (!result) {
@@ -156,7 +157,7 @@
                 },
                 attachValidation: function () {
                     $form
-                        .off("reset." + data_validation, onResetProxy)
+                        .off("reset." + data_validation)
                         .on("reset." + data_validation, onResetProxy)
                         .validate(this.options);
                 },
